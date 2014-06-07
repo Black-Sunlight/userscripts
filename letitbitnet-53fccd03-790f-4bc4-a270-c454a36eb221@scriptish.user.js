@@ -16,8 +16,8 @@
 // @history        1.1 Поддержка skymonk страницы
 // @history        1.0 Версия пропуска страниц до каптчи (в некоторых странах нет каптчи, просто сразу ссылка)
 // @namespace      http://userscripts.org/scripts/show/157017
-// @author         Black_Sunlight
-// @description    Просто пропуск до каптчи
+// @author         Black_Sun
+// @description    Просто пропуск до каптчи на сайте letitbit.net с автоматической показом картинки каптчи и фокусом на поле ввода и работающим Enter после ввода каптчи.
 // @include        http://letitbit.net/*
 // @include        http://*.letitbit.net/*
 // @include        http://goclips.tv/download*.php
