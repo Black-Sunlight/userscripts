@@ -6,7 +6,7 @@
 // @history        1.0.0 Релиз
 // @namespace      http://userscripts.org/scripts/show/175092
 // @author         Black_Sun
-// @description    Добавляет поле с короткой ссылкой (db.tt) на эту страницу
+// @description    Добавляет поле с короткой ссылкой (db.tt) на страницу шары
 // @include        https://www.dropbox.com/*
 // @require	http://code.jquery.com/jquery-latest.min.js
 // @run-at         document-end
