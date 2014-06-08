@@ -5,7 +5,7 @@
 // @history        1.0.1 Изменилась ссылка, добавил проверку на https
 // @history        1.0.0 Релиз
 // @namespace      http://userscripts.org/scripts/show/175092
-// @author         Black_Sunlight
+// @author         Black_Sun
 // @description    Добавляет поле с короткой ссылкой (db.tt) на эту страницу
 // @include        https://www.dropbox.com/*
 // @require	http://code.jquery.com/jquery-latest.min.js
