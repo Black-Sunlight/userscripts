@@ -1,7 +1,8 @@
 // ==UserScript==
 // @id             letitbit.net-53fccd03-790f-4bc4-a270-c454a36eb221@scriptish
 // @name           Letitbit to captcha 
-// @version        1.5.10
+// @version        1.5.11
+// @history        1.5.11 Не удалось убрать открытие окна, выставил его закрытие при открытии, закрытие работает не везде.
 // @history        1.5.10 Добавил тестовый вариант удаления открывающегося окна с рекламой
 // @history        1.5.9 Летитбит вставил страница проверки на страницу скачивания, обход.
 // @history        1.5.8 Новая страница
@@ -54,11 +55,21 @@ function injector() {
 	}
     check()
 };
+if (a.search(/\/js.paycaptcha.net.*/ig) != -1) {
+	window.close();
+}
 if (a.search(/\/download3.php$/ig) != -1) {
 	
     var fcp=$('.vcaptcha_wrapper').find('.mcmp_img').attr('src')
     $(function(){
-	    
+	$('head').append('<script type="text/javascript">function stopEvent(e) {if(!e) var e = window.event;e.cancelBubble = true;e.returnValue = false;if (e.stopPropagation) {e.stopPropagation();e.preventDefault();}return false;}</script>')
+	setTimeout(function(){
+	$('#download_form').find('div.payca').find('input').on('click',function(){stopEvent(event)});
+	    $('#download_form').find('div.payca').find('input').attr('onclick','stopEvent(event)')
+		$('#download_form').find('div.payca').find('div').hide();
+		$('#download_form').attr('onsubmit','stopEvent(event)')
+		$('#download_form').find('button').attr('onclick','stopEvent(event)')
+	},1000)
 		$('#captcha').prepend('<img src="'+fcp+'" style="position: absolute;z-index:2000;margin-left:-320px" />').find('div.centered').show()
 		$('.video-block,.content-cross,.page-content-wrapper iframe[src*="moevideo"]').hide();
 		
