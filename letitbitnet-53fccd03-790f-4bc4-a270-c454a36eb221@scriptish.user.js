@@ -1,7 +1,8 @@
 // ==UserScript==
 // @id             letitbit.net-53fccd03-790f-4bc4-a270-c454a36eb221@scriptish
 // @name           Letitbit to captcha 
-// @version        1.5.9
+// @version        1.5.10
+// @history        1.5.10 Добавил тестовый вариант удаления открывающегося окна с рекламой
 // @history        1.5.9 Летитбит вставил страница проверки на страницу скачивания, обход.
 // @history        1.5.8 Новая страница
 // @history        1.5.7 Добавил окончательно вывод каптчи, добавил обработку ENTER на форме ввода каптчи, добавил корректную обработку клика по кнопке send при наличии ENTER.
@@ -29,6 +30,7 @@
 
 var a = location.href;
 var b = document.getElementById("ifree_form");
+$('body').attr('onclick','javascript:void(0);return false;')
 if (a.search(/u\d{1,}\.letitbit\.net\/download/ig) != -1) {
 	$('body').prepend("<span style='font:24px Arial bold;color:white;background:#044DA4;width:100%;display:block;text-align:center'>Страница скоро инициализируется, ждите, зависит от скорости letitbit'a</span>")
     append(injector)
