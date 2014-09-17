@@ -2,7 +2,8 @@
 // @id             f918bae9-3473-4c12-85de-630d840499f0@scriptish
 // @name           unigigashare
 // @version        1.0
-// @namespace      
+// @history        1.0 Релиз
+// @namespace      https://openuserjs.org/scripts/Black_Sun/unigigashare
 // @author         Black_Sun
 // @description    Скрипт выводит ссылку на скачивание в верху страницы. Есть настройка автоскачивания (включена по умолчанию), для выключения см. код скрипта.
 // @include        http://www.share4web.com/*
