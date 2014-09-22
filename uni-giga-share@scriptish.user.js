@@ -1,7 +1,8 @@
 // ==UserScript==
 // @id             f918bae9-3473-4c12-85de-630d840499f0@scriptish
 // @name           unigigashare
-// @version        1.0
+// @version        1.1
+// @history        1.1 Добавлено: Определение отсутствующего файла и переход на страницу бесплатного скачиваниния.
 // @history        1.0 Релиз
 // @namespace      https://openuserjs.org/scripts/Black_Sun/unigigashare
 // @author         Black_Sun
@@ -13,30 +14,40 @@
 // @run-at         document-end
 // ==/UserScript==
 
-var autodownload=true; //Для выключения автоскачивания написать false вместо true; и соответственно наоборот для включения.
-
+var autodownload=false; //Для выключения автоскачивания написать false вместо true; и соответственно наоборот для включения.
 
 (function(){
 	var loca=location.host
 	$('body').prepend('<div id="lnk" style="margin:0 auto;display:block;color:green;font-size:28px;padding:30px;width:100%;background:#D5E7FD;text-align:center">Грузим ссылку</div>');
 	switch (loca){
 		case "www.unibytes.com":
-			getlnk("fdload")
+		getlnk("fdload")
 		break;
 		case "www.gigabase.com":
-			getlnk("dfile")
+		getlnk("dfile")
 		break;
 		case "www.share4web.com":
-			getlnk("getf")
+		getlnk("getf")
 		break;
 	}
 })()
 
 function getlnk(ident){
 	var lnk1=$('.nothx1').attr('href');
-	$.get(lnk1,function(tel){
-		var lnkfinal=$('a[href*="/'+ident+'/"]',tel)
-		$('#lnk').html(lnkfinal)
-		if(autodownload)location.href=$('a[href*="/'+ident+'/"]',tel).attr('href');
-	})
+	var exist=$('#content').find('h3').text()
+	if(exist.indexOf('не существует')==-1){
+		if(typeof(lnk1)=="undefined") {
+			location.href=$('#content').find('a[href*="/free?"]').attr('href')
+		} 
+		else {
+			$.get(lnk1,function(tel){
+				var lnkfinal=$('a[href*="/'+ident+'/"]',tel)
+				$('#lnk').html(lnkfinal)
+				if(autodownload)location.href=$('a[href*="/'+ident+'/"]',tel).attr('href');
+			})
+		}
+	} 
+	else {
+		$('#lnk').html('Файл не существует, скрипт завершил работу!!!')
+	}
 }
