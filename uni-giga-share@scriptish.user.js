@@ -1,7 +1,8 @@
 // ==UserScript==
 // @id             f918bae9-3473-4c12-85de-630d840499f0@scriptish
 // @name           unigigashare
-// @version        1.1
+// @version        1.2
+// @history        1.2 fixed: crazy reload on gigabase. Изменено: jquery библиотека, связано со взломом сайта jquery
 // @history        1.1 Добавлено: Определение отсутствующего файла и переход на страницу бесплатного скачиваниния.
 // @history        1.0 Релиз
 // @namespace      https://openuserjs.org/scripts/Black_Sun/unigigashare
@@ -10,7 +11,7 @@
 // @include        http://www.share4web.com/*
 // @include        http://www.unibytes.com/*
 // @include        http://www.gigabase.com/*
-// @require	       http://code.jquery.com/jquery-latest.min.js
+// @require	       https://raw.githubusercontent.com/Black-Sunlight/lib-files/master/jquery.js
 // @run-at         document-end
 // ==/UserScript==
 
@@ -33,8 +34,9 @@ var autodownload=false; //Для выключения автоскачивани
 })()
 
 function getlnk(ident){
-	var lnk1=$('.nothx1').attr('href');
-	var exist=$('#content').find('h3').text()
+	if($('.nothx1').text().search('спасибо')!=-1){var lnk1=$('.nothx1').attr('href');}else{$('#lnk').html('Ошибка, ссылка не найдена!')}
+	var exist=$('body').find('h3').text()
+	$('iframe').each(function(){$this.remove()})
 	if(exist.indexOf('не существует')==-1){
 		if(typeof(lnk1)=="undefined") {
 			location.href=$('#content').find('a[href*="/free?"]').attr('href')

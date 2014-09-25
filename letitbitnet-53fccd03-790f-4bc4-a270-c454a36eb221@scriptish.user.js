@@ -1,7 +1,8 @@
 // ==UserScript==
 // @id             letitbit.net-53fccd03-790f-4bc4-a270-c454a36eb221@scriptish
 // @name           Letitbit to captcha 
-// @version        1.5.11.1
+// @version        1.5.11.2
+// @history        1.5.11.2 Изменено: jquery библиотека, связано со взломом сайта jquery 
 // @history        1.5.11 Не удалось убрать открытие окна, выставил его закрытие при открытии, закрытие работает не везде.
 // @history        1.5.10 Добавил тестовый вариант удаления открывающегося окна с рекламой
 // @history        1.5.9 Летитбит вставил страница проверки на страницу скачивания, обход.
@@ -26,7 +27,7 @@
 // @include        http://*.letitbit.net/*
 // @include        http://js.paycaptcha.net/*
 // @include        http://goclips.tv/download*.php
-// @require	http://code.jquery.com/jquery-latest.min.js
+// @require	https://raw.githubusercontent.com/Black-Sunlight/lib-files/master/jquery.js
 // @run-at         document-end
 // ==/UserScript==
 
