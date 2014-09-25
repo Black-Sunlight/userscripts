@@ -2,7 +2,8 @@
 // @id             depositfiles_waiter
 // @name           depositfiles_downloader
 // @namespace      http://userscripts.org/scripts/show/103743
-// @version        4.5.0
+// @version        4.5.0.1
+// @history        4.5.0.1 Updated: Новая ссылка для обновления скрипта
 // @history        4.5.0 Настало время ввести новую систему версий и дать грант функциям
 // @history        4.4 Добавлена поддержка dfiles.ru
 // @history        4.3 И сразу 4.3. Добавлено:Информация о просьбе подождать, и лимите подключений.
@@ -26,8 +27,7 @@
 // @include        http://depositfiles.com/files/*
 // @include        http://dfiles.ru/*/files/*
 // @include        http://dfiles.ru/files/*
-// @updateURL https://userscripts.org/scripts/source/103743.meta.js
-// @Download http://userscripts.org/scripts/source/103743.user.js
+// @updateURL https://openuserjs.org/install/Black_Sun/depositfiles_downloader.user.js
 // @require http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js?ver=1.6.1
 // @grant GM_registerMenuCommand
 // @grant GM_deleteValue
