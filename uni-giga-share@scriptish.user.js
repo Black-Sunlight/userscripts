@@ -1,7 +1,7 @@
 // ==UserScript==
 // @id             f918bae9-3473-4c12-85de-630d840499f0@scriptish
 // @name           unigigashare
-// @version        1.3
+// @version        1.3.1
 // @history        1.3 Фикс бесплатного скачивания
 // @history        1.2.1 includes and updateurl
 // @history        1.2 fixed: crazy reload on gigabase. Изменено: jquery библиотека, связано со взломом сайта jquery
