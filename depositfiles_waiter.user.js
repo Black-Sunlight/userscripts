@@ -1,8 +1,9 @@
 // ==UserScript==
 // @id             depositfiles_waiter
 // @name           depositfiles_downloader
-// @namespace      http://userscripts.org/scripts/show/103743
-// @version        4.5.0.1
+// @namespace      https://openuserjs.org/scripts/Black_Sun/depositfiles_downloader
+// @version        4.6
+// @history        4.6 Совсем убрал jQuery из скрипта и добавил GM_safeHTMLParser, спасибо KOLANICH за наводку
 // @history        4.5.0.1 Updated: Новая ссылка для обновления скрипта
 // @history        4.5.0 Настало время ввести новую систему версий и дать грант функциям
 // @history        4.4 Добавлена поддержка dfiles.ru
@@ -28,8 +29,9 @@
 // @include        http://dfiles.ru/*/files/*
 // @include        http://dfiles.ru/files/*
 // @updateURL https://openuserjs.org/install/Black_Sun/depositfiles_downloader.user.js
-// @require http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js?ver=1.6.1
+// @Download https://openuserjs.org/install/Black_Sun/depositfiles_downloader.user.js
 // @grant GM_registerMenuCommand
+// @grant GM_safeHTMLParser
 // @grant GM_deleteValue
 // @grant GM_setValue
 // @grant GM_getValue
@@ -50,23 +52,15 @@ else
 	}
 	else if(GM_getValue('auto')!=undefined){var autodownload=GM_getValue('auto')}
 }
-$(function()
-{
-	function parseText(text)
-	{
-		var iframe=document.createElement('iframe');
-		iframe.style.visibility='hidden';
-		iframe.style.width="0";
-		iframe.style.height="0";
-		document.documentElement.appendChild(iframe);
-		var doc=iframe.contentDocument;
-		document.documentElement.removeChild(iframe);
-		doc.documentElement.innerHTML=text;
-		return doc;
-	}
+document.addEventListener("DOMContentLoaded",function(){
 	var gate = new FormData();
 	gate.append("gateway_result", 1);
-    $("table.chousetype").before('<div id="wait" style="font-size:18px;color:green">\u0421\u043a\u0430\u0447\u0438\u0432\u0430\u043d\u0438\u0435 \u0441\u043a\u043e\u0440\u043e \u043d\u0430\u0447\u043d\u0451\u0442\u0441\u044f, \u043f\u043e\u0434\u043e\u0436\u0434\u0438\u0442\u0435 \u043f\u043e\u0436\u0430\u043b\u0443\u0439\u0441\u0442\u0430...</div>');
+	var info=document.querySelector("table.chousetype")
+	var divwait = document.createElement('div');
+    divwait.innerHTML = 'Пожалуйста подождите, скачивание скоро начнётся.';
+	divwait.setAttribute('style','font-size:18px;color:green')
+    divwait.id = 'wait';
+    info.parentNode.insertBefore(divwait, info);
 	var ll=location.href.split('/')[3];
 	if(ll.indexOf('files')!=-1){var uli='http://dfiles.ru/'+ll+'/'+location.href.split('/')[4]}else{var uli=location.href}
 	var res = GM_xmlhttpRequest(
@@ -82,21 +76,20 @@ $(function()
 		{
 			if (response.readyState == 4) 
 			{
-				var doc = parseText(response.responseText)
+				var doc = GM_safeHTMLParser(response.responseText);
 				var ar=doc.getElementsByClassName("repeat")[0];
 				var ip=doc.getElementsByClassName("ip")[0];
-				if ("undefined" != typeof ar) var l=ar.getElementsByTagName('a')[0].getAttribute('href');
-                $("#wait").remove();
-				if(ip)
+				if (typeof ar != "undefined") var l=ar.getElementsByTagName('a')[0].getAttribute('href');
+                if (typeof ip != "undefined")
 				{
-					$("table.chousetype").html(b.innerHTML)
+					document.getElementById("wait").innerHTML = b.innerHTML;
 				}
 				else
 				{
-					$('table.chousetype').html('<div style="background:lightblue;text-align:center;height:30px;"><a href="'+l+'" style="font-size: 20px;">Download</a></div>')
+					document.getElementById("wait").innerHTML = '<div style="background:lightblue;text-align:center;height:30px;"><a href="'+l+'" style="font-size: 20px;">Download</a></div>';
 					if(autodownload)location.href=l;
 				}
 			} 
 		}
 	});
-});	
+},false)
