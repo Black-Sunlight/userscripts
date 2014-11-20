@@ -1,7 +1,8 @@
 // ==UserScript==
 // @id             letitbit.net-53fccd03-790f-4bc4-a270-c454a36eb221@scriptish
 // @name           Letitbit to captcha 
-// @version        1.5.12
+// @version        1.5.12.1
+// @history        1.5.12.1 Добавлены ссылка автоматического обновления на случай не подхвата при установке оного.
 // @history        1.5.12 Обход новых изменений
 // @history        1.5.11.2 Изменено: jquery библиотека, связано со взломом сайта jquery 
 // @history        1.5.11 Не удалось убрать открытие окна, выставил его закрытие при открытии, закрытие работает не везде.
@@ -28,6 +29,8 @@
 // @include        http://*.letitbit.net/*
 // @include        http://js.paycaptcha.net/*
 // @include        http://goclips.tv/download*.php
+// @updateURL https://openuserjs.org/install/Black_Sun/Letitbit_to_captcha.user.js
+// @Download https://openuserjs.org/install/Black_Sun/Letitbit_to_captcha.user.js
 // @require	https://raw.githubusercontent.com/Black-Sunlight/lib-files/master/jquery.js
 // @run-at         document-end
 // ==/UserScript==
