@@ -2,7 +2,8 @@
 // @id             depositfiles_waiter
 // @name           depositfiles_downloader
 // @namespace      https://openuserjs.org/scripts/Black_Sun/depositfiles_downloader
-// @version        4.6
+// @version        4.7
+// @history        4.7 Модифицировал код под Greasemonkey, т.к. Scriptish автор походу забросил.
 // @history        4.6 Совсем убрал jQuery из скрипта и добавил GM_safeHTMLParser, спасибо KOLANICH за наводку
 // @history        4.5.0.1 Updated: Новая ссылка для обновления скрипта
 // @history        4.5.0 Настало время ввести новую систему версий и дать грант функциям
@@ -31,38 +32,38 @@
 // @updateURL https://openuserjs.org/install/Black_Sun/depositfiles_downloader.user.js
 // @Download https://openuserjs.org/install/Black_Sun/depositfiles_downloader.user.js
 // @grant GM_registerMenuCommand
-// @grant GM_safeHTMLParser
 // @grant GM_deleteValue
 // @grant GM_setValue
 // @grant GM_getValue
 // @grant GM_xmlhttpRequest
 // ==/UserScript==
+var uli;
 if(this.opera){
 	var autodownload=true; 
 }
 else
 {
 	GM_registerMenuCommand("Удалить настройку автоскачивания", function() {GM_deleteValue("auto")});
-	if(GM_getValue('auto')==undefined)
+	if(GM_getValue('auto')===undefined)
 	{
 		if(confirm('Первичная настройка скрипта\n для сброса настройки есть пункт меню в командах скрипта\n\nВы хотите использовать автоскачивание?'))
 		{
 			var autodownload=true;GM_setValue('auto',true);}else{var autodownload=false;GM_setValue('auto',false);
 		}
 	}
-	else if(GM_getValue('auto')!=undefined){var autodownload=GM_getValue('auto')}
+	else if(GM_getValue('auto')!==undefined){var autodownload=GM_getValue('auto')}
 }
 document.addEventListener("DOMContentLoaded",function(){
 	var gate = new FormData();
 	gate.append("gateway_result", 1);
-	var info=document.querySelector("table.chousetype")
+	var info=document.querySelector("table.chousetype");
 	var divwait = document.createElement('div');
     divwait.innerHTML = 'Пожалуйста подождите, скачивание скоро начнётся.';
-	divwait.setAttribute('style','font-size:18px;color:green')
+	divwait.setAttribute('style','font-size:18px;color:green');
     divwait.id = 'wait';
     info.parentNode.insertBefore(divwait, info);
 	var ll=location.href.split('/')[3];
-	if(ll.indexOf('files')!=-1){var uli='http://dfiles.ru/'+ll+'/'+location.href.split('/')[4]}else{var uli=location.href}
+	if(ll.indexOf('files')!=-1){uli='http://dfiles.ru/'+ll+'/'+location.href.split('/')[4]}else{uli=location.href}
 	var res = GM_xmlhttpRequest(
 	{
 		method:"POST",
@@ -76,13 +77,14 @@ document.addEventListener("DOMContentLoaded",function(){
 		{
 			if (response.readyState == 4) 
 			{
-				var doc = GM_safeHTMLParser(response.responseText);
+				var doc = new DOMParser().parseFromString(response.responseText, "text/html");
 				var ar=doc.getElementsByClassName("repeat")[0];
 				var ip=doc.getElementsByClassName("ip")[0];
-				if (typeof ar != "undefined") var l=ar.getElementsByTagName('a')[0].getAttribute('href');
-                if (typeof ip != "undefined")
+				var l='';
+				if (ar !== undefined) l=ar.getElementsByTagName('a')[0].getAttribute('href');
+                if (ip !== undefined)
 				{
-					document.getElementById("wait").innerHTML = b.innerHTML;
+					document.getElementById("wait").innerHTML = ip.innerHTML;
 				}
 				else
 				{
@@ -92,4 +94,4 @@ document.addEventListener("DOMContentLoaded",function(){
 			} 
 		}
 	});
-},false)
+},false);
