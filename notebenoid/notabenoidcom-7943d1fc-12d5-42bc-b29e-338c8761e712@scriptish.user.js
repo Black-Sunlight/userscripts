@@ -1,14 +1,19 @@
 // ==UserScript==
 // @id             notabenoid.com-7943d1fc-12d5-42bc-b29e-338c8761e712@scriptish
-// @name           auto highlight notabenoid your translations page
-// @version        1.0.1
+// @name           notabenoid auto highlight your translations page
+// @version        1.1
+// @history        1.1 Добавил notabenoid.org
 // @history        1.0.1 Область действия ещё одна.
 // @history        1.0.0 Релиз
 // @namespace      http://userscripts.org/scripts/show/403294
 // @author         Black_Sun
 // @description    Показывает зелёным цветом положительно оцененные переводы, красным - отрицательно на странице перевода пользователя для конкретного перевода.
+// @updateURL https://openuserjs.org/install/Black_Sun/auto_highlight_notabenoid_your_translations_page.user.js
+// @Download https://openuserjs.org/install/Black_Sun/auto_highlight_notabenoid_your_translations_page.user.js
 // @include        http://notabenoid.com/users/*/translations?*
 // @include        http://notabenoid.com/users/*/translations/*
+// @include        http://notabenoid.org/users/*/translations?*
+// @include        http://notabenoid.org/users/*/translations/*
 // @require	   http://raw.github.com/Black-Sunlight/lib-files/master/jquery.js
 // @run-at         document-end
 // ==/UserScript==

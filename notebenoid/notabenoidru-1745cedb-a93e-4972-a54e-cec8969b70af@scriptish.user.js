@@ -1,7 +1,8 @@
 // ==UserScript==
 // @id             notabenoid.ru-1745cedb-a93e-4972-a54e-cec8969b70af@scriptish
 // @name           notabenoid rows colorer
-// @version        1.2.1.1
+// @version        1.3
+// @history        1.3 Добавил notabenoid.org
 // @history        1.2.1.1 Упс, неверный regexp :)
 // @history        1.2.1 Добавил прозрачность и к месяцем.
 // @history        1.2.0 Добавил прозрачность "протухших"(нективных) глав, у которых сколько-то дней небыло активности.
@@ -16,9 +17,12 @@
 // @namespace      http://userscripts.org/scripts/show/174416
 // @author         Black_Sun
 // @description    Подсвечивает строки на странице перевода по мере готовности и статуса.
-// @icon           http://notabenoid.ru/i/logo-v3.gif
+// @updateURL https://openuserjs.org/install/Black_Sun/notabenoid_rows_colorer.user.js
+// @Download https://openuserjs.org/install/Black_Sun/notabenoid_rows_colorer.user.js
+// @icon           http://notabenoid.org/i/logo-v3.gif
 // @include        http://notabenoid.ru/*/*
 // @include        http://notabenoid.com/*/*
+// @include        http://notabenoid.org/*/*
 // @run-at         document-end
 // ==/UserScript==
 

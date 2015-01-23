@@ -1,11 +1,15 @@
 // ==UserScript==
 // @name           notabenoid line hightliter
-// @version        1.0.0
-// @history        1.0.0 Релиз
+// @version        1.0
+// @history        1.1 Добавил notabenoid.org
+// @history        1.0 Релиз
 // @namespace      script
 // @author         Black_Sun
 // @description    Добавляет подсветку строчки, на которую вы навели в списке переводов
+// @updateURL https://openuserjs.org/install/Black_Sun/notabenoid_line_hightliter.user.js
+// @Download https://openuserjs.org/install/Black_Sun/notabenoid_line_hightliter.user.js
 // @include        http://notabenoid.com/translate/*
+// @include        http://notabenoid.org/translate/*
 // ==/UserScript==
 
 

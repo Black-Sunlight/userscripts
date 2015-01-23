@@ -1,7 +1,8 @@
 // ==UserScript==
 // @id             notabenoid.com-be5dfe5a-598d-40bf-96a3-fb6adf563293@scriptish
 // @name           notabenoid already voted color
-// @version        1.0.2
+// @version        1.1
+// @history        1.1 Добавил notabenoid.org
 // @history        1.0.2 Обновил библиотеку и создание
 // @history        1.0.2 Теперь запросы выполняются по добавленной кнопке "Мои голоса"
 // @history        1.0.0 Релиз
@@ -10,6 +11,9 @@
 // @description    Создаёт кнопку по нажатию на которую подсвечиваются строки где вы уже голосовали
 // @include        http://notabenoid.com/*/*
 // @include        http://notabenoid.ru/*/*
+// @include        http://notabenoid.org/*/*
+// @updateURL https://openuserjs.org/install/Black_Sun/notabenoid_already_voted_color.user.js
+// @Download https://openuserjs.org/install/Black_Sun/notabenoid_already_voted_color.user.js
 // @require	https://raw.github.com/Black-Sunlight/lib-files/master/jquery.js
 // @run-at         document-end
 // ==/UserScript==
