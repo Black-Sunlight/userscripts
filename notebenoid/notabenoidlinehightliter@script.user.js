@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name           notabenoid line hightliter
-// @version        1.0
+// @version        1.1
 // @history        1.1 Добавил notabenoid.org
 // @history        1.0 Релиз
 // @namespace      script
