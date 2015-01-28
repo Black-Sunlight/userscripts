@@ -1,7 +1,8 @@
 // ==UserScript==
 // @id             coldfilm.ru-6c434ad0-254a-410f-8d3c-c5172404085f@scriptish
 // @name           auto-torrent-link
-// @version        1.0
+// @version        1.1
+// @history        1.1 Добавил mchat в исключения
 // @history        1.0 Релиз
 // @namespace      https://openuserjs.org/scripts/Black_Sun/auto-torrent-link
 // @author         Black_Sun
@@ -9,6 +10,8 @@
 // @require https://raw.githubusercontent.com/Black-Sunlight/lib-files/master/jquery.js
 // @include        http://coldfilm.ru/*
 // @exclude        http://coldfilm.ru/news/*/*
+// @exclude        http://coldfilm.ru/mchat
+// @exclude        http://coldfilm.ru/mchat/*
 // @run-at         document-end
 // ==/UserScript==
 
