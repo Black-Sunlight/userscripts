@@ -1,17 +1,20 @@
 // ==UserScript==
 // @id             coldfilm.ru-6c434ad0-254a-410f-8d3c-c5172404085f@scriptish
 // @name           auto-torrent-link
-// @version        1.1
+// @version        1.2
+// @history        1.2 Исправил перекрытие скриптов сайта и моим, т.о. вернул полную работоспособность сайта + мой скрипт.
 // @history        1.1 Добавил mchat в исключения
 // @history        1.0 Релиз
 // @namespace      https://openuserjs.org/scripts/Black_Sun/auto-torrent-link
 // @author         Black_Sun
 // @description    Скрипт выводит на главную страницу под сериалом ссылки на торрент для скачивания, как только они появляются в новости. Делает много запросов, поэтому часто страницу не обновлять!
-// @require https://raw.githubusercontent.com/Black-Sunlight/lib-files/master/jquery.js
 // @include        http://coldfilm.ru/*
 // @exclude        http://coldfilm.ru/news/*/*
 // @exclude        http://coldfilm.ru/mchat
 // @exclude        http://coldfilm.ru/mchat/*
+// @noframes
+// @grant none
+// @unwrap
 // @run-at         document-end
 // ==/UserScript==
 
