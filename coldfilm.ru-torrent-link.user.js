@@ -1,8 +1,7 @@
 // ==UserScript==
 // @id             coldfilm.ru-6c434ad0-254a-410f-8d3c-c5172404085f@scriptish
 // @name           auto-torrent-link
-// @version        1.2.1
-// @history        1.2.1 Добавил ссылки на автообновление, на всякий случай.
+// @version        1.2
 // @history        1.2 Исправил перекрытие скриптов сайта и моим, т.о. вернул полную работоспособность сайта + мой скрипт.
 // @history        1.1 Добавил mchat в исключения
 // @history        1.0 Релиз
@@ -13,8 +12,6 @@
 // @exclude        http://coldfilm.ru/news/*/*
 // @exclude        http://coldfilm.ru/mchat
 // @exclude        http://coldfilm.ru/mchat/*
-// @updateURL https://openuserjs.org/install/Black_Sun/auto-torrent-link.user.js
-// @Download https://openuserjs.org/install/Black_Sun/auto-torrent-link.user.js
 // @noframes
 // @grant none
 // @unwrap
