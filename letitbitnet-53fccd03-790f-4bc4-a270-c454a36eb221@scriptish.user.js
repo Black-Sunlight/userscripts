@@ -1,7 +1,8 @@
 // ==UserScript==
 // @id             letitbit.net-53fccd03-790f-4bc4-a270-c454a36eb221@scriptish
 // @name           Letitbit to captcha 
-// @version        1.5.12.1
+// @version        2.0
+// @history        2.0 Переписал скрипт целиком, теперь ссылка появляется сразу без ожидания, если она есть, уменьшил и модифицировал скрипт ReklatsMasters, некоторая структура сохранена, некоторая переделана, ждём других сриптов от ReklatsMasters.
 // @history        1.5.12.1 Добавлены ссылка автоматического обновления на случай не подхвата при установке оного.
 // @history        1.5.12 Обход новых изменений
 // @history        1.5.11.2 Изменено: jquery библиотека, связано со взломом сайта jquery 
@@ -24,93 +25,61 @@
 // @history        1.0 Версия пропуска страниц до каптчи (в некоторых странах нет каптчи, просто сразу ссылка)
 // @namespace      http://userscripts.org/scripts/show/157017
 // @author         Black_Sun
-// @description    Просто пропуск до каптчи на сайте letitbit.net с автоматической показом картинки каптчи и фокусом на поле ввода и работающим Enter после ввода каптчи.
-// @include        http://letitbit.net/*
-// @include        http://*.letitbit.net/*
-// @include        http://js.paycaptcha.net/*
-// @include        http://goclips.tv/download*.php
+// @description    Выводит сразу ссылку на скачивание, огромное спасибо спасибо ReklatsMasters.
+// @include        http://letitbit.net/download*
+// @include        http://*.letitbit.net/download*
+// @include        http://vip-file.com/download*
+// @include        http://*.vip-file.com/download*
+// @include        http://shareflare.net/download*
+// @include        http://*.shareflare.net/download*
 // @updateURL https://openuserjs.org/install/Black_Sun/Letitbit_to_captcha.user.js
 // @Download https://openuserjs.org/install/Black_Sun/Letitbit_to_captcha.user.js
-// @require	https://raw.githubusercontent.com/Black-Sunlight/lib-files/master/jquery.js
+// @require https://openuserjs.org/src/libs/Black_Sun/md5.js
 // @run-at         document-end
 // ==/UserScript==
 
-var a = location.href;
-var b = document.getElementById("ifree_form");
-
-if (a.search(/u\d{1,}\.letitbit\.net\/download/ig) != -1) {
-	$('body').prepend("<span style='font:24px Arial bold;color:white;background:#044DA4;width:100%;display:block;text-align:center'>Страница скоро инициализируется, ждите, зависит от скорости letitbit'a</span>")
-    append(injector)
-    b.setAttribute("action", "http://letitbit.net/download3.php");
+function e(t) {
+	var e = hex_md5(Math.random().toString()),
+	n = {
+		action: "LINK_GET_DIRECT",
+		link: t,
+		appid: e,
+		version: 3,
+		free_link: 1,
+		sh: r(t, e),
+		sp: 50
+	};
+	return Object.keys(n).map(function(t) {
+		return t + "=" + n[t]
+	}).join("&")
 }
 
-function append(s) {
-    document.head.appendChild(document.createElement('script'))
-	.innerHTML = s.toString().replace(/^function.*{|}$/g, '');
+
+function r(lnk, hex) {
+	var e = [];
+	return e.push("kAY54boSH+"), e.push(lnk.split("/").slice(0, -1).join("/") + "/"), e.push(hex), e.push(50), e.push("gUnS60oleO^"), hex_md5(hex_md5(e.join("|")))
 }
 
-function injector() {
-    function check() {
-        var inps = document.getElementById("ifree_form").getElementsByTagName('input')
-        for (var i = 0; i < inps.length; i++) {
-            if (inps[i].getAttribute('name') == "redirect_to_pin") {
-                $("#ifree_form").submit()
+function i() {
+	var lnk = document.getElementById("link_for_downloader").value;
+	GM_xmlhttpRequest({
+		method: "POST",
+		url: "http://api.letitbit.net/internal/index4.php",
+		data: e(lnk),
+		headers: {
+			"Content-Type": "application/x-www-form-urlencoded",
+			"User-Agent": ""
+		},
+		onload: function(t) {
+			var answer = t.responseText.split("\n");
+			if(answer[0].toLowerCase()=="ok"){
+				document.getElementById('not_pbc_content').innerHTML='<a id="premium_button" class="btn big wide clink lid-download-premium" type="button" style="background-position:-300px 0;" href="'+answer[2]+'" >Скачать файл</a><br><br><br><input value="'+answer[2]+'" onclick="this.select()" type="text" style="width:100%"></input>'
 			}
+		},
+		onerror: function() {
+			console.error("error")
 		}
-        setTimeout(check, 1000)
-	}
-    check()
-};
-if (a.search(/\/js.paycaptcha.net.*/ig) != -1) {
-	window.close();
+	})
 }
-if (a.search(/\/download3.php$/ig) != -1) {
-	
-    var fcp=$('.vcaptcha_wrapper').find('.mcmp_img').attr('src')
-    $(function(){
-	
-	if (document.title.search('OLYMPTRADE') !=-1) {
-	setTimeout(function(){$('#d3_form').submit()},3000)
-	}
 
-		//$('.video-block,.content-cross,.page-content-wrapper iframe[src*="moevideo"],.block-video,.block-header,.block-start-earn').hide();
-		
-		/*$("#videocaptcha_word").keypress(function( event ) {
-			if ( event.which == 13 ) {
-				$('.vcaptcha_inputs').find('button').trigger('click');
-				$('.vcaptcha_inputs').find('button').trigger('click');
-			}
-		})
-		$('.vcaptcha_inputs').find('button').one('click',function() {
-			$('.vcaptcha_inputs').find('button').trigger('click');
-		})*/
-		$('#videocaptcha_word').focus();
-	});
-	if ($("body").hasClass("download4-rebrand")) {
-		$('#captcha').removeClass('hide');
-		$('#download_content').remove();
-		$('#dialog_reminder').remove()
-		
-		$("#skymonk_checkbox").find('input').eq(0).attr('checked', false)
-		$("#captcha").removeClass("hide")
-		setTimeout(function(){
-		$(".payca-advert").remove()
-		$('iframe[src*="moevideo"]').remove()
-		},3000)
-		setTimeout(function(){
-		$(".payca-advert").remove()
-		},6000)
-		} else {
-		$('#captcha').removeClass('hide');
-		$('#download_content').remove();
-		$('object').remove();
-		$('#dialog_reminder').remove();
-
-		$("#free_download_action").removeClass("hide-block")
-		$("#skymonk_checkbox").find('input').eq(0).attr('checked', false)
-		$(".ui-dialog").remove()
-		$("#captcha").removeClass("hide-block")
-		$("#links").removeClass("hide-block")
-		$("#stopwatch").addClass("hide-block")
-	}
-}
+window.addEventListener("DOMContentLoaded", i, !1)
