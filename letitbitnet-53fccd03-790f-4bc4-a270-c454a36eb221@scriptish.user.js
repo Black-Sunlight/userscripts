@@ -35,6 +35,7 @@
 // @updateURL https://openuserjs.org/install/Black_Sun/Letitbit_to_captcha.user.js
 // @Download https://openuserjs.org/install/Black_Sun/Letitbit_to_captcha.user.js
 // @require https://openuserjs.org/src/libs/Black_Sun/md5.js
+// @grant GM_xmlhttpRequest
 // @run-at         document-end
 // ==/UserScript==
 
