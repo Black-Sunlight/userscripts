@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        baibako main page features
-// @namespace   Workspace
+// @namespace   https://openuserjs.org/scripts/Black_Sun/baibako_main_page_features
 // @description Добавляет список выхода озвучек на главную страницу и кнопку подгрузки ещё двух страниц переводов
 // @include     http://baibako.tv/
 // @include     http://baibako.tv/index.php?page=*
@@ -13,8 +13,8 @@
 // @history        1.1 Убрал замену магазинчика и вставил колонку перед ним
 // @history        1.0 Релиз
 // @require	https://raw.githubusercontent.com/Black-Sunlight/lib-files/master/jquery.js
-// @updateURL
-// @Download
+// @updateURL https://openuserjs.org/install/Black_Sun/baibako_main_page_features.user.js
+// @Download https://openuserjs.org/install/Black_Sun/baibako_main_page_features.user.js
 // @grant       none
 // ==/UserScript==
 
