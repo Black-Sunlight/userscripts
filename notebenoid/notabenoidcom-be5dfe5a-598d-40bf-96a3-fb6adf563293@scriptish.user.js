@@ -1,7 +1,8 @@
 // ==UserScript==
 // @id             notabenoid.com-be5dfe5a-598d-40bf-96a3-fb6adf563293@scriptish
 // @name           notabenoid already voted color
-// @version        1.3
+// @version        1.3.1
+// @history        1.3.1 unwrap вместо библиотеки jQuery
 // @history        1.3 Удалена автомаркировка переводов и изменена структура запроса голосов.
 // @history        1.2 Заменена библиотека jQuery на родную с сайта для совместимости
 // @history        1.1 Добавил notabenoid.org
@@ -16,7 +17,7 @@
 // @include        http://notabenoid.org/*/*
 // @updateURL https://openuserjs.org/install/Black_Sun/notabenoid_already_voted_color.user.js
 // @Download https://openuserjs.org/install/Black_Sun/notabenoid_already_voted_color.user.js
-// @require	http://notabenoid.org/assets/254228b5/jquery.min.js
+// @unwrap
 // @run-at         document-end
 // ==/UserScript==
 
