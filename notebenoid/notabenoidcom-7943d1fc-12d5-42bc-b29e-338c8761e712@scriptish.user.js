@@ -9,8 +9,8 @@
 // @namespace      http://userscripts.org/scripts/show/403294
 // @author         Black_Sun
 // @description    Показывает зелёным цветом положительно оцененные переводы, красным - отрицательно на странице перевода пользователя для конкретного перевода.
-// @updateURL https://openuserjs.org/install/Black_Sun/auto_highlight_notabenoid_your_translations_page.user.js
-// @Download https://openuserjs.org/install/Black_Sun/auto_highlight_notabenoid_your_translations_page.user.js
+// @updateURL https://openuserjs.org/install/Black_Sun/notabenoid_auto_highlight_your_translations_page.user.js
+// @Download https://openuserjs.org/install/Black_Sun/notabenoid_auto_highlight_your_translations_page.user.js
 // @include        http://notabenoid.com/users/*/translations?*
 // @include        http://notabenoid.com/users/*/translations/*
 // @include        http://notabenoid.org/users/*/translations?*
