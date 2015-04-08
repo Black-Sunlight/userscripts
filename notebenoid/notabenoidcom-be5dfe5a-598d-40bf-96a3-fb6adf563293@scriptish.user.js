@@ -1,7 +1,8 @@
 // ==UserScript==
 // @id             notabenoid.com-be5dfe5a-598d-40bf-96a3-fb6adf563293@scriptish
 // @name           notabenoid already voted color
-// @version        1.2
+// @version        1.3
+// @history        1.3 Удалена автомаркировка переводов и изменена структура запроса голосов.
 // @history        1.2 Заменена библиотека jQuery на родную с сайта для совместимости
 // @history        1.1 Добавил notabenoid.org
 // @history        1.0.2 Обновил библиотеку и создание
@@ -20,17 +21,17 @@
 // ==/UserScript==
 
 $(function(){
-	$('tr[id^="c_"]').each(function(i){
+	/*$('tr[id^="c_"]').each(function(i){
 		$(this).prepend('<span>'+Math.round(i+1)+'</span>')
-	});
+	});*/
 	$('#tb-main>div').append('<button id="myvotes" class="btn" title="Выделить элементы где я голосовал">Мои голоса</button>')
 	$('#myvotes').on('click',function(){myvotes()})
 })
 function myvotes(){
 	var nick=$('#header-submenu').find('strong').eq(0).text()
-	$('div[id^="t"]').each(function(){
+	$('#Tr').find('div[id^="t"]').each(function(){
 		var self=$(this);
-		$.get(location.href.split('?')[0]+'/rating_explain?id='+self.attr('id').substring(1),function(data){
+		$.get(location.href+'/rating_explain?id='+self.attr('id').substring(1),function(data){
 			var obj=$.parseJSON(data)
 			$.each(obj,function(i){
 				if(obj[i].login==nick){self.attr('style','background:rgba(0, 204, 0, 0.10)')}
@@ -38,3 +39,4 @@ function myvotes(){
 		})
 	})
 }
+
