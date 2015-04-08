@@ -1,7 +1,8 @@
 // ==UserScript==
 // @id             notabenoid.com-be5dfe5a-598d-40bf-96a3-fb6adf563293@scriptish
 // @name           notabenoid already voted color
-// @version        1.1
+// @version        1.2
+// @history        1.2 Заменена библиотека jQuery на родную с сайта для совместимости
 // @history        1.1 Добавил notabenoid.org
 // @history        1.0.2 Обновил библиотеку и создание
 // @history        1.0.2 Теперь запросы выполняются по добавленной кнопке "Мои голоса"
@@ -14,7 +15,7 @@
 // @include        http://notabenoid.org/*/*
 // @updateURL https://openuserjs.org/install/Black_Sun/notabenoid_already_voted_color.user.js
 // @Download https://openuserjs.org/install/Black_Sun/notabenoid_already_voted_color.user.js
-// @require	https://raw.github.com/Black-Sunlight/lib-files/master/jquery.js
+// @require	http://notabenoid.org/assets/254228b5/jquery.min.js
 // @run-at         document-end
 // ==/UserScript==
 
