@@ -1,8 +1,8 @@
 // ==UserScript==
 // @id             notabenoid.com-7943d1fc-12d5-42bc-b29e-338c8761e712@scriptish
 // @name           notabenoid auto highlight your translations page
-// @version        1.2
-// @history        1.2 Заменена библиотека jQuery на родную с сайта для совместимости
+// @version        1.2.1
+// @history        1.2.1 Заменена библиотека jQuery на родную с сайта для совместимости
 // @history        1.1 Добавил notabenoid.org
 // @history        1.0.1 Область действия ещё одна.
 // @history        1.0.0 Релиз
