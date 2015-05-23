@@ -1,7 +1,8 @@
 // ==UserScript==
 // @id             f918bae9-3473-4c12-85de-630d840499f0@scriptish
 // @name           unigigashare
-// @version        1.3.1
+// @version        1.3.2
+// @history        1.3.2 Фикс iframe remove
 // @history        1.3 Фикс бесплатного скачивания
 // @history        1.2.1 includes and updateurl
 // @history        1.2 fixed: crazy reload on gigabase. Изменено: jquery библиотека, связано со взломом сайта jquery
@@ -10,7 +11,8 @@
 // @namespace      https://openuserjs.org/scripts/Black_Sun/unigigashare
 // @author         Black_Sun
 // @description    Скрипт выводит ссылку на скачивание в верху страницы. Есть настройка автоскачивания (включена по умолчанию), для выключения см. код скрипта.
-// @updateUrl      https://openuserjs.org/install/Black_Sun/unigigashare.user.js
+// @Download       https://openuserjs.org/install/Black_Sun/unigigashare.user.js
+// @updateURL      https://openuserjs.org/install/Black_Sun/unigigashare.user.js
 // @include        http://www.share4web.com/get*
 // @include        http://www.unibytes.com/*
 // @include        http://www.gigabase.com/get*
@@ -39,7 +41,7 @@ var autodownload=false; //Для выключения автоскачивани
 function getlnk(ident){
 	if($('.nothx1').text().search('спасибо')!=-1){var lnk1=$('.nothx1').attr('href');}else{$('#lnk').html('Ошибка, ссылка не найдена!')}
 	var exist=$('body').find('h3').text()
-	$('iframe').each(function(){$this.remove()})
+	$('iframe').each(function(){$(this).remove()})
 	if(exist.indexOf('не существует')==-1){
 		if(typeof(lnk1)=="undefined") {
 			location.href=$('body').find('a[href*="/free?"]').attr('href')
