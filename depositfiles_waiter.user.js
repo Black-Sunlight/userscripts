@@ -2,7 +2,8 @@
 // @id             depositfiles_waiter
 // @name           depositfiles_downloader
 // @namespace      https://openuserjs.org/scripts/Black_Sun/depositfiles_downloader
-// @version        5.0
+// @version        5.0.1
+// @history        5.0.1 Изменён include, работа гарантируется только на greasemoney
 // @history        5.0 Добавлено автоожидание при лимите и исправлена ошибка ссылок с limit=1 на конце (issue by rayman89).
 // @history        4.7 Модифицировал код под Greasemonkey, т.к. Scriptish автор походу забросил.
 // @history        4.6 Совсем убрал jQuery из скрипта и добавил GM_safeHTMLParser, спасибо KOLANICH за наводку
@@ -26,10 +27,7 @@
 // @history        1.0 Релиз.
 // @author         Black_Sun
 // @description    Автоматически или вручную позволяет скачивать файлы без ожидания.
-// @include        http://depositfiles.com/*/files/*
-// @include        http://depositfiles.com/files/*
-// @include        http://dfiles.ru/*/files/*
-// @include        http://dfiles.ru/files/*
+// @include        /^https?:\/\/(www\.)?(dfiles|depositfiles)\.(ru|com)\/files\/.*$/
 // @updateURL https://openuserjs.org/install/Black_Sun/depositfiles_downloader.user.js
 // @Download https://openuserjs.org/install/Black_Sun/depositfiles_downloader.user.js
 // @grant GM_registerMenuCommand
