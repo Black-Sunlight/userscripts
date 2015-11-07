@@ -1,7 +1,8 @@
 // ==UserScript==
 // @id             coldfilm.ru-6c434ad0-254a-410f-8d3c-c5172404085f@scriptish
 // @name           auto-torrent-link
-// @version        1.4
+// @version        1.5
+// @history        1.5 Добавил вывод серий списком, когда в новости несколько серий. Плюс создал стиль для немного другого вида новостей, он тут https://userstyles.org/styles/120526/cold-film-style-for-my-script
 // @history        1.4 Из-за возросшей нагрузки на сайт переделал скрипт, теперь надо нажать кнопку рядом с названием для просмотра информации о нужном сериале, кнопку можно нажимать сколько угодно раз в ожидании серии.
 // @history        1.3.1 Небольшие правки в тексте. 
 // @history        1.3 Добавил проверку на внутренние ссылки на статичные страницы
@@ -27,7 +28,7 @@
 $(function(){
 	
 	$('.entryLink').each(function(i){
-		$('.viewn_cont').eq(i).append("<style>#lnks"+i+" a{display:block;color:green}.viewn_title{height:20px!important}</style><div id='lnks"+i+"' style='display:block;margin:0 auto;text-align:center;color:darkred;font-size:20px'></div>")
+		$('.viewn_cont').eq(i).append("<style>#lnks"+i+" a{display:block;color:green;}#lnks"+i+"{max-height: 385px;overflow-y: auto;width: 365px;}div[id^='lnks'] br{display:none;}.viewn_title{height:20px!important}</style><div id='lnks"+i+"' style='display:block;margin:0 auto;text-align:center;color:darkred;font-size:20px'></div>")
 		$('#lnks'+i).closest('div.viewn_loop').find('h4.viewn_title').append('<span id="spanload'+i+'" title="Нажмите чтобы проверить можно ли скачать серию или нет" style="color:darkred"> <img id="imgload'+i+'" style="cursor:pointer" src="'+lookimg+'" /></span>')
 		var self=$(this)
 		$('#imgload'+i).click(function(){
@@ -39,11 +40,15 @@ $(function(){
 		$('#lnks'+i).text('Идёт загрузка, пожалуйста подождите...')
 		$.get(self.attr('href'),function(data){
 				var ah=$('.eMessage',data).find('a');
-				if(ah.attr('href')!="undefined"){$('#lnks'+i).html(ah);$('#imgload'+i).attr('src',lookimg)}
+				if(ah.attr('href')!="undefined"){
+					var ahtxt=ah.closest('span')
+					$('#spanload'+i).attr('style','color:green').text(' Серия выложена')
+					$('#lnks'+i).html(ahtxt);
+				}
 				if(ah.attr('href')===undefined || ah.attr('href').indexOf("coldfilm.ru/index")!=-1){
 					/*$('#lnks'+i).closest('div[id^="entryID"]').remove()*/
 					//$('#lnks'+i).closest('div.viewn_c').hide()
-					$('#spanload'+i).text(' Серия ещё не выложена ').append('<img id="imgload'+i+'" style="cursor:pointer" src="'+lookimg+'" />').parent().parent().find('a').attr('style','color:darkred')
+					$('#spanload'+i).attr('style','color:darkred').text(' Серия ещё не выложена ').append('<img id="imgload'+i+'" style="cursor:pointer" src="'+lookimg+'" />').parent().parent().find('a').attr('style','color:darkred')
 					$('#imgload'+i).click(function(){getter()});
 					$('#lnks'+i).text('Серия ещё не выложена')
 					
@@ -51,7 +56,7 @@ $(function(){
 			})
 		}
 	})
-});	
+});		
 
 var lookimg="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAsJJREFUeNqMk8tPE1EUxu+dmU6n04dDKVAaQBowBYq0RDAQGkOC0QRjoujCx14TV8Z/gLB0Z8CNunGJJhJdGd8pkKALSdVoIIISiOE1JWPbofO6cz2jYKR1wUm+nJm53/nlnjvnYkopcmJkZEKCdB10BpRAf+ID6DHo1vDwkIL+E9gBQHHSMQYqA1VH+9rUrvZwFYMxmv2yJk+9+uhRc6rsgAGSKQWwGHdIAEm39bZJxwcS3vqw3yu6GcyxGAUl0ROLH+Tymo3ktexQOj13v7+/VfsXwJimdsMX8oWi0TqfQahtWNQqGralgXSTmvButiebAi6BCzne0h0wur59vqalUdFMuq2bdhYK5YJG5FyRyADaBMCGSehGJNa47nhLARwhRmsR+3Nyzlx0u7DOscTEmGVZBiGLUKKZtqVqNkuFQMTxlgEMYxvxbqysyHqGYVDeK3gE6F90sZiFdcMmNLe6ZWxvbqmd4G0qAxQKyiKmP4nbJa0GRK4AB4i8AsvzHGZMixKT2Hq15EKzk59Nx1t2Boqy/vrTi5d1VUHGV1vB03AF7zkgsrUenmkOiGykRuLFoMd2Z5fnjjneMkAmM3V7ZX4+J8tfLzCsVQmFHvheD3L6rbd0vWJ8Yuxa12lZTFx+23f1Lk7uGSSnjXi8+2IslrgZaYr6U6dOLCSboiyPsHdy5v369Jt0ezH4UGg8rLnODp5DT54/UNezq6k7V2jm7yRijH2hULgnmUxd8vulXvgHLc4iIWQun1dmvjOPBlq7aUNHp4AGTzagp8+W1c2s9huCd+8CQDhIdaAQyLezwwJIrj2CUmI1utccR0JHN0Y9KRa9myaqotAUt9sLgCxISzvae2EwlmsSSFhAaEw3qADDhiKHRG/R0KY5tI8AeAEg487zCkAMzRZ+rGrIz9Nv+wKUQmDERtUcWfJxaPSXAAMAqY5Ou20jwNAAAAAASUVORK5CYII%3D"
 
