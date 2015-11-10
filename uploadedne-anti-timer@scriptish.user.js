@@ -1,4 +1,4 @@
-﻿// ==UserScript==
+// ==UserScript==
 // @id             uploaded.net-8c688a90-3234-449c-877e-13d1842f7df7@scriptish
 // @name           Uploaded.net anti timer
 // @version        0.9b
