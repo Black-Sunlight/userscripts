@@ -4,7 +4,7 @@
 // @namespace   https://openuserjs.org/scripts/Black_Sun/Myshows.me_fader_selected_series
 // @include     https://myshows.me/profile
 // @include     http://myshows.me/profile
-// @version     1.0
+// @version     1
 // @unwrap
 // @updateURL https://openuserjs.org/install/Black_Sun/Myshows.me_fader_selected_series.user.js
 // @Download https://openuserjs.org/install/Black_Sun/Myshows.me_fader_selected_series.user.js
