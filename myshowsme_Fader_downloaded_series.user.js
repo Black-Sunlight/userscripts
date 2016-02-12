@@ -2,9 +2,9 @@
 // @name        Myshows.me fader selected series
 // @description На странице профиля myshows.me/profile создаёт дополнительный чекбокс, при его переключении серия становится немного прозрачной. Скрипт сделан для удобства подбора для просмотра. Так же прячет баннер.
 // @namespace   https://openuserjs.org/scripts/Black_Sun/Myshows.me_fader_selected_series
-// @include     https://myshows.me/profile
-// @include     http://myshows.me/profile
-// @version     1
+// @include     https://myshows.me/profile/
+// @version     1.1
+// @history 	1.1 Include mistake
 // @unwrap
 // @updateURL https://openuserjs.org/install/Black_Sun/Myshows.me_fader_selected_series.user.js
 // @Download https://openuserjs.org/install/Black_Sun/Myshows.me_fader_selected_series.user.js
