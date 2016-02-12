@@ -1,7 +1,8 @@
 // ==UserScript==
 // @id             coldfilm.ru-6c434ad0-254a-410f-8d3c-c5172404085f@scriptish
 // @name           auto-torrent-link
-// @version        2.1.1
+// @version        2.2.0
+// @history        2.2.0 Добавлена кнопка Х справа от названия "Скрытые релизы" при нажатию по которой ВСЕ новости из списка ниже названия возвращаются на место, а список очищается.
 // @history        2.1 Принудительно применён стиль https://userstyles.org/styles/120526/cold-film-style-for-my-script
 // @history        2.0 Изменено расположение обновляшки, немного изменён стиль, добавлена возможность удалять блоки новостей с сайта до рестарта браузера, удалённые сериалы находятся слева в блоке и их можно оттуда вернуть кликнув по названию.
 // @history        1.5 Добавил вывод серий списком, когда в новости несколько серий. Плюс создал стиль для немного другого вида новостей, он тут https://userstyles.org/styles/120526/cold-film-style-for-my-script
@@ -29,7 +30,15 @@
 
 $(function(){
 	$('#allEntries').before($('#pagesBlock1').clone())
-	$('#side_left').find('.blacknav').eq(0).after('<hr><style>#hided{height: 350px;overflow-y: auto;width: 190px;}.hideli{padding:5px;}.hideli:hover{color:#090;background-color:white;padding:5px;cursor:pointer}.hidename{font-weight:bold;font-size:13px;text-align:center;background: url(/images/block_bg.png) no-repeat -199px 0;background-size: auto 92%;height: 37px;width: 190px;padding-top:5px}</style><div class="hidename">Скрытые релизы</div><ul id="hided"></ul>')
+	$('#side_left').find('.blacknav').eq(0).after('<hr><style>#hided{height: 350px;overflow-y: auto;width: 190px;}.hideli{padding:5px;}.hideli:hover{color:#090;background-color:white;padding:5px;cursor:pointer}.hidename{font-weight:bold;font-size:13px;text-align:center;background: url(/images/block_bg.png) no-repeat -199px 0;background-size: auto 92%;height: 37px;width: 190px;padding-top:5px}</style><div class="hidename">Скрытые релизы<span title="Вернуть всё на место" id="reall" style="float:right;font-size:16px;margin-right:5px;cursor:pointer">X</span></div><ul id="hided"></ul>')
+	$('#reall').on('click',function(){
+	$('#hided').find('li').each(function(){
+		$('div#'+$(this).data("id")).show();
+		setCookie('del'+$(this).data("i"),1,0)
+		$('li[data-id="'+$(this).attr("data-id")+'"]').prev().remove();
+		$('li[data-id="'+$(this).attr("data-id")+'"]').remove();
+	})
+	});
 	$('.entryLink').each(function(i){
 		if($(this).text()=="Просьба снять AdBlock"){$(this).closest("div[id^='entryID']").hide()}
 		if(getCookie('del'+i)){
