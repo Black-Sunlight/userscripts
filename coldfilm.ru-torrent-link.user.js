@@ -1,7 +1,8 @@
 // ==UserScript==
 // @id             coldfilm.ru-6c434ad0-254a-410f-8d3c-c5172404085f@scriptish
 // @name           auto-torrent-link
-// @version        2.0
+// @version        2.1
+// @history        2.1 Принудительно применён стиль https://userstyles.org/styles/120526/cold-film-style-for-my-script
 // @history        2.0 Изменено расположение обновляшки, немного изменён стиль, добавлена возможность удалять блоки новостей с сайта до рестарта браузера, удалённые сериалы находятся слева в блоке и их можно оттуда вернуть кликнув по названию.
 // @history        1.5 Добавил вывод серий списком, когда в новости несколько серий. Плюс создал стиль для немного другого вида новостей, он тут https://userstyles.org/styles/120526/cold-film-style-for-my-script
 // @history        1.4 Из-за возросшей нагрузки на сайт переделал скрипт, теперь надо нажать кнопку рядом с названием для просмотра информации о нужном сериале, кнопку можно нажимать сколько угодно раз в ожидании серии.
@@ -28,7 +29,7 @@
 
 $(function(){
 	$('#allEntries').before($('#pagesBlock1').clone())
-	$('#side_left').find('.blacknav').eq(0).after('<hr><style>#hided{height: 350px;overflow-y: auto;width: 190px;}.hideli{padding:5px;}.hideli:hover{color:#090;background-color:white;padding:5px;cursor:pointer}.hidename{font-weight:bold;font-size:13px;text-align:center;background: url(/images/block_bg.png) no-repeat -199px 0;background-size: auto 92%;height: 37px;width: 190px;padding-top:5px}</style><div class="hidename">Скрытые релизы</div><ul id="hided"></ul>')
+	$('#side_left').find('.blacknav').eq(0).after('<hr><style>div[id^="entryID"]{position:relative}a.entryLink{position:absolute;top:70px;font-size:20px;font-style:Tahoma;width:570px;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;}span[id^="spanload]{position:absolute;top:100px;left:100px;}span[id^="spanload"] img{width:30px}div[id^="lnks"]{position:absolute;top:130px;left:70px;}#hided{height: 350px;overflow-y: auto;width: 190px;}.hideli{padding:5px;}.hideli:hover{color:#090;background-color:white;padding:5px;cursor:pointer}.hidename{font-weight:bold;font-size:13px;text-align:center;background: url(/images/block_bg.png) no-repeat -199px 0;background-size: auto 92%;height: 37px;width: 190px;padding-top:5px}</style><div class="hidename">Скрытые релизы</div><ul id="hided"></ul>')
 	$('.entryLink').each(function(i){
 		if($(this).text()=="Просьба снять AdBlock"){$(this).closest("div[id^='entryID']").hide()}
 		if(getCookie('del'+i)){
