@@ -1,7 +1,7 @@
 // ==UserScript==
 // @id             coldfilm.ru-6c434ad0-254a-410f-8d3c-c5172404085f@scriptish
 // @name           auto-torrent-link
-// @version        2.3
+// @version        2.4 Обновил режим скрипта, теперь он работает даже тогда когда включена защита от слежения и не зависит от скриптов на странице
 // @history        2.3 Добавил поле для выбора на сколько скрывать новости c подписью под крестом
 // @history        2.2.0 Добавлена кнопка Х справа от названия "Скрытые релизы" при нажатию по которой ВСЕ новости из списка ниже названия возвращаются на место, а список очищается.
 // @history        2.1 Принудительно применён стиль https://userstyles.org/styles/120526/cold-film-style-for-my-script
@@ -25,85 +25,95 @@
 // @Download https://openuserjs.org/install/Black_Sun/auto-torrent-link.user.js
 // @noframes
 // @grant none
-// @unwrap
-// @run-at         document-end
+// @require http://s76.ucoz.net/src/jquery-1.7.2.js
+// @run-at         document-start
 // ==/UserScript==
 
-$(function(){
-	$('#allEntries').before($('#pagesBlock1').clone())
-	$('#side_left').find('.blacknav').eq(0).after('<hr><style>#hided{height: 350px;overflow-y: auto;width: 190px;}.hideli{padding:5px;}.hideli:hover{color:#090;background-color:white;padding:5px;cursor:pointer}.hidename{font-weight:bold;font-size:13px;text-align:center;background: url(/images/block_bg.png) no-repeat -199px 0;background-size: auto 92%;height: 37px;width: 190px;padding-top:5px}</style><div class="hidename">Скрытые релизы<span title="Вернуть всё на место" id="reall" style="float:right;font-size:16px;margin-right:5px;cursor:pointer">X</span></div><div style="width:190px"><select style="width:inherit" title="На сколько скрывать новости с главной странице" id="time"><option value="null" selected>До перезапуска браузера</option><option value="2">2 дня</option><option value="4">4 дня</option><option value="6">6 дней</option><option value="8">8 дней</option><option value="10">10 дней</option></select></div><ul id="hided"></ul>')
-	$('#reall').on('click',function(){
-		$('#hided').find('li').each(function(){
-			$('div#'+$(this).data("id")).show();
-			setCookie('del'+$(this).data("i"),1,0)
-			$('li[data-id="'+$(this).attr("data-id")+'"]').prev().remove();
-			$('li[data-id="'+$(this).attr("data-id")+'"]').remove();
-		})
-	});
-	$('.entryLink').each(function(i){
-		if($(this).text()=="Просьба снять AdBlock"){$(this).closest("div[id^='entryID']").hide()}
-		if(getCookie('del'+i)){
-			var gsid=getCookie('del'+i).split('_')[0]
-			var gname=unescape(getCookie('del'+i).split('_')[1])
-			$('#'+gsid).hide()
-			$('#hided').append('<div class="hr_v3" style="margin: 2px 0;"></div><li data-id="'+gsid+'" data-i="'+i+'" class="hideli" title="Нажмите чтобы показать блок на сайте">'+gname+'</li>')
-			
-		}
-		$('.viewn_cont').eq(i).append("<style>#lnks"+i+" a{display:block;color:green;}#lnks"+i+"{max-height: 385px;overflow-y: auto;width: 365px;}div[id^='lnks'] br{display:none;}.viewn_title{height:20px!important}div[id^='entryID']{position:relative}a.entryLink{position:absolute;top:70px;font-size:20px;font-style:Tahoma;width:570px;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;}span[id^='spanload']{position:absolute;top:100px;left:100px;}span[id^='spanload'] img{width:30px}div[id^='lnks']{position:absolute;top:130px;left:70px;}</style><div id='lnks"+i+"' style='display:block;margin:0 auto;text-align:center;color:darkred;font-size:20px'></div>")
-		$('#lnks'+i).closest('div.viewn_loop').find('h4.viewn_title').append('<span id="spanload'+i+'" title="Нажмите чтобы проверить можно ли скачать серию или нет" style="color:darkred"> <img id="imgload'+i+'" style="cursor:pointer" src="'+lookimg+'" /></span>')
-		$('#spanload'+i).after('<figure style="position: absolute;right: 45px;width: 153px;top: 200px;cursor:pointer;text-align:center"><p><img src='+redcrossimage+' title="Удалить сериал из списка на странице" id="reddel'+i+'" /></p><figcaption class="reddelinfo"></figcaption></figure>')
-		var self=$(this)
+var checkExist = setInterval(function() {
+	if ($('#side_left').length) {
 		
-		$('#reddel'+i).on('click',function(){
-			var sid=$(this).closest('div[id^="entryID"]').attr('id')
-			var name=$(this).closest('div[id^="entryID"]').find('a.entryLink').eq(0).text()
-			setCookie('del'+i,sid+'_'+name,$('#time').val()*1)
-			$(this).attr('src',loadingimg)
-			$(this).closest('div[id^="entryID"]').hide()
-			$(this).attr('src',redcrossimage)
-			$('#hided').append('<div class="hr_v3" style="margin: 2px 0;"></div><li data-id="'+sid+'" data-i="'+i+'" class="hideli" title="Нажмите чтобы показать блок на сайте">'+name+'</li>')
-			setclick()
-		})
-		
-		$('#imgload'+i).click(function(){
-			getter()
-		})
-		function getter(){
-			$('#imgload'+i).unbind('click')
-			$('#imgload'+i).attr('src',loadingimg)
-			$('#lnks'+i).text('Идёт загрузка, пожалуйста подождите...')
-			$.get(self.attr('href'),function(data){
-				var ah=$('.eMessage',data).find('a');
-				if(ah.attr('href')!="undefined"){
-					var ahtxt=ah.closest('span')
-					$('#spanload'+i).attr('style','color:green').text(' Серия выложена')
-					.append('<img id="imgload'+i+'" style="cursor:pointer" src="'+lookimg+'" />').parent().parent().find('a').attr('style','color:darkred')
-					$('#imgload'+i).click(function(){getter()});
-					$('#lnks'+i).html(ahtxt);
-				}
-				if(ah.attr('href')===undefined || ah.attr('href').indexOf("coldfilm.ru/index")!=-1){
-					/*$('#lnks'+i).closest('div[id^="entryID"]').remove()*/
-					//$('#lnks'+i).closest('div.viewn_c').hide()
-					$('#spanload'+i).attr('style','color:darkred').text(' Серия ещё не выложена ').append('<img id="imgload'+i+'" style="cursor:pointer" src="'+lookimg+'" />').parent().parent().find('a').attr('style','color:darkred')
-					$('#imgload'+i).click(function(){getter()});
-					$('#lnks'+i).text('Серия ещё не выложена')
-					
-				}
+		$('#side_left').find('.blacknav').eq(0).after('<hr><style>#hided{height: 350px;overflow-y: auto;width: 190px;}.hideli{padding:5px;}.hideli:hover{color:#090;background-color:white;padding:5px;cursor:pointer}.hidename{font-weight:bold;font-size:13px;text-align:center;background-position: -215px bottom!important;color:#0a6e0b;background-size: auto 92%;height: 37px;width: 190px;padding-top:5px;padding-bottom:0px}</style><div class="block_full b_black hidename">Скрытые релизы<span title="Вернуть все новости из списка ниже на место" id="reall" style="float:right;font-size:16px;margin-right:5px;cursor:pointer">X</span></div><div style="width:190px"><select style="width:inherit" title="На сколько скрывать новости с главной странице" id="time"><option value="null" selected>До перезапуска браузера</option><option value="2">2 дня</option><option value="4">4 дня</option><option value="6">6 дней</option><option value="8">8 дней</option><option value="10">10 дней</option></select></div><ul id="hided"></ul>')
+		$('span, div.panel_rat_l').tooltip({
+			track: true,
+			delay: 0,
+			showURL: false,
+			fade: 200
+		});
+		$('#allEntries').before($('#pagesBlock1').clone())
+		$('#reall').on('click',function(){
+			$('#hided').find('li').each(function(){
+				$('div#'+$(this).data("id")).show();
+				setCookie('del'+$(this).data("i"),1,0)
+				$('li[data-id="'+$(this).attr("data-id")+'"]').prev().remove();
+				$('li[data-id="'+$(this).attr("data-id")+'"]').remove();
 			})
+		});
+		$('.entryLink').each(function(i){
+			if($(this).text()=="Просьба снять AdBlock"){$(this).closest("div[id^='entryID']").hide()}
+			if(getCookie('del'+i)){
+				var gsid=getCookie('del'+i).split('_')[0]
+				var gname=unescape(getCookie('del'+i).split('_')[1])
+				$('#'+gsid).hide()
+				$('#hided').append('<div class="hr_v3" style="margin: 2px 0;"></div><li data-id="'+gsid+'" data-i="'+i+'" class="hideli" title="Нажмите чтобы показать блок на сайте">'+gname+'</li>')
+				
+			}
+			$('.viewn_cont').eq(i).append("<style>#lnks"+i+" a{display:block;color:green;}#lnks"+i+"{max-height: 385px;overflow-y: auto;width: 365px;}div[id^='lnks'] br{display:none;}.viewn_title{height:20px!important}div[id^='entryID']{position:relative}a.entryLink{position:absolute;top:70px;font-size:20px;font-style:Tahoma;width:570px;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;}span[id^='spanload']{position:absolute;top:100px;left:100px;}span[id^='spanload'] img{width:30px}div[id^='lnks']{position:absolute;top:130px;left:70px;}</style><div id='lnks"+i+"' style='display:block;margin:0 auto;text-align:center;color:darkred;font-size:20px'></div>")
+			$('#lnks'+i).closest('div.viewn_loop').find('h4.viewn_title').append('<span id="spanload'+i+'" title="Нажмите чтобы проверить можно ли скачать серию или нет" style="color:darkred"> <img id="imgload'+i+'" style="cursor:pointer" src="'+lookimg+'" /></span>')
+			$('#spanload'+i).after('<figure style="position: absolute;right: 45px;width: 153px;top: 200px;cursor:pointer;text-align:center"><p><img src='+redcrossimage+' title="Удалить сериал из списка на странице" id="reddel'+i+'" /></p><figcaption class="reddelinfo"></figcaption></figure>')
+			var self=$(this)
+			
+			$('#reddel'+i).on('click',function(){
+				var sid=$(this).closest('div[id^="entryID"]').attr('id')
+				var name=$(this).closest('div[id^="entryID"]').find('a.entryLink').eq(0).text()
+				setCookie('del'+i,sid+'_'+name,$('#time').val()*1)
+				$(this).attr('src',loadingimg)
+				$(this).closest('div[id^="entryID"]').hide()
+				$(this).attr('src',redcrossimage)
+				$('#hided').append('<div class="hr_v3" style="margin: 2px 0;"></div><li data-id="'+sid+'" data-i="'+i+'" class="hideli" title="Нажмите чтобы показать блок на сайте">'+name+'</li>')
+				setclick()
+			})
+			
+			$('#imgload'+i).click(function(){
+				getter()
+			})
+			function getter(){
+				$('#imgload'+i).unbind('click')
+				$('#imgload'+i).attr('src',loadingimg)
+				$('#lnks'+i).text('Идёт загрузка, пожалуйста подождите...')
+				$.get(self.attr('href'),function(data){
+					var ah=$('.eMessage',data).find('a');
+					if(ah.attr('href')!="undefined"){
+						var ahtxt=ah.closest('span')
+						$('#spanload'+i).attr('style','color:green').text(' Серия выложена')
+						.append('<img id="imgload'+i+'" style="cursor:pointer" src="'+lookimg+'" />').parent().parent().find('a').attr('style','color:darkred')
+						$('#imgload'+i).click(function(){getter()});
+						$('#lnks'+i).html(ahtxt);
+					}
+					if(ah.attr('href')===undefined || ah.attr('href').indexOf("coldfilm.ru/index")!=-1){
+						/*$('#lnks'+i).closest('div[id^="entryID"]').remove()*/
+						//$('#lnks'+i).closest('div.viewn_c').hide()
+						$('#spanload'+i).attr('style','color:darkred').text(' Серия ещё не выложена ').append('<img id="imgload'+i+'" style="cursor:pointer" src="'+lookimg+'" />').parent().parent().find('a').attr('style','color:darkred')
+						$('#imgload'+i).click(function(){getter()});
+						$('#lnks'+i).text('Серия ещё не выложена')
+						
+					}
+				})
+			}
+		})
+		if(getCookie('sel')){
+			$('#time').val(getCookie('sel'))
+			if(getCookie('sel')!="null"){$('.reddelinfo').html('Скрыть эту новость на <i>'+$('#time option:selected').text()+'</i>')}
+			else {$('.reddelinfo').html('Скрыть эту новость <i>'+$('#time option:selected').text()+'</i>')}
 		}
-	})
-	if(getCookie('sel')){
-		$('#time').val(getCookie('sel'))
-		if(getCookie('sel')!="null"){$('.reddelinfo').html('Скрыть эту новость на <i>'+$('#time option:selected').text()+'</i>')}
-		else {$('.reddelinfo').html('Скрыть эту новость <i>'+$('#time option:selected').text()+'</i>')}
+		$('#time').on('change',function(){
+			setCookie('sel',$(this).val(),999)
+			if($(this).val()!="null"){$('.reddelinfo').html('Скрыть эту новость на <i>'+$('#time option:selected').text()+'</i>')}
+			else {$('.reddelinfo').html('Скрыть эту новость <i>'+$('#time option:selected').text()+'</i>')}
+		})
+		setclick()
+		clearInterval(checkExist);
 	}
-	$('#time').on('change',function(){
-		setCookie('sel',$(this).val(),999)
-		if($(this).val()!="null"){$('.reddelinfo').html('Скрыть эту новость на <i>'+$('#time option:selected').text()+'</i>')}
-		else {$('.reddelinfo').html('Скрыть эту новость <i>'+$('#time option:selected').text()+'</i>')}
-	})
-	setclick()
-});			
+}, 1000);			
 function setclick(){
 	$('#hided').find('li').on('click',function(){
 		$('div#'+$(this).data("id")).show();
