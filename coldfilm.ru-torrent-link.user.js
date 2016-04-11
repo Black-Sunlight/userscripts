@@ -23,7 +23,7 @@
 // @exclude        http://coldfilm.ru/news/*/*
 // @exclude        http://coldfilm.ru/mchat
 // @exclude        http://coldfilm.ru/mchat/*
-// @updateURL https://openuserjs.org/install/Black_Sun/auto-torrent-link.user.js
+// @updateURL https://raw.githubusercontent.com/Black-Sunlight/userscripts/master/coldfilm.ru-torrent-link.user.js
 // @Download https://openuserjs.org/install/Black_Sun/auto-torrent-link.user.js
 // @noframes
 // @grant none
