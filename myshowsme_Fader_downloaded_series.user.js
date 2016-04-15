@@ -4,7 +4,7 @@
 // @namespace   https://openuserjs.org/scripts/Black_Sun/Myshows.me_fader_selected_series
 // @include     http://myshows.ru/profile/
 // @include     https://myshows.me/profile/
-// @version     2.0
+// @version     2.0.1
 // @history 	2.0 Cookie problems fixed
 // @history 	1.1 Include mistake
 // @unwrap
@@ -64,7 +64,7 @@ function checker(){
 		else
 		{
 			$('#block'+a).closest('span').remove();
-			setCookie('serie'+i,id,0)
+			setCookie('serie'+i,a,0)
 			go();
 		}
 	})
