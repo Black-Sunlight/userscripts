@@ -4,7 +4,7 @@
 // @namespace   https://openuserjs.org/scripts/Black_Sun/Myshows.me_fader_selected_series
 // @include     http://myshows.ru/profile/
 // @include     https://myshows.me/profile/
-// @version     2.0.2
+// @version     2.0.1
 // @history 	2.0 Cookie problems fixed
 // @history 	1.1 Include mistake
 // @unwrap
@@ -49,8 +49,8 @@ function go(){
 	for (var w=0;w<=numb;w++){
 		a=getCookie('serie'+w)
 		a=getCookie('serie'+w+1)
-		if($("#block"+a).length==0){setCookie('serie'+w,a,0)}
-		if(a==b){setCookie('serie'+w,a,0);setCookie('serie'+(w+1)*1,a,0)}
+		if($("#block"+a).length==0){setCookie('serie'+w,id,0)}
+		if(a==b){setCookie('serie'+w,id,0);setCookie('serie'+(w+1)*1,id,0)}
 	}
 	$('#new-shows-empty').before('<div id="countseri" style="background:#C0FDBD;color:#0EA206;width: 165px;padding: 5px;text-align:center">Всего отмечено <b style="font-size:18px">'+numberOfChecked+'</b> серий</div>');
 }
