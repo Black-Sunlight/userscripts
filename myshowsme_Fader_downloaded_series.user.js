@@ -4,7 +4,8 @@
 // @namespace   https://openuserjs.org/scripts/Black_Sun/Myshows.me_fader_selected_series
 // @include     http://myshows.ru/profile/
 // @include     https://myshows.me/profile/
-// @version     2.0.2
+// @version     2.0.3
+// @history 	2.0.3 Small fixes
 // @history 	2.0 Cookie problems fixed
 // @history 	1.1 Include mistake
 // @unwrap
