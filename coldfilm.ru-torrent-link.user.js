@@ -1,7 +1,8 @@
 // ==UserScript==
 // @id             coldfilm.ru-6c434ad0-254a-410f-8d3c-c5172404085f@scriptish
 // @name           auto-torrent-link
-// @version        2.5.0 
+// @version        2.6.0 
+// @history        2.6.0 Теперь куки независимы для каждой страницы, т.е. вы можете скрывать новости на каждой странице и список скрытых будет свой на каждой странице
 // @history        2.5.0 Замена структуры кода, теперь по идее должна работать всегда
 // @history        2.4 Обновил режим скрипта, теперь он работает даже тогда когда включена защита от слежения и не зависит от скриптов на странице
 // @history        2.3 Добавил поле для выбора на сколько скрывать новости c подписью под крестом
@@ -41,6 +42,7 @@ var concrete = {
 			});
 	},
 	pour:function(){
+	var curp=$('div.catPages1').eq(0).find('b.swchItemA').eq(0).text();
 		if ($('#side_left').length) {
 			
 			$('#side_left').find('.blacknav').eq(0).after('<hr><style>#hided{height: 350px;overflow-y: auto;width: 190px;}.hideli{padding:5px;}.hideli:hover{color:#090;background-color:white;padding:5px;cursor:pointer}.hidename{font-weight:bold;font-size:13px;text-align:center;background-position: -215px bottom!important;color:#0a6e0b;background-size: auto 92%;height: 37px;width: 190px;padding-top:5px;padding-bottom:0px}</style><div class="block_full b_black hidename">Скрытые релизы<span title="Вернуть все новости из списка ниже на место" id="reall" style="float:right;font-size:16px;margin-right:5px;cursor:pointer">X</span></div><div style="width:190px"><select style="width:inherit" title="На сколько скрывать новости с главной странице" id="time"><option value="null" selected>До перезапуска браузера</option><option value="2">2 дня</option><option value="4">4 дня</option><option value="6">6 дней</option><option value="8">8 дней</option><option value="10">10 дней</option></select></div><ul id="hided"></ul>')
@@ -61,11 +63,11 @@ var concrete = {
 			});
 			$('.entryLink').each(function(i){
 				if($(this).text()=="Просьба снять AdBlock"){$(this).closest("div[id^='entryID']").hide()}
-				if(getCookie('del'+i)){
-					var gsid=getCookie('del'+i).split('_')[0]
-					var gname=unescape(getCookie('del'+i).split('_')[1])
+				if(getCookie('del'+curp+'-'+i)){
+					var gsid=getCookie('del'+curp+'-'+i).split('_')[0]
+					var gname=unescape(getCookie('del'+curp+'-'+i).split('_')[1])
 					$('#'+gsid).hide()
-					$('#hided').append('<div class="hr_v3" style="margin: 2px 0;"></div><li data-id="'+gsid+'" data-i="'+i+'" class="hideli" title="Нажмите чтобы показать блок на сайте">'+gname+'</li>')
+					$('#hided').append('<div class="hr_v3" style="margin: 2px 0;"></div><li data-id="'+gsid+'" data-i="'+curp+'-'+i+'" class="hideli" title="Нажмите чтобы показать блок на сайте">'+gname+'</li>')
 					
 				}
 				$('.viewn_cont').eq(i).append("<style>#lnks"+i+" a{display:block;color:green;}#lnks"+i+"{max-height: 385px;overflow-y: auto;width: 365px;}div[id^='lnks'] br{display:none;}.viewn_title{height:20px!important}div[id^='entryID']{position:relative}a.entryLink{position:absolute;top:70px;font-size:20px;font-style:Tahoma;width:570px;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;}span[id^='spanload']{position:absolute;top:100px;left:100px;}span[id^='spanload'] img{width:30px}div[id^='lnks']{position:absolute;top:130px;left:70px;}</style><div id='lnks"+i+"' style='display:block;margin:0 auto;text-align:center;color:darkred;font-size:20px'></div>")
@@ -76,7 +78,7 @@ var concrete = {
 				$('#reddel'+i).on('click',function(){
 					var sid=$(this).closest('div[id^="entryID"]').attr('id')
 					var name=$(this).closest('div[id^="entryID"]').find('a.entryLink').eq(0).text()
-					setCookie('del'+i,sid+'_'+name,$('#time').val()*1)
+					setCookie('del'+curp+'-'+i,sid+'_'+name,$('#time').val()*1)
 					$(this).attr('src',loadingimg)
 					$(this).closest('div[id^="entryID"]').hide()
 					$(this).attr('src',redcrossimage)
