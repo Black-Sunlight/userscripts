@@ -4,13 +4,13 @@
 // @namespace   https://openuserjs.org/scripts/Black_Sun/Myshows.me_fader_selected_series
 // @include     http://myshows.ru/profile/
 // @include     https://myshows.me/profile/
-// @version     2.0.3
+// @version     2.0.4
 // @history 	2.0.3 Small fixes
 // @history 	2.0 Cookie problems fixed
 // @history 	1.1 Include mistake
 // @unwrap
 // @updateURL https://raw.githubusercontent.com/Black-Sunlight/userscripts/master/myshowsme_Fader_downloaded_series.user.js
-// @Download https://openuserjs.org/install/Black_Sun/Myshows.me_fader_selected_series.user.js
+// @downloadURL https://openuserjs.org/install/Black_Sun/Myshows.me_fader_selected_series.user.js
 // @grant       none
 // ==/UserScript==
 $('#bannerProWide').hide()

@@ -1,7 +1,7 @@
 // ==UserScript==
 // @id             uploaded.net-8c688a90-3234-449c-877e-13d1842f7df7@scriptish
 // @name           Uploaded.net anti timer
-// @version        0.9b
+// @version        0.9c
 // @history        0.9b Beta version
 // @namespace      https://openuserjs.org/scripts/Black_Sun/anti_timer
 // @author         Black_Sun
@@ -10,7 +10,7 @@
 // @run-at         document-end
 // @grant none
 // @updateURL https://openuserjs.org/install/Black_Sun/anti_timer.user.js
-// @Download https://openuserjs.org/install/Black_Sun/anti_timer.user.js
+// @downloadURL https://openuserjs.org/install/Black_Sun/anti_timer.user.js
 // ==/UserScript==
 
 

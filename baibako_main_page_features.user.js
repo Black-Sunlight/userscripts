@@ -5,7 +5,7 @@
 // @include     http://baibako.tv/
 // @include     http://baibako.tv/index.php?page=*
 // @author      Black_Sun
-// @version        2.3
+// @version        2.3.1
 // @history        2.3 Адаптация под изменения html сайта.
 // @history        2.1 Обновил позицию кнопки подгрузки материалов и высоту блока с ними после подгрузки
 // @history        2.0 Новый дизайн, новые блоки, новое расположение.
@@ -14,7 +14,7 @@
 // @history        1.0 Релиз
 // @require	https://raw.githubusercontent.com/Black-Sunlight/lib-files/master/jquery.js
 // @updateURL https://openuserjs.org/install/Black_Sun/baibako_main_page_features.user.js
-// @Download https://openuserjs.org/install/Black_Sun/baibako_main_page_features.user.js
+// @downloadURL https://openuserjs.org/install/Black_Sun/baibako_main_page_features.user.js
 // @grant       none
 // ==/UserScript==
 
