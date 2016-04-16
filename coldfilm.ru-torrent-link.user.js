@@ -1,7 +1,8 @@
 // ==UserScript==
 // @id             coldfilm.ru-6c434ad0-254a-410f-8d3c-c5172404085f@scriptish
 // @name           auto-torrent-link
-// @version        2.6.1 
+// @version        2.6.2
+// @history        2.6.2 Описание
 // @history        2.6.1 Обновил downloadurl и updateurl и добавил удаление постов содержащих тот назойливый пост на каждой новости
 // @history        2.6.0 Теперь куки независимы для каждой страницы, т.е. вы можете скрывать новости на каждой странице и список скрытых будет свой на каждой странице
 // @history        2.5.0 Замена структуры кода, теперь по идее должна работать всегда
@@ -20,7 +21,6 @@
 // @history        1.0 Релиз.
 // @namespace      https://openuserjs.org/scripts/Black_Sun/auto-torrent-link
 // @author         Black_Sun
-// @description    Скрипт для coldfilm.ru выводит на главную страницу под сериалом ссылки на торрент для скачивания, как только они появляются в новости. Делает много запросов, поэтому часто страницу не обновлять!
 // @include        http://coldfilm.ru/*
 // @include        http://coldfilm.ru/news/*/*
 // @exclude        http://coldfilm.ru/mchat
