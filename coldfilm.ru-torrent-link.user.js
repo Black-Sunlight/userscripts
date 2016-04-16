@@ -1,7 +1,9 @@
 // ==UserScript==
 // @id             coldfilm.ru-6c434ad0-254a-410f-8d3c-c5172404085f@scriptish
 // @name           auto-torrent-link
-// @version        2.6.3
+// @version        2.7.0
+// @history        2.7.0 Если скрыть много новостей появляется ошибка 400 Request Header Or Cookie Too Large, при появлянии этой ошибки теперь удаляются все куки кроме первой страницы
+// @history        2.6.4 RegExp fix
 // @history        2.6.3 Описание
 // @history        2.6.1 Обновил downloadurl и updateurl и добавил удаление постов содержащих тот назойливый пост на каждой новости
 // @history        2.6.0 Теперь куки независимы для каждой страницы, т.е. вы можете скрывать новости на каждой странице и список скрытых будет свой на каждой странице
@@ -44,6 +46,12 @@ var concrete = {
 		});
 	},
 	pour:function(){
+		var tester=$('body').find('center').eq(1).text();
+		if(tester.search(/Request Header Or Cookie Too Large/ig)!=-1){
+			$('body').find('h1').eq(0).append('<br />Вы скрыли слишком много новостей, идёт удаление cookie всех, кроме первой страницы, пожалуйста подождите<br />');
+			deleteAllCookies();
+		}
+		
 		var curp=$('div.catPages1').eq(0).find('b.swchItemA').eq(0).text();
 		if ($('#side_left').length) {
 			
@@ -131,14 +139,33 @@ var concrete = {
 	}
 }
 $(function(){
-	if(location.href.search(/http\:\/\/coldfilm\.ru\/news\/*.\/*./ig)==-1){concrete.pour()}
-	$('.cMessage').each(function(i){
-		if($(this).text().search(/cold\.filmovnik\.ru/ig)!=-1){
-			$(this).closest('div[id^="comEnt"]').remove()
-		}
-	})
+	if(location.href.search(/http\:\/\/coldfilm\.ru\/news\/[a-z0-9]{1,}\/*./ig)==-1){
+		concrete.pour();
+		}else{
+		$('.cMessage').each(function(i){
+			if($(this).text().search(/cold\.filmovnik\.ru/ig)!=-1){
+				$(this).closest('div[id^="comEnt"]').remove()
+			}
+		})
+	}
 });
 
+
+function deleteAllCookies() {
+    var cookies = document.cookie.split(";");
+	
+    for (var i = 0; i < cookies.length; i++) {
+		if(cookies[i].search(/del[0-9]{1,}\-[0-9]{1,2}/ig)!=-1){
+			if(cookies[i].search(/del1\-[0-9]{1,2}/ig)==-1){
+				var cookie = cookies[i]
+				var eqPos = cookie.indexOf("=");
+				var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+				document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+			}
+		}
+	}
+	location.reload();
+}
 function getCookie(b){b+="=";for(var d=document.cookie.split(";"),c=0;c<d.length;c++){for(var a=d[c];" "==a.charAt(0);)a=a.substring(1);if(0==a.indexOf(b))return a.substring(b.length,a.length)}return""}function setCookie(b,d,c){var a=new Date;a.setDate(a.getDate()+c);document.cookie=b+"="+escape(d)+(null==c?"":";expires="+a.toUTCString())};
 var lookimg="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAsJJREFUeNqMk8tPE1EUxu+dmU6n04dDKVAaQBowBYq0RDAQGkOC0QRjoujCx14TV8Z/gLB0Z8CNunGJJhJdGd8pkKALSdVoIIISiOE1JWPbofO6cz2jYKR1wUm+nJm53/nlnjvnYkopcmJkZEKCdB10BpRAf+ID6DHo1vDwkIL+E9gBQHHSMQYqA1VH+9rUrvZwFYMxmv2yJk+9+uhRc6rsgAGSKQWwGHdIAEm39bZJxwcS3vqw3yu6GcyxGAUl0ROLH+Tymo3ktexQOj13v7+/VfsXwJimdsMX8oWi0TqfQahtWNQqGralgXSTmvButiebAi6BCzne0h0wur59vqalUdFMuq2bdhYK5YJG5FyRyADaBMCGSehGJNa47nhLARwhRmsR+3Nyzlx0u7DOscTEmGVZBiGLUKKZtqVqNkuFQMTxlgEMYxvxbqysyHqGYVDeK3gE6F90sZiFdcMmNLe6ZWxvbqmd4G0qAxQKyiKmP4nbJa0GRK4AB4i8AsvzHGZMixKT2Hq15EKzk59Nx1t2Boqy/vrTi5d1VUHGV1vB03AF7zkgsrUenmkOiGykRuLFoMd2Z5fnjjneMkAmM3V7ZX4+J8tfLzCsVQmFHvheD3L6rbd0vWJ8Yuxa12lZTFx+23f1Lk7uGSSnjXi8+2IslrgZaYr6U6dOLCSboiyPsHdy5v369Jt0ezH4UGg8rLnODp5DT54/UNezq6k7V2jm7yRijH2hULgnmUxd8vulXvgHLc4iIWQun1dmvjOPBlq7aUNHp4AGTzagp8+W1c2s9huCd+8CQDhIdaAQyLezwwJIrj2CUmI1utccR0JHN0Y9KRa9myaqotAUt9sLgCxISzvae2EwlmsSSFhAaEw3qADDhiKHRG/R0KY5tI8AeAEg487zCkAMzRZ+rGrIz9Nv+wKUQmDERtUcWfJxaPSXAAMAqY5Ou20jwNAAAAAASUVORK5CYII%3D"
 
