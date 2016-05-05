@@ -1,7 +1,8 @@
 // ==UserScript==
 // @id             coldfilm.ru-6c434ad0-254a-410f-8d3c-c5172404085f@scriptish
 // @name           auto-torrent-link
-// @version        2.7.0
+// @version        2.8.0
+// @history        2.8.0 Добавлена поддержка скриптом kinogolos.ru
 // @history        2.7.0 Если скрыть много новостей появляется ошибка 400 Request Header Or Cookie Too Large, при появлянии этой ошибки теперь удаляются все куки кроме первой страницы
 // @history        2.6.4 RegExp fix
 // @history        2.6.3 Описание
@@ -26,6 +27,10 @@
 // @description Скрипт для coldfilm.ru выводит на главную страницу кнопки, при нажатии на кнопку, под сериалом выводятся ссылки на торрент для скачивания, также позволяет скрывыть новости по желанию на каждой странице с запоминанием скрытия которое настраивается в блоке слева страницы. Код не зашифрован, для знающих всё наглядно и понятно.
 // @include        http://coldfilm.ru/*
 // @include        http://coldfilm.ru/news/*/*
+// @include        http://kinogolos.ru/*
+// @include        http://kinogolos.ru/news/*/*
+// @exclude        http://kinogolos.ru/mchat
+// @exclude        http://kinogolos.ru/mchat/*
 // @exclude        http://coldfilm.ru/mchat
 // @exclude        http://coldfilm.ru/mchat/*
 // @updateURL https://openuserjs.org/meta/Black_Sun/auto-torrent-link.meta.js
@@ -45,7 +50,8 @@ var concrete = {
 			$('li[data-id="'+$(this).attr("data-id")+'"]').remove();
 		});
 	},
-	pour:function(){
+	pour:function(site){
+		if(!site){var site = 'side_left'}
 		var tester=$('body').find('center').eq(1).text();
 		if(tester.search(/Request Header Or Cookie Too Large/ig)!=-1){
 			$('body').find('h1').eq(0).append('<br />Вы скрыли слишком много новостей, идёт удаление cookie всех, кроме первой страницы, пожалуйста подождите<br />');
@@ -53,15 +59,17 @@ var concrete = {
 		}
 		
 		var curp=$('div.catPages1').eq(0).find('b.swchItemA').eq(0).text();
-		if ($('#side_left').length) {
-			
-			$('#side_left').find('.blacknav').eq(0).after('<hr><style>#hided{height: 350px;overflow-y: auto;width: 190px;}.hideli{padding:5px;}.hideli:hover{color:#090;background-color:white;padding:5px;cursor:pointer}.hidename{font-weight:bold;font-size:13px;text-align:center;background-position: -215px bottom!important;color:#0a6e0b;background-size: auto 92%;height: 37px;width: 190px;padding-top:5px;padding-bottom:0px}</style><div class="block_full b_black hidename">Скрытые релизы<span title="Вернуть все новости из списка ниже на место" id="reall" style="float:right;font-size:16px;margin-right:5px;cursor:pointer">X</span></div><div style="width:190px"><select style="width:inherit" title="На сколько скрывать новости с главной странице" id="time"><option value="null" selected>До перезапуска браузера</option><option value="2">2 дня</option><option value="4">4 дня</option><option value="6">6 дней</option><option value="8">8 дней</option><option value="10">10 дней</option></select></div><ul id="hided"></ul>')
-			$('span, div.panel_rat_l').tooltip({
-				track: true,
-				delay: 0,
-				showURL: false,
-				fade: 200
-			});
+		if ($('#'+site).length) {
+			if(site=='side_left'){
+				$('#'+site).find('.blacknav').eq(0).after('<hr><style>#hided{height: 350px;overflow-y: auto;width: 190px;}.hideli{padding:5px;}.hideli:hover{color:#090;background-color:white;padding:5px;cursor:pointer}.hidename{font-weight:bold;font-size:13px;text-align:center;background-position: -215px bottom!important;color:#0a6e0b;background-size: auto 92%;height: 37px;width: 190px;padding-top:5px;padding-bottom:0px}</style><div class="block_full b_black hidename">Скрытые релизы<span title="Вернуть все новости из списка ниже на место" id="reall" style="float:right;font-size:16px;margin-right:5px;cursor:pointer">X</span></div><div style="width:190px"><select style="width:inherit" title="На сколько скрывать новости с главной странице" id="time"><option value="null" selected>До перезапуска браузера</option><option value="2">2 дня</option><option value="4">4 дня</option><option value="6">6 дней</option><option value="8">8 дней</option><option value="10">10 дней</option></select></div><ul id="hided"></ul>')
+				$('span, div.panel_rat_l').tooltip({
+					track: true,
+					delay: 0,
+					showURL: false,
+					fade: 200
+				})} else {
+				$('#'+site).find('.sidebar').eq(0).after('<hr><style>#hided{height: 350px;overflow-y: auto;width: 190px;}.hideli{padding:5px;}.hideli:hover{color:#090;background-color:white;padding:5px;cursor:pointer}.hidename{font-weight:bold;font-size:13px;text-align:center;background-position: -215px bottom!important;color:#0a6e0b;background-size: auto 92%;height: 37px;width: 190px;padding-top:5px;padding-bottom:0px}</style><div class="block_full b_black hidename">Скрытые релизы<span title="Вернуть все новости из списка ниже на место" id="reall" style="float:right;font-size:16px;margin-right:5px;cursor:pointer">X</span></div><div style="width:190px"><select style="width:inherit" title="На сколько скрывать новости с главной странице" id="time"><option value="null" selected>До перезапуска браузера</option><option value="2">2 дня</option><option value="4">4 дня</option><option value="6">6 дней</option><option value="8">8 дней</option><option value="10">10 дней</option></select></div><ul id="hided"></ul>')
+			}
 			$('#allEntries').before($('#pagesBlock1').clone())
 			$('#reall').on('click',function(){
 				$('#hided').find('li').each(function(){
@@ -71,7 +79,8 @@ var concrete = {
 					$('li[data-id="'+$(this).attr("data-id")+'"]').remove();
 				})
 			});
-			$('.entryLink').each(function(i){
+			if(site=='side_left'){var newses='entryLink'}else{var newses='eTitle'}
+			$('.'+newses).each(function(i){
 				if($(this).text()=="Просьба снять AdBlock"){$(this).closest("div[id^='entryID']").hide()}
 				if(getCookie('del'+curp+'-'+i)){
 					var gsid=getCookie('del'+curp+'-'+i).split('_')[0]
@@ -80,14 +89,25 @@ var concrete = {
 					$('#hided').append('<div class="hr_v3" style="margin: 2px 0;"></div><li data-id="'+gsid+'" data-i="'+curp+'-'+i+'" class="hideli" title="Нажмите чтобы показать блок на сайте">'+gname+'</li>')
 					
 				}
+				if(site=='side_left'){
 				$('.viewn_cont').eq(i).append("<style>#lnks"+i+" a{display:block;color:green;}#lnks"+i+"{max-height: 385px;overflow-y: auto;width: 365px;}div[id^='lnks'] br{display:none;}.viewn_title{height:20px!important}div[id^='entryID']{position:relative}a.entryLink{position:absolute;top:70px;font-size:20px;font-style:Tahoma;width:570px;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;}span[id^='spanload']{position:absolute;top:100px;left:100px;}span[id^='spanload'] img{width:30px}div[id^='lnks']{position:absolute;top:130px;left:70px;}</style><div id='lnks"+i+"' style='display:block;margin:0 auto;text-align:center;color:darkred;font-size:20px'></div>")
 				$('#lnks'+i).closest('div.viewn_loop').find('h4.viewn_title').append('<span id="spanload'+i+'" title="Нажмите чтобы проверить можно ли скачать серию или нет" style="color:darkred"> <img id="imgload'+i+'" style="cursor:pointer" src="'+lookimg+'" /></span>')
 				$('#spanload'+i).after('<figure style="position: absolute;right: 45px;width: 153px;top: 200px;cursor:pointer;text-align:center"><p><img src='+redcrossimage+' title="Удалить сериал из списка на странице" id="reddel'+i+'" /></p><figcaption class="reddelinfo"></figcaption></figure>')
+				} else {
+				if($('body').find('div').eq(0).attr('id')!='page'){$('body').find('div').eq(0).hide()}
+				var curwidth=Math.round((document.documentElement.clientWidth)-(document.documentElement.clientWidth/100*20))
+				var widthcol=Math.round(curwidth-300)
+				$('.eMessage').eq(i).append("<style>body{padding-top:0!important}#wrapper{width:"+curwidth+"px!important}#lnks"+i+" a{display:block;color:green;}#lnks"+i+" a:hover{display:block;color:darkred;}#lnks"+i+"{max-height: 385px;overflow-y: auto;width: 365px;}div[id^='lnks'] br{display:none;}#content{width:"+widthcol+"px!important}.eBlock{width:100%!important}.viewn_title{height:20px!important}div[id^='entryID']{position:relative}a.entryLink{position:absolute;top:70px;font-size:20px;font-style:Tahoma;width:570px;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;}span[id^='spanload']{position:absolute;top:100px;left:100px;}span[id^='spanload'] img{width:30px}div[id^='lnks']{position:absolute;top:130px;left:70px;}</style><div id='lnks"+i+"' style='display:block;margin:0 auto;text-align:center;color:darkred;font-size:20px'></div>")
+				$('#lnks'+i).closest('div.eMessage').prepend('<span id="spanload'+i+'" title="Нажмите чтобы проверить можно ли скачать серию или нет" style="color:darkred"> <img id="imgload'+i+'" style="cursor:pointer" src="'+lookimg+'" /></span>')
+				$('#spanload'+i).after('<figure style="position: absolute;right: 45px;width: 153px;top: 200px;cursor:pointer;text-align:center"><p><img src='+redcrossimage+' title="Удалить сериал из списка на странице" id="reddel'+i+'" /></p><figcaption class="reddelinfo"></figcaption></figure>')
+				}
+				
 				var self=$(this)
 				
 				$('#reddel'+i).on('click',function(){
 					var sid=$(this).closest('div[id^="entryID"]').attr('id')
-					var name=$(this).closest('div[id^="entryID"]').find('a.entryLink').eq(0).text()
+					if(site=='side_left'){var name=$(this).closest('div[id^="entryID"]').find('a.entryLink').eq(0).text()}
+					else{var name=$(this).closest('div[id^="entryID"]').find('div.eTitle').eq(0).text()}
 					setCookie('del'+curp+'-'+i,sid+'_'+name,$('#time').val()*1)
 					$(this).attr('src',loadingimg)
 					$(this).closest('div[id^="entryID"]').hide()
@@ -97,7 +117,7 @@ var concrete = {
 				})
 				
 				$('#imgload'+i).click(function(){
-					getter()
+					if(site=='side_left'){ getter()}else{getter2()}
 				})
 				function getter(){
 					$('#imgload'+i).unbind('click')
@@ -122,6 +142,29 @@ var concrete = {
 						}
 					})
 				}
+				function getter2(){
+					$('#imgload'+i).unbind('click')
+					$('#imgload'+i).attr('src',loadingimg)
+					$('#lnks'+i).text('Идёт загрузка, пожалуйста подождите...')
+					$.get(self.find('a').eq(0).attr('href'),function(data){
+						var ah=$('.eMessage',data).find('a');
+						if(ah.attr('href')!="undefined"){
+							var ahtxt=ah.closest('span')
+							$('#spanload'+i).attr('style','color:green').text(' Серия выложена')
+							.append('<img id="imgload'+i+'" style="cursor:pointer" src="'+lookimg+'" />').parent().parent().find('a').attr('style','color:darkred')
+							$('#imgload'+i).click(function(){getter2()});
+							$('#lnks'+i).html(ahtxt);
+						}
+						if(ah.attr('href')===undefined || ah.attr('href').indexOf("kinogolos.ru/index")!=-1){
+							/*$('#lnks'+i).closest('div[id^="entryID"]').remove()*/
+							//$('#lnks'+i).closest('div.viewn_c').hide()
+							$('#spanload'+i).attr('style','color:darkred').text(' Серия ещё не выложена ').append('<img id="imgload'+i+'" style="cursor:pointer" src="'+lookimg+'" />').parent().parent().find('a').attr('style','color:darkred')
+							$('#imgload'+i).click(function(){getter2()});
+							$('#lnks'+i).text('Серия ещё не выложена')
+							
+						}
+					})
+				}
 			})
 			if(getCookie('sel')){
 				$('#time').val(getCookie('sel'))
@@ -141,6 +184,9 @@ var concrete = {
 $(function(){
 	if(location.href.search(/http\:\/\/coldfilm\.ru\/news\/[a-z0-9]{1,}\/*./ig)==-1){
 		concrete.pour();
+	}
+	if (location.href.search(/http\:\/\/kinogolos\.ru\/news\/[a-z0-9]{1,}\/*./ig)==-1){
+		concrete.pour('rightcol');
 		}else{
 		$('.cMessage').each(function(i){
 			if($(this).text().search(/cold\.filmovnik\.ru/ig)!=-1){
