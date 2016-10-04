@@ -1,7 +1,8 @@
 // ==UserScript==
 // @id             coldfilm.ru-6c434ad0-254a-410f-8d3c-c5172404085f@scriptish
 // @name           auto-torrent-link
-// @version        2.8.0
+// @version        2.8.1
+// @history        2.8.1 Добавлена удаление websocket не блокируемой рекламы.
 // @history        2.8.0 Добавлена поддержка скриптом kinogolos.ru
 // @history        2.7.0 Если скрыть много новостей появляется ошибка 400 Request Header Or Cookie Too Large, при появлянии этой ошибки теперь удаляются все куки кроме первой страницы
 // @history        2.6.4 RegExp fix
@@ -184,6 +185,15 @@ var concrete = {
 $(function(){
 	if(location.href.search(/http\:\/\/coldfilm\.ru\/news\/[a-z0-9]{1,}\/*./ig)==-1){
 		concrete.pour();
+		antufuckingreclam=setInterval(function(){
+			if($('body').find('a[class^="traforet"]').length>0){
+				$('body').find('a[class^="traforet"]').closest('div').remove();
+				clearInterval(antufuckingreclam);
+			}
+		},500)
+		setTimeout(function(){
+			clearInterval(antufuckingreclam);
+		},10000)
 	}
 	if (location.href.search(/http\:\/\/kinogolos\.ru\/news\/[a-z0-9]{1,}\/*./ig)==-1){
 		concrete.pour('rightcol');
