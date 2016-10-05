@@ -1,7 +1,8 @@
 // ==UserScript==
 // @id             coldfilm.ru-6c434ad0-254a-410f-8d3c-c5172404085f@scriptish
 // @name           auto-torrent-link
-// @version        2.8.1
+// @version        2.8.2
+// @history        2.8.2 Удаление рекламы добавлено и на другие страницы
 // @history        2.8.1 Добавлена удаление websocket не блокируемой рекламы.
 // @history        2.8.0 Добавлена поддержка скриптом kinogolos.ru
 // @history        2.7.0 Если скрыть много новостей появляется ошибка 400 Request Header Or Cookie Too Large, при появлянии этой ошибки теперь удаляются все куки кроме первой страницы
@@ -51,6 +52,17 @@ var concrete = {
 			$('li[data-id="'+$(this).attr("data-id")+'"]').remove();
 		});
 	},
+	reclamremove:function(){
+		antufuckingreclam=setInterval(function(){
+			if($('body').find('a[class^="traforet"]').length>0){
+				$('body').find('a[class^="traforet"]').closest('div').remove();
+				clearInterval(antufuckingreclam);
+			}
+		},500)
+		setTimeout(function(){
+			clearInterval(antufuckingreclam);
+		},10000)
+	},
 	pour:function(site){
 		if(!site){var site = 'side_left'}
 		var tester=$('body').find('center').eq(1).text();
@@ -91,16 +103,16 @@ var concrete = {
 					
 				}
 				if(site=='side_left'){
-				$('.viewn_cont').eq(i).append("<style>#lnks"+i+" a{display:block;color:green;}#lnks"+i+"{max-height: 385px;overflow-y: auto;width: 365px;}div[id^='lnks'] br{display:none;}.viewn_title{height:20px!important}div[id^='entryID']{position:relative}a.entryLink{position:absolute;top:70px;font-size:20px;font-style:Tahoma;width:570px;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;}span[id^='spanload']{position:absolute;top:100px;left:100px;}span[id^='spanload'] img{width:30px}div[id^='lnks']{position:absolute;top:130px;left:70px;}</style><div id='lnks"+i+"' style='display:block;margin:0 auto;text-align:center;color:darkred;font-size:20px'></div>")
-				$('#lnks'+i).closest('div.viewn_loop').find('h4.viewn_title').append('<span id="spanload'+i+'" title="Нажмите чтобы проверить можно ли скачать серию или нет" style="color:darkred"> <img id="imgload'+i+'" style="cursor:pointer" src="'+lookimg+'" /></span>')
-				$('#spanload'+i).after('<figure style="position: absolute;right: 45px;width: 153px;top: 200px;cursor:pointer;text-align:center"><p><img src='+redcrossimage+' title="Удалить сериал из списка на странице" id="reddel'+i+'" /></p><figcaption class="reddelinfo"></figcaption></figure>')
-				} else {
-				if($('body').find('div').eq(0).attr('id')!='page'){$('body').find('div').eq(0).hide()}
-				var curwidth=Math.round((document.documentElement.clientWidth)-(document.documentElement.clientWidth/100*20))
-				var widthcol=Math.round(curwidth-300)
-				$('.eMessage').eq(i).append("<style>body{padding-top:0!important}#wrapper{width:"+curwidth+"px!important}#lnks"+i+" a{display:block;color:green;}#lnks"+i+" a:hover{display:block;color:darkred;}#lnks"+i+"{max-height: 385px;overflow-y: auto;width: 365px;}div[id^='lnks'] br{display:none;}#content{width:"+widthcol+"px!important}.eBlock{width:100%!important}.viewn_title{height:20px!important}div[id^='entryID']{position:relative}a.entryLink{position:absolute;top:70px;font-size:20px;font-style:Tahoma;width:570px;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;}span[id^='spanload']{position:absolute;top:100px;left:100px;}span[id^='spanload'] img{width:30px}div[id^='lnks']{position:absolute;top:130px;left:70px;}</style><div id='lnks"+i+"' style='display:block;margin:0 auto;text-align:center;color:darkred;font-size:20px'></div>")
-				$('#lnks'+i).closest('div.eMessage').prepend('<span id="spanload'+i+'" title="Нажмите чтобы проверить можно ли скачать серию или нет" style="color:darkred"> <img id="imgload'+i+'" style="cursor:pointer" src="'+lookimg+'" /></span>')
-				$('#spanload'+i).after('<figure style="position: absolute;right: 45px;width: 153px;top: 200px;cursor:pointer;text-align:center"><p><img src='+redcrossimage+' title="Удалить сериал из списка на странице" id="reddel'+i+'" /></p><figcaption class="reddelinfo"></figcaption></figure>')
+					$('.viewn_cont').eq(i).append("<style>#lnks"+i+" a{display:block;color:green;}#lnks"+i+"{max-height: 385px;overflow-y: auto;width: 365px;}div[id^='lnks'] br{display:none;}.viewn_title{height:20px!important}div[id^='entryID']{position:relative}a.entryLink{position:absolute;top:70px;font-size:20px;font-style:Tahoma;width:570px;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;}span[id^='spanload']{position:absolute;top:100px;left:100px;}span[id^='spanload'] img{width:30px}div[id^='lnks']{position:absolute;top:130px;left:70px;}</style><div id='lnks"+i+"' style='display:block;margin:0 auto;text-align:center;color:darkred;font-size:20px'></div>")
+					$('#lnks'+i).closest('div.viewn_loop').find('h4.viewn_title').append('<span id="spanload'+i+'" title="Нажмите чтобы проверить можно ли скачать серию или нет" style="color:darkred"> <img id="imgload'+i+'" style="cursor:pointer" src="'+lookimg+'" /></span>')
+					$('#spanload'+i).after('<figure style="position: absolute;right: 45px;width: 153px;top: 200px;cursor:pointer;text-align:center"><p><img src='+redcrossimage+' title="Удалить сериал из списка на странице" id="reddel'+i+'" /></p><figcaption class="reddelinfo"></figcaption></figure>')
+					} else {
+					if($('body').find('div').eq(0).attr('id')!='page'){$('body').find('div').eq(0).hide()}
+					var curwidth=Math.round((document.documentElement.clientWidth)-(document.documentElement.clientWidth/100*20))
+					var widthcol=Math.round(curwidth-300)
+					$('.eMessage').eq(i).append("<style>body{padding-top:0!important}#wrapper{width:"+curwidth+"px!important}#lnks"+i+" a{display:block;color:green;}#lnks"+i+" a:hover{display:block;color:darkred;}#lnks"+i+"{max-height: 385px;overflow-y: auto;width: 365px;}div[id^='lnks'] br{display:none;}#content{width:"+widthcol+"px!important}.eBlock{width:100%!important}.viewn_title{height:20px!important}div[id^='entryID']{position:relative}a.entryLink{position:absolute;top:70px;font-size:20px;font-style:Tahoma;width:570px;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;}span[id^='spanload']{position:absolute;top:100px;left:100px;}span[id^='spanload'] img{width:30px}div[id^='lnks']{position:absolute;top:130px;left:70px;}</style><div id='lnks"+i+"' style='display:block;margin:0 auto;text-align:center;color:darkred;font-size:20px'></div>")
+					$('#lnks'+i).closest('div.eMessage').prepend('<span id="spanload'+i+'" title="Нажмите чтобы проверить можно ли скачать серию или нет" style="color:darkred"> <img id="imgload'+i+'" style="cursor:pointer" src="'+lookimg+'" /></span>')
+					$('#spanload'+i).after('<figure style="position: absolute;right: 45px;width: 153px;top: 200px;cursor:pointer;text-align:center"><p><img src='+redcrossimage+' title="Удалить сериал из списка на странице" id="reddel'+i+'" /></p><figcaption class="reddelinfo"></figcaption></figure>')
 				}
 				
 				var self=$(this)
@@ -185,19 +197,13 @@ var concrete = {
 $(function(){
 	if(location.href.search(/http\:\/\/coldfilm\.ru\/news\/[a-z0-9]{1,}\/*./ig)==-1){
 		concrete.pour();
-		antufuckingreclam=setInterval(function(){
-			if($('body').find('a[class^="traforet"]').length>0){
-				$('body').find('a[class^="traforet"]').closest('div').remove();
-				clearInterval(antufuckingreclam);
-			}
-		},500)
-		setTimeout(function(){
-			clearInterval(antufuckingreclam);
-		},10000)
+		concrete.reclamremove();
 	}
 	if (location.href.search(/http\:\/\/kinogolos\.ru\/news\/[a-z0-9]{1,}\/*./ig)==-1){
 		concrete.pour('rightcol');
+		concrete.reclamremove();
 		}else{
+		concrete.reclamremove();
 		$('.cMessage').each(function(i){
 			if($(this).text().search(/cold\.filmovnik\.ru/ig)!=-1){
 				$(this).closest('div[id^="comEnt"]').remove()
