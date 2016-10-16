@@ -29,8 +29,8 @@
 // @author         Black_Sun
 // @description    Автоматически или вручную позволяет скачивать файлы без ожидания.
 // @include        /^https?:\/\/(www\.)?(dfiles|depositfiles)\.(ru|com)\/files\/.*$/
-// @updateURL https://openuserjs.org/install/Black_Sun/depositfiles_downloader.user.js
-// @Download https://openuserjs.org/install/Black_Sun/depositfiles_downloader.user.js
+// @updateURL https://openuserjs.org/meta/Black_Sun/depositfiles_downloader.meta.js
+// @downloadURL https://openuserjs.org/install/Black_Sun/depositfiles_downloader.user.js
 // @grant GM_registerMenuCommand
 // @grant GM_deleteValue
 // @grant GM_setValue
