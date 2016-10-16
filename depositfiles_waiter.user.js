@@ -3,7 +3,7 @@
 // @name           depositfiles_downloader
 // @namespace      https://openuserjs.org/scripts/Black_Sun/depositfiles_downloader
 // @version        5.0.3
-// @history        5.0.3 И сразу обновлены ссылки на скачивание и проверку обновлений
+// @history        5.0.3 Сразу обновлены ссылки на скачивание и проверку обновлений
 // @history        5.0.2 Тестовое изменение, добавил всего одну строчку запуска на старте run-at document-start если перестало работать на FF пишите issue по ссылке выше, строчка для того что бы заработало на Chrome 
 // @history        5.0.1 Изменён include, работа гарантируется только на greasemoney
 // @history        5.0 Добавлено автоожидание при лимите и исправлена ошибка ссылок с limit=1 на конце (issue by rayman89).
