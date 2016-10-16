@@ -2,7 +2,8 @@
 // @id             depositfiles_waiter
 // @name           depositfiles_downloader
 // @namespace      https://openuserjs.org/scripts/Black_Sun/depositfiles_downloader
-// @version        5.0.1
+// @version        5.0.2
+// @history        5.0.2 Тестовое изменение, добавил всего одну строчку запуска на старте run-at document-start если перестало работать на FF пишите issue по ссылке выше, строчка для того что бы заработало на Chrome 
 // @history        5.0.1 Изменён include, работа гарантируется только на greasemoney
 // @history        5.0 Добавлено автоожидание при лимите и исправлена ошибка ссылок с limit=1 на конце (issue by rayman89).
 // @history        4.7 Модифицировал код под Greasemonkey, т.к. Scriptish автор походу забросил.
@@ -35,6 +36,7 @@
 // @grant GM_setValue
 // @grant GM_getValue
 // @grant GM_xmlhttpRequest
+// @run-at document-start
 // ==/UserScript==
 var uli;
 if(this.opera){
