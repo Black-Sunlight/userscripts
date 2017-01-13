@@ -1,7 +1,8 @@
 // ==UserScript==
 // @id             coldfilm.ru-6c434ad0-254a-410f-8d3c-c5172404085f@scriptish
 // @name           auto-torrent-link
-// @version        2.8.2
+// @version        2.8.3
+// @history        2.8.3 Удалены tooltip
 // @history        2.8.2 Удаление рекламы добавлено и на другие страницы
 // @history        2.8.1 Добавлена удаление websocket не блокируемой рекламы.
 // @history        2.8.0 Добавлена поддержка скриптом kinogolos.ru
@@ -75,12 +76,7 @@ var concrete = {
 		if ($('#'+site).length) {
 			if(site=='side_left'){
 				$('#'+site).find('.blacknav').eq(0).after('<hr><style>#hided{height: 350px;overflow-y: auto;width: 190px;}.hideli{padding:5px;}.hideli:hover{color:#090;background-color:white;padding:5px;cursor:pointer}.hidename{font-weight:bold;font-size:13px;text-align:center;background-position: -215px bottom!important;color:#0a6e0b;background-size: auto 92%;height: 37px;width: 190px;padding-top:5px;padding-bottom:0px}</style><div class="block_full b_black hidename">Скрытые релизы<span title="Вернуть все новости из списка ниже на место" id="reall" style="float:right;font-size:16px;margin-right:5px;cursor:pointer">X</span></div><div style="width:190px"><select style="width:inherit" title="На сколько скрывать новости с главной странице" id="time"><option value="null" selected>До перезапуска браузера</option><option value="2">2 дня</option><option value="4">4 дня</option><option value="6">6 дней</option><option value="8">8 дней</option><option value="10">10 дней</option></select></div><ul id="hided"></ul>')
-				$('span, div.panel_rat_l').tooltip({
-					track: true,
-					delay: 0,
-					showURL: false,
-					fade: 200
-				})} else {
+				} else {
 				$('#'+site).find('.sidebar').eq(0).after('<hr><style>#hided{height: 350px;overflow-y: auto;width: 190px;}.hideli{padding:5px;}.hideli:hover{color:#090;background-color:white;padding:5px;cursor:pointer}.hidename{font-weight:bold;font-size:13px;text-align:center;background-position: -215px bottom!important;color:#0a6e0b;background-size: auto 92%;height: 37px;width: 190px;padding-top:5px;padding-bottom:0px}</style><div class="block_full b_black hidename">Скрытые релизы<span title="Вернуть все новости из списка ниже на место" id="reall" style="float:right;font-size:16px;margin-right:5px;cursor:pointer">X</span></div><div style="width:190px"><select style="width:inherit" title="На сколько скрывать новости с главной странице" id="time"><option value="null" selected>До перезапуска браузера</option><option value="2">2 дня</option><option value="4">4 дня</option><option value="6">6 дней</option><option value="8">8 дней</option><option value="10">10 дней</option></select></div><ul id="hided"></ul>')
 			}
 			$('#allEntries').before($('#pagesBlock1').clone())
