@@ -2,6 +2,7 @@
 // @id             coldfilm.ru-6c434ad0-254a-410f-8d3c-c5172404085f@scriptish
 // @name           auto-torrent-link
 // @version        2.9
+// @history        2.9 Фикс только ссылок на торрент файл под новый дизайн coldfilm и небольшой фикс дизайна
 // @history        2.8.2 Удаление рекламы добавлено и на другие страницы
 // @history        2.8.1 Добавлена удаление websocket не блокируемой рекламы.
 // @history        2.8.0 Добавлена поддержка скриптом kinogolos.ru
