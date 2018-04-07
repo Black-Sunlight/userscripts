@@ -39,6 +39,7 @@
 // @exclude        http://kinogolos.ru/mchat/*
 // @exclude        http://coldfilm.ru/mchat
 // @exclude        http://coldfilm.ru/mchat/*
+// @license		   Black_Sun
 // @updateURL https://openuserjs.org/meta/Black_Sun/auto-torrent-link.meta.js
 // @downloadURL https://openuserjs.org/install/Black_Sun/auto-torrent-link.user.js
 // @noframes
