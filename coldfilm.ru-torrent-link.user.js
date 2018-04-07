@@ -46,6 +46,7 @@
 // @grant none
 // @require http://s76.ucoz.net/src/jquery-1.7.2.js
 // @run-at         document-start
+// @copyright 2018, Black_Sun (https://openuserjs.org/users/Black_Sun)
 // ==/UserScript==
 
 var concrete = {
