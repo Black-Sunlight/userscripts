@@ -28,6 +28,7 @@
 // @history        1.0 Релиз.
 // @namespace      https://openuserjs.org/scripts/Black_Sun/auto-torrent-link
 // @author         Black_Sun
+// @license        MIT
 // @description Скрипт для coldfilm.ru выводит на главную страницу кнопки, при нажатии на кнопку, под сериалом выводятся ссылки на торрент для скачивания, также позволяет скрывыть новости по желанию на каждой странице с запоминанием скрытия которое настраивается в блоке слева страницы. Код не зашифрован, для знающих всё наглядно и понятно.
 // @include        http://coldfilm.ru/*
 // @include        http://coldfilm.ru/news/*/*
@@ -39,7 +40,6 @@
 // @exclude        http://kinogolos.ru/mchat/*
 // @exclude        http://coldfilm.ru/mchat
 // @exclude        http://coldfilm.ru/mchat/*
-// @license		   Black_Sun
 // @updateURL https://openuserjs.org/meta/Black_Sun/auto-torrent-link.meta.js
 // @downloadURL https://openuserjs.org/install/Black_Sun/auto-torrent-link.user.js
 // @noframes
