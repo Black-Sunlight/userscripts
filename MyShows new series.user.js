@@ -1,18 +1,17 @@
 // ==UserScript==
 // @name         MyShows new series
 // @namespace    https://myshows.me
-// @version      0.2
+// @version      0.21
 // @include        https://myshows.me/profile
 // @include        https://myshows.me/profile/
 // @unwrap
 // @grant        GM.xmlHttpRequest
-// @connect aleshafilm.com
 // @connect coldfilm.ws
 // @connect myshows.me
 // @connect self
 // @author Black_Sun
 // @license MIT
-// @copyright 2018, Black_Sun (https://openuserjs.org/users/Black_Sun)
+// @copyright 2019, Black_Sun (https://openuserjs.org/users/Black_Sun)
 // ==/UserScript==
 (function($) {
 	'use strict';
@@ -27,10 +26,11 @@
 		});
 		$('.showHeaderName').each(function(i){
 			var that=$(this);
-			$(this).after('<span style="cursor: pointer;font-size:14px;padding-right:8px;display:none" id="loader'+i+'" title="Проверить наличие переведённой серии на aleshafilm">Проверить[aleshafilm]</span><span style="cursor: pointer;font-size:14px;padding-right:8px" id="loader2'+i+'" title="Проверить наличие переведённой серии на coldfilm">Проверить[coldfilm]</span><span id="torrentlink'+i+'"></span><span id="torrentlink2'+i+'"></span><select id="pageselector'+i+'" style="display: inline-block;width: 100px;font-size: 14px;" title="Выбор страницы для загрузки"><option value=0 selected="selected" >Авто</option><option value=1>Первая</option><option value=2>Вторая</option><option value=3>Третья</option><option value=4>Четвёртая</option><option value=5>Пятая</option></select>');
+			$(this).after('<span style="cursor: pointer;font-size:14px;padding-right:8px" id="loader2'+i+'" title="Проверить наличие переведённой серии на coldfilm">Проверить серии[coldfilm]</span><select id="pageselector'+i+'" style="display: inline-block;width: 100px;font-size: 14px;" title="Выбор страницы для загрузки"><option value=0 selected="selected" >Авто</option><option value=1>Первая</option><option value=2>Вторая</option><option value=3>Третья</option><option value=4>Четвёртая</option><option value=5>Пятая</option></select>');
+			$(this).parent().after('<span id="torrentlink2'+i+'" style="display: none;width: 100%;height: 50px;overflow-y: visible;overflow-x: hidden;"></span>');
 			$('#loader2'+i).on('click',function(){
 				$(this).hide().after("<img id='loadg2"+i+"' src='"+loading+"' style='width: 32px;' />");
-				$('#torrentlink2'+i).html('&nbsp;');
+				//$('#torrentlink2'+i).html('&nbsp;');
 				var name=that.find('a').eq(0).text();
 				name=name.replace(/(\«[^\.\»])*?([а-яА-Я]{1,})*?([\.\«\»])/ig,'$2');
 				if(name.search(/Звездные врата\: Истоки/ig)!=-1){name=name.replace(/Истоки/ig,'Начало');}
@@ -63,7 +63,7 @@
 											newslnk=el[k].getAttribute("href");
 											$('#lnktosite'+i).attr('href',"http://coldfilm.ws"+newslnk);
 											$('#lnktosite'+i).attr('style',"color: darkred;font-size: larger;");
-											$('#lnktosite'+i).attr('title',"Смотреть серию на сайте");
+											$('#lnktosite'+i).attr('title',"Смотреть на сайте");
 											$("#loader2"+i).hide();
 											found=true;
 											GM.xmlHttpRequest({
@@ -77,23 +77,24 @@
 													var docr = new DOMParser().parseFromString(responser.responseText, "text/html");
 													//var ah=document.getElementsByClassName('player-box')[0].getElementsByTagName('a')[0];
 													var ah=$('.player-box',docr).find('a').eq(0);
-													newstitle=$('h1.kino-h',docr).eq(0).text();
+													//newstitle=$('h1.kino-h',docr).eq(0).text();
+													newstitle=$('.player-box',docr).find('i').eq(0).text();
 													if(ah.attr('href')!=undefined){
 														lnk=ah.attr('href');
 														q=lnk.replace(/(.*)(1080|720|400)[ррPР]?(.*)/ig,'$2');
-														$('#torrentlink2'+i).append('<a href="'+lnk+'" target="_blank" title="Скачать '+newstitle+'">'+q+'p</a>');
+														$('#torrentlink2'+i).show('block').append('<a href="'+lnk+'" target="_blank" title="Скачать '+newstitle+'" style="display:block">Скачать '+newstitle+" "+q+'p</a>');
 													} else {
-														$('#torrentlink2'+i).append('<img style="width:42px" src="'+imgnotexist+'" title="Серия '+newstitle+' ещё не переведена[coldfilm]" />');
+														$('#torrentlink2'+i).show('block').append('<img style="width:42px" src="'+imgnotexist+'" title="Серия '+newstitle+' ещё не переведена[coldfilm]" />');
 													}
 													$("#loadg2"+i).hide();
-													$("#loader2"+i).show().text("Проверить свежую[coldfilm]");
+													$("#loader2"+i).show().text("Проверить серии[coldfilm]");
 													loadstat=false;
 												}
 											});
 										} else {
 											if (loadstat == false){
 												$("#loadg2"+i).hide();
-												$("#loader2"+i).show().text("Серии ещё нет[coldfilm]");
+												$("#loader2"+i).show().text("Серий не найдено[coldfilm]");
 											}
 										}
 									}
