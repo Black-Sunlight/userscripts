@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         MyShows new series
 // @namespace    https://myshows.me
-// @version      0.21
+// @version      0.22
 // @include        https://myshows.me/profile
 // @include        https://myshows.me/profile/
 // @unwrap
@@ -30,20 +30,21 @@
 			$(this).parent().after('<span id="torrentlink2'+i+'" style="display: none;width: 100%;height: 50px;overflow-y: visible;overflow-x: hidden;"></span>');
 			$('#loader2'+i).on('click',function(){
 				$(this).hide().after("<img id='loadg2"+i+"' src='"+loading+"' style='width: 32px;' />");
-				//$('#torrentlink2'+i).html('&nbsp;');
+				$('#torrentlink2'+i).hide().html('');
 				var name=that.find('a').eq(0).text();
 				name=name.replace(/(\«[^\.\»])*?([а-яА-Я]{1,})*?([\.\«\»])/ig,'$2');
 				if(name.search(/Звездные врата\: Истоки/ig)!=-1){name=name.replace(/Истоки/ig,'Начало');}
 				if(name.search(/Звездный/ig)!=-1){name=name.replace(/Звездный/ig,'Звёздный');}
 				var season=that.closest('h2').next().find('b.fsBig').eq(0).text();
 				var serie=that.closest('h2').next().find('td.bss_seri').eq(0).text().split('x')[1];
-				var subname=that.find('.subHeader').eq(0).html('<a id="lnktosite'+i+'" target="_blank">'+that.find('.subHeader').eq(0).text()+'</a>')
+				//var subname=that.find('.subHeader').eq(0).html('<a id="lnktosite'+i+'" target="_blank">'+that.find('.subHeader').eq(0).text()+'</a>')
 				var fullname=name.trim()+' '+season;
-				var newslnk,newstitle,loadstat=false,q,lnk,found=false;
+				var newslnk,newstitle,curlink,loadstat=false,q,lnk,found=false;
 				var sell=$('#pageselector'+i).val();
 				if (sell==0){multiload()}else{singleload()}
 				function multiload(){
 					if(found==false){
+						$("#loadg2"+i).show();
 						for (var z=1;z<7;z++){
 							sell=z;
 							GM.xmlHttpRequest({
@@ -54,6 +55,7 @@
 									"Accept": "text/html"            // If not specified, browser defaults will be used.
 								},
 								onload: function(response) {
+									$("#loadg2"+i).show();
 									var doc = new DOMParser().parseFromString(response.responseText, "text/html");
 									var el=doc.getElementsByClassName('kino-h');
 									for (var k = 0; k < el.length;k++){
@@ -61,9 +63,9 @@
 											loadstat=true;
 											//newslnk=doc.getElementsByClassName('carou-inner')[k].getAttribute("data-link");
 											newslnk=el[k].getAttribute("href");
-											$('#lnktosite'+i).attr('href',"http://coldfilm.ws"+newslnk);
+											/*$('#lnktosite'+i).attr('href',"http://coldfilm.ws"+newslnk);
 											$('#lnktosite'+i).attr('style',"color: darkred;font-size: larger;");
-											$('#lnktosite'+i).attr('title',"Смотреть на сайте");
+											$('#lnktosite'+i).attr('title',"Смотреть на сайте");*/
 											$("#loader2"+i).hide();
 											found=true;
 											GM.xmlHttpRequest({
@@ -79,14 +81,17 @@
 													var ah=$('.player-box',docr).find('a').eq(0);
 													//newstitle=$('h1.kino-h',docr).eq(0).text();
 													newstitle=$('.player-box',docr).find('i').eq(0).text();
+													curlink=responser.finalUrl
 													if(ah.attr('href')!=undefined){
 														lnk=ah.attr('href');
 														q=lnk.replace(/(.*)(1080|720|400)[ррPР]?(.*)/ig,'$2');
-														$('#torrentlink2'+i).show('block').append('<a href="'+lnk+'" target="_blank" title="Скачать '+newstitle+'" style="display:block">Скачать '+newstitle+" "+q+'p</a>');
+														$('#torrentlink2'+i).show('block').append('<span style="display:block">'+newstitle+'<a href="'+lnk+'" target="_blank" title="Скачать '+newstitle+'"> Скачать '+q+'p</a> | <a href='+curlink+' target="_blank" title="Смотреть '+newstitle+'">Смотреть на сайте</a></span>');
+														$("#loadg2"+i).hide();
 													} else {
+														$("#loadg2"+i).hide();
 														$('#torrentlink2'+i).show('block').append('<img style="width:42px" src="'+imgnotexist+'" title="Серия '+newstitle+' ещё не переведена[coldfilm]" />');
 													}
-													$("#loadg2"+i).hide();
+													
 													$("#loader2"+i).show().text("Проверить серии[coldfilm]");
 													loadstat=false;
 												}
@@ -120,9 +125,9 @@
 									loadstat=true;
 									//newslnk=doc.getElementsByClassName('carou-inner')[k].getAttribute("data-link");
 									newslnk=el[k].getAttribute("href");
-									$('#lnktosite'+i).attr('href',"http://coldfilm.ws"+newslnk);
+									/*$('#lnktosite'+i).attr('href',"http://coldfilm.ws"+newslnk);
 									$('#lnktosite'+i).attr('style',"color: darkred;font-size: larger;");
-									$('#lnktosite'+i).attr('title',"Смотреть серию на сайте");
+									$('#lnktosite'+i).attr('title',"Смотреть серию на сайте");*/
 									$("#loader2"+i).hide();
 									GM.xmlHttpRequest({
 										method: "GET",
@@ -136,12 +141,13 @@
 											//var ah=document.getElementsByClassName('player-box')[0].getElementsByTagName('a')[0];
 											var ah=$('.player-box',docr).find('a').eq(0);
 											newstitle=$('h1.kino-h',docr).eq(0).text();
+											curlink=responser.finalUrl
 											if(ah.attr('href')!=undefined){
 												lnk=ah.attr('href');
 												q=lnk.replace(/(.*)(1080|720|400)[ррPР]?(.*)/ig,'$2');
-												$('#torrentlink2'+i).append('<a href="'+lnk+'" target="_blank" title="Скачать '+newstitle+'">'+q+'p</a>');
+												$('#torrentlink2'+i).show('block').append('<span style="display:block">'+newstitle+'<a href="'+lnk+'" target="_blank" title="Скачать '+newstitle+'"> Скачать '+q+'p</a> | <a href='+curlink+' target="_blank" title="Смотреть '+newstitle+'">Смотреть на сайте</a></span>');
 											} else {
-												$('#torrentlink2'+i).append('<img style="width:42px" src="'+imgnotexist+'" title="Серия '+newstitle+' ещё не переведена[coldfilm]" />');
+												$('#torrentlink2'+i).show('block').append('<img style="width:42px" src="'+imgnotexist+'" title="Серия '+newstitle+' ещё не переведена[coldfilm]" />');
 											}
 											$("#loadg2"+i).hide();
 											$("#loader2"+i).show().text("Проверить свежую[coldfilm]");
