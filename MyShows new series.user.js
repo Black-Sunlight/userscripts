@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         MyShows new series
 // @namespace    https://myshows.me
-// @version      0.22
+// @version      0.23
 // @include        https://myshows.me/profile
 // @include        https://myshows.me/profile/
 // @unwrap
@@ -35,8 +35,9 @@
 				name=name.replace(/(\«[^\.\»])*?([а-яА-Я]{1,})*?([\.\«\»])/ig,'$2');
 				if(name.search(/Звездные врата\: Истоки/ig)!=-1){name=name.replace(/Истоки/ig,'Начало');}
 				if(name.search(/Звездный/ig)!=-1){name=name.replace(/Звездный/ig,'Звёздный');}
-				var season=that.closest('h2').next().find('b.fsBig').eq(0).text();
-				var serie=that.closest('h2').next().find('td.bss_seri').eq(0).text().split('x')[1];
+                var curid=that.closest('h2').attr('id').split('s')[1];
+				var season=$('#m-'+curid+'-4').find('.bss_seri').eq(0).text().split('x')[0];
+				var serie=$('#m-'+curid+'-4').find('.bss_seri').eq(0).text().split('x')[1];
 				//var subname=that.find('.subHeader').eq(0).html('<a id="lnktosite'+i+'" target="_blank">'+that.find('.subHeader').eq(0).text()+'</a>')
 				var fullname=name.trim()+' '+season;
 				var newslnk,newstitle,curlink,loadstat=false,q,lnk,found=false;
@@ -68,6 +69,7 @@
 											$('#lnktosite'+i).attr('title',"Смотреть на сайте");*/
 											$("#loader2"+i).hide();
 											found=true;
+
 											GM.xmlHttpRequest({
 												method: "GET",
 												url: "http://coldfilm.ws"+newslnk,
@@ -82,6 +84,7 @@
 													//newstitle=$('h1.kino-h',docr).eq(0).text();
 													newstitle=$('.player-box',docr).find('i').eq(0).text();
 													curlink=responser.finalUrl
+                                            if(newstitle==name.trim()+" "+season+" сезон "+serie+" серия"){
 													if(ah.attr('href')!=undefined){
 														lnk=ah.attr('href');
 														q=lnk.replace(/(.*)(1080|720|400)[ррPР]?(.*)/ig,'$2');
@@ -90,8 +93,8 @@
 													} else {
 														$("#loadg2"+i).hide();
 														$('#torrentlink2'+i).show('block').append('<img style="width:42px" src="'+imgnotexist+'" title="Серия '+newstitle+' ещё не переведена[coldfilm]" />');
-													}
-													
+													}}
+
 													$("#loader2"+i).show().text("Проверить серии[coldfilm]");
 													loadstat=false;
 												}
