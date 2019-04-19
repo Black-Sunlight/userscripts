@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         MyShows new series
 // @namespace    https://myshows.me
-// @version      0.23
+// @version      0.24
 // @include        https://myshows.me/profile
 // @include        https://myshows.me/profile/
 // @unwrap
@@ -10,6 +10,8 @@
 // @connect myshows.me
 // @connect self
 // @author Black_Sun
+// @downloadURL https://github.com/Black-Sunlight/userscripts/raw/master/MyShows%20new%20series.user.js
+// @updateURL https://github.com/Black-Sunlight/userscripts/raw/master/MyShows%20new%20series.user.js
 // @license MIT
 // @copyright 2019, Black_Sun (https://openuserjs.org/users/Black_Sun)
 // ==/UserScript==
