@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         MyShows new series
 // @namespace    https://myshows.me
-// @version      0.24
+// @version      0.25
 // @include        https://myshows.me/profile
 // @include        https://myshows.me/profile/
 // @unwrap
@@ -28,7 +28,7 @@
 		});
 		$('.showHeaderName').each(function(i){
 			var that=$(this);
-			$(this).after('<span style="cursor: pointer;font-size:14px;padding-right:8px" id="loader2'+i+'" title="Проверить наличие переведённой серии на coldfilm">Проверить серии[coldfilm]</span><select id="pageselector'+i+'" style="display: inline-block;width: 100px;font-size: 14px;" title="Выбор страницы для загрузки"><option value=0 selected="selected" >Авто</option><option value=1>Первая</option><option value=2>Вторая</option><option value=3>Третья</option><option value=4>Четвёртая</option><option value=5>Пятая</option></select>');
+			$(this).after('<span style="cursor: pointer;font-size:14px;padding-right:8px" id="loader2'+i+'" title="Проверить наличие переведённой серии на coldfilm">Проверить серию</span><select id="pageselector'+i+'" style="display: inline-block;width: 100px;font-size: 14px;" title="Выбор страницы для загрузки"><option value=0 selected="selected" >Авто</option><option value=1>Первая</option><option value=2>Вторая</option><option value=3>Третья</option><option value=4>Четвёртая</option><option value=5>Пятая</option></select>');
 			$(this).parent().after('<span id="torrentlink2'+i+'" style="display: none;width: 100%;height: 50px;overflow-y: visible;overflow-x: hidden;"></span>');
 			$('#loader2'+i).on('click',function(){
 				$(this).hide().after("<img id='loadg2"+i+"' src='"+loading+"' style='width: 32px;' />");
@@ -38,8 +38,8 @@
 				if(name.search(/Звездные врата\: Истоки/ig)!=-1){name=name.replace(/Истоки/ig,'Начало');}
 				if(name.search(/Звездный/ig)!=-1){name=name.replace(/Звездный/ig,'Звёздный');}
                 var curid=that.closest('h2').attr('id').split('s')[1];
-				var season=$('#m-'+curid+'-4').find('.bss_seri').eq(0).text().split('x')[0];
-				var serie=$('#m-'+curid+'-4').find('.bss_seri').eq(0).text().split('x')[1];
+				var season=$('div[id*="m-'+curid+'-').find('.bss_seri').eq(0).text().split('x')[0];
+				var serie=$('div[id*="m-'+curid+'-').find('.bss_seri').eq(0).text().split('x')[1];
 				//var subname=that.find('.subHeader').eq(0).html('<a id="lnktosite'+i+'" target="_blank">'+that.find('.subHeader').eq(0).text()+'</a>')
 				var fullname=name.trim()+' '+season;
 				var newslnk,newstitle,curlink,loadstat=false,q,lnk,found=false;
@@ -86,6 +86,7 @@
 													//newstitle=$('h1.kino-h',docr).eq(0).text();
 													newstitle=$('.player-box',docr).find('i').eq(0).text();
 													curlink=responser.finalUrl
+
                                             if(newstitle==name.trim()+" "+season+" сезон "+serie+" серия"){
 													if(ah.attr('href')!=undefined){
 														lnk=ah.attr('href');
@@ -147,13 +148,14 @@
 											var ah=$('.player-box',docr).find('a').eq(0);
 											newstitle=$('h1.kino-h',docr).eq(0).text();
 											curlink=responser.finalUrl
+										if(newstitle==name.trim()+" "+season+" сезон "+serie+" серия"){
 											if(ah.attr('href')!=undefined){
 												lnk=ah.attr('href');
 												q=lnk.replace(/(.*)(1080|720|400)[ррPР]?(.*)/ig,'$2');
 												$('#torrentlink2'+i).show('block').append('<span style="display:block">'+newstitle+'<a href="'+lnk+'" target="_blank" title="Скачать '+newstitle+'"> Скачать '+q+'p</a> | <a href='+curlink+' target="_blank" title="Смотреть '+newstitle+'">Смотреть на сайте</a></span>');
 											} else {
 												$('#torrentlink2'+i).show('block').append('<img style="width:42px" src="'+imgnotexist+'" title="Серия '+newstitle+' ещё не переведена[coldfilm]" />');
-											}
+											}}
 											$("#loadg2"+i).hide();
 											$("#loader2"+i).show().text("Проверить свежую[coldfilm]");
 											loadstat=false;
