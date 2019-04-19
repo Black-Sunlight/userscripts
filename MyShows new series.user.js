@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         MyShows new series
 // @namespace    https://myshows.me
-// @version      0.25
+// @version      0.25.1
 // @include        https://myshows.me/profile
 // @include        https://myshows.me/profile/
 // @unwrap
@@ -46,6 +46,7 @@
 				var sell=$('#pageselector'+i).val();
 				if (sell==0){multiload()}else{singleload()}
 				function multiload(){
+					found=false;
 					if(found==false){
 						$("#loadg2"+i).show();
 						for (var z=1;z<7;z++){
@@ -99,6 +100,7 @@
 													}}
 
 													$("#loader2"+i).show().text("Проверить серии[coldfilm]");
+													$("#loadg2"+i).hide();
 													loadstat=false;
 												}
 											});
@@ -116,6 +118,7 @@
 				}
 
 				function singleload(){
+					found=false;
 					GM.xmlHttpRequest({
 						method: "GET",
 						url: "http://coldfilm.ws/news/?page"+sell,
