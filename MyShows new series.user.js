@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         MyShows new series
 // @namespace    https://myshows.me
-// @version      0.25.2
+// @version      0.25.3
 // @include        https://myshows.me/profile
 // @include        https://myshows.me/profile/
 // @unwrap
@@ -34,7 +34,7 @@
 				$(this).hide().after("<img id='loadg2"+i+"' src='"+loading+"' style='width: 32px;' />");
 				$('#torrentlink2'+i).hide().html('');
 				var name=that.find('a').eq(0).text();
-				name=name.replace(/(\«[^\.\»])*?([а-яА-Я]{1,})*?([\.\«\»])/ig,'$2');
+				name=name.replace(/(\«[^\.\»])*?([а-яА-Я\.]{1,})*?([\.\«\»])/ig,'$2');
 				if(name.search(/Звездные врата\: Истоки/ig)!=-1){name=name.replace(/Истоки/ig,'Начало');}
 				if(name.search(/Звездный/ig)!=-1){name=name.replace(/Звездный/ig,'Звёздный');}
                 var curid=that.closest('h2').attr('id').split('s')[1];
@@ -96,7 +96,7 @@
 														$("#loadg2"+i).hide();
 													} else {
 														$("#loadg2"+i).hide();
-														$('#torrentlink2'+i).show('block').append('<img style="width:42px" src="'+imgnotexist+'" title="Серия '+newstitle+' ещё не переведена[coldfilm]" />');
+														$('#torrentlink2'+i).show('block').append('<img style="width:42px" src="'+imgnotexist+'" title="Серия '+newstitle+' ещё не переведена" />');
 													}}
 
 													$("#loader2"+i).show().text("Проверить серию");
@@ -107,7 +107,7 @@
 										} else {
 											if (loadstat == false){
 												$("#loadg2"+i).hide();
-												$("#loader2"+i).show().text("Серия не найдено");
+												$("#loader2"+i).show().text("Серия не найдена");
 											}
 										}
 									}
@@ -162,7 +162,7 @@
 												$("#loadg2"+i).hide();
 											} else {
 												$("#loadg2"+i).hide();
-												$('#torrentlink2'+i).show('block').append('<img style="width:42px" src="'+imgnotexist+'" title="Серия '+newstitle+' ещё не переведена[coldfilm]" />');
+												$('#torrentlink2'+i).show('block').append('<img style="width:42px" src="'+imgnotexist+'" title="Серия '+newstitle+' ещё не переведена" />');
 											}}
 											$("#loadg2"+i).hide();
 											$("#loader2"+i).show().text("Проверить серию");
