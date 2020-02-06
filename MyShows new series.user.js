@@ -1,12 +1,12 @@
 // ==UserScript==
 // @name         MyShows new series
 // @namespace    https://myshows.me
-// @version      0.25.3
+// @version      0.25.5
 // @include        https://myshows.me/profile
 // @include        https://myshows.me/profile/
 // @unwrap
 // @grant        GM.xmlHttpRequest
-// @connect coldfilm.ws
+// @connect coldfilm.su
 // @connect myshows.me
 // @connect self
 // @author Black_Sun
@@ -18,6 +18,7 @@
 (function($) {
 	'use strict';
 	$(function(){
+		var domaintocheck="coldfilm.su"
 		$('#close_likewiki_plate').click();
 		$('ul._breadcrumbs').eq(0).after('<div id="newseries" class="seasonBlockBody" style="display:inline-block"><button id="loadnew">Загрузить список выхода серий</button></div>');
 		//$('#newseries').after('<select id="pageselector" style="display: inline-block;width: 150px;margin-left: 10px;"><option value=1 default>Первая страница</option><option value=2>Вторая страница</option><option value=3>Третья страница</option></select>');
@@ -28,7 +29,7 @@
 		});
 		$('.showHeaderName').each(function(i){
 			var that=$(this);
-			$(this).after('<span style="cursor: pointer;font-size:14px;padding-right:8px" id="loader2'+i+'" title="Проверить наличие переведённой серии на coldfilm">Проверить серию</span><select id="pageselector'+i+'" style="display: inline-block;width: 100px;font-size: 14px;" title="Выбор страницы для загрузки"><option value=0 selected="selected" >Авто</option><option value=1>Первая</option><option value=2>Вторая</option><option value=3>Третья</option><option value=4>Четвёртая</option><option value=5>Пятая</option></select>');
+			$(this).after('<span style="cursor: pointer;font-size:14px;padding-right:8px" id="loader2'+i+'" title="Проверить наличие переведённой серии на '+domaintocheck+'">Проверить серию</span><select id="pageselector'+i+'" style="display: inline-block;width: 100px;font-size: 14px;" title="Выбор страницы для загрузки"><option value=0 selected="selected" >Авто</option><option value=1>Первая</option><option value=2>Вторая</option><option value=3>Третья</option><option value=4>Четвёртая</option><option value=5>Пятая</option></select>');
 			$(this).parent().after('<span id="torrentlink2'+i+'" style="display: none;width: 100%;height: 50px;overflow-y: visible;overflow-x: hidden;"></span>');
 			$('#loader2'+i).on('click',function(){
 				$(this).hide().after("<img id='loadg2"+i+"' src='"+loading+"' style='width: 32px;' />");
@@ -53,7 +54,7 @@
 							sell=z;
 							GM.xmlHttpRequest({
 								method: "GET",
-								url: "http://coldfilm.ws/news/?page"+sell,
+								url: "http://"+domaintocheck+"/news/?page"+sell,
 								headers: {
 									"User-Agent": "Mozilla/5.0",    // If not specified, navigator.userAgent will be used.
 									"Accept": "text/html"            // If not specified, browser defaults will be used.
@@ -67,7 +68,7 @@
 											loadstat=true;
 											//newslnk=doc.getElementsByClassName('carou-inner')[k].getAttribute("data-link");
 											newslnk=el[k].getAttribute("href");
-											/*$('#lnktosite'+i).attr('href',"http://coldfilm.ws"+newslnk);
+											/*$('#lnktosite'+i).attr('href',"http://"+domaintocheck+newslnk);
 											$('#lnktosite'+i).attr('style',"color: darkred;font-size: larger;");
 											$('#lnktosite'+i).attr('title',"Смотреть на сайте");*/
 											$("#loader2"+i).hide();
@@ -75,7 +76,7 @@
 
 											GM.xmlHttpRequest({
 												method: "GET",
-												url: "http://coldfilm.ws"+newslnk,
+												url: "http://"+domaintocheck+newslnk,
 												headers: {
 													"User-Agent": "Mozilla/5.0",    // If not specified, navigator.userAgent will be used.
 													"Accept": "text/html"            // If not specified, browser defaults will be used.
@@ -121,7 +122,7 @@
 					found=false;
 					GM.xmlHttpRequest({
 						method: "GET",
-						url: "http://coldfilm.ws/news/?page"+sell,
+						url: "http://"+domaintocheck+"/news/?page"+sell,
 						headers: {
 							"User-Agent": "Mozilla/5.0",    // If not specified, navigator.userAgent will be used.
 							"Accept": "text/html"            // If not specified, browser defaults will be used.
@@ -135,14 +136,14 @@
 									loadstat=true;
 									//newslnk=doc.getElementsByClassName('carou-inner')[k].getAttribute("data-link");
 									newslnk=el[k].getAttribute("href");
-									/*$('#lnktosite'+i).attr('href',"http://coldfilm.ws"+newslnk);
+									/*$('#lnktosite'+i).attr('href',"http://"+domaintocheck+newslnk);
 									$('#lnktosite'+i).attr('style',"color: darkred;font-size: larger;");
 									$('#lnktosite'+i).attr('title',"Смотреть серию на сайте");*/
 									$("#loader2"+i).hide();
 									found=true;
 									GM.xmlHttpRequest({
 										method: "GET",
-										url: "http://coldfilm.ws"+newslnk,
+										url: "http://"+domaintocheck+newslnk,
 										headers: {
 											"User-Agent": "Mozilla/5.0",    // If not specified, navigator.userAgent will be used.
 											"Accept": "text/html"            // If not specified, browser defaults will be used.
