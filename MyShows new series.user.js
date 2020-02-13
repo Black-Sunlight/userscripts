@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         MyShows new series
 // @namespace    https://myshows.me
-// @version      0.25.5
+// @version      0.26
 // @include        https://myshows.me/profile
 // @include        https://myshows.me/profile/
 // @unwrap
@@ -27,20 +27,22 @@
 				$("#newseries").html($("div.seasonBlockBody",data).html());
 			});
 		});
-		$('.showHeaderName').each(function(i){
+		$('tr[data-id]').each(function(i){
 			var that=$(this);
-			$(this).after('<span style="cursor: pointer;font-size:14px;padding-right:8px" id="loader2'+i+'" title="Проверить наличие переведённой серии на '+domaintocheck+'">Проверить серию</span><select id="pageselector'+i+'" style="display: inline-block;width: 100px;font-size: 14px;" title="Выбор страницы для загрузки"><option value=0 selected="selected" >Авто</option><option value=1>Первая</option><option value=2>Вторая</option><option value=3>Третья</option><option value=4>Четвёртая</option><option value=5>Пятая</option></select>');
-			$(this).parent().after('<span id="torrentlink2'+i+'" style="display: none;width: 100%;height: 50px;overflow-y: visible;overflow-x: hidden;"></span>');
+			var thatnameblock=that.closest('.seasonBlock').prev().find('.showHeaderName');
+			$(this).find('a').eq(0).after('<div style="display: inline-block;padding: 5px;background: rgba(0, 255, 31, 0.17);"><span style="cursor: pointer;font-size:14px;padding-right:8px" id="loader2'+i+'" title="Проверить наличие переведённой серии на '+domaintocheck+'">Проверить серию</span><select id="pageselector'+i+'" style="display: inline-block;width: 100px;font-size: 14px;" title="Выбор страницы для загрузки"><option value=0 selected="selected" >Авто</option><option value=1>Первая</option><option value=2>Вторая</option><option value=3>Третья</option><option value=4>Четвёртая</option><option value=5>Пятая</option></select></div>');
+			thatnameblock.find('a').eq(0).after('<span id="torrentlink2'+i+'" style="display: none;width: 100%;font-size:14px;overflow-y: visible;overflow-x: hidden;"></span>');
 			$('#loader2'+i).on('click',function(){
 				$(this).hide().after("<img id='loadg2"+i+"' src='"+loading+"' style='width: 32px;' />");
 				$('#torrentlink2'+i).hide().html('');
-				var name=that.find('a').eq(0).text();
+				var name=that.closest('.seasonBlock').prev().find('.showHeaderName').find('a').eq(0).text();
+				console.log(name)
 				name=name.replace(/(\«[^\.\»])*?([а-яА-Я\.]{1,})*?([\.\«\»])/ig,'$2');
 				if(name.search(/Звездные врата\: Истоки/ig)!=-1){name=name.replace(/Истоки/ig,'Начало');}
 				if(name.search(/Звездный/ig)!=-1){name=name.replace(/Звездный/ig,'Звёздный');}
-                var curid=that.closest('h2').attr('id').split('s')[1];
-				var season=$('div[id*="m-'+curid+'-').find('.bss_seri').eq(0).text().split('x')[0];
-				var serie=$('div[id*="m-'+curid+'-').find('.bss_seri').eq(0).text().split('x')[1];
+                var curid=thatnameblock.closest('h2').attr('id').split('s')[1];
+				var season=that.find('.bss_seri').eq(0).text().split('x')[0];
+				var serie=that.find('.bss_seri').eq(0).text().split('x')[1];
 				//var subname=that.find('.subHeader').eq(0).html('<a id="lnktosite'+i+'" target="_blank">'+that.find('.subHeader').eq(0).text()+'</a>')
 				var fullname=name.trim()+' '+season;
 				var newslnk,newstitle,curlink,loadstat=false,q,lnk,found=false;
@@ -133,6 +135,7 @@
 							var el=doc.getElementsByClassName('kino-h');
 							for (var k = 0; k < el.length;k++){
 								if(el[k].getAttribute('title').toLowerCase().search(fullname.toLowerCase())!=-1){
+
 									loadstat=true;
 									//newslnk=doc.getElementsByClassName('carou-inner')[k].getAttribute("data-link");
 									newslnk=el[k].getAttribute("href");
@@ -149,6 +152,7 @@
 											"Accept": "text/html"            // If not specified, browser defaults will be used.
 										},
 										onload: function(responser) {
+
 											var docr = new DOMParser().parseFromString(responser.responseText, "text/html");
 											//var ah=document.getElementsByClassName('player-box')[0].getElementsByTagName('a')[0];
 											var ah=$('.player-box',docr).find('a').eq(0);
