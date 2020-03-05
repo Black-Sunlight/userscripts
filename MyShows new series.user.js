@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         MyShows new series
 // @namespace    https://myshows.me
-// @version      0.27.2
+// @version      0.27.3
 // @include        https://myshows.me/profile
 // @include        https://myshows.me/profile/
 // @unwrap
@@ -34,7 +34,7 @@
 		$('tr[data-id]').each(function(i){
 			var that=$(this);
 			var thatnameblock=that.closest('.seasonBlock').prev().find('.showHeaderName');
-			$(this).find('a').eq(0).after('<div style="display: inline-block;padding: 0px 5px 0;/*background: rgba(0, 255, 31, 0.17);*/"><img style="cursor: pointer;font-size:14px;padding-right:8px;vertical-align: -webkit-baseline-middle;" id="loader2'+i+'" title="Проверить наличие переведённой серии на '+domaintocheck+'" src="'+imgdownload+'"></img><select id="pageselector'+i+'" style="display: inline-block;vertical-align: -webkit-baseline-middle;width: 92px;height: 24px;padding:0" title="Выбор страницы для загрузки"><option value=0 selected="selected" >Авто</option><option value=1>Первая</option><option value=2>Вторая</option><option value=3>Третья</option><option value=4>Четвёртая</option><option value=5>Пятая</option></select></div>');
+			$(this).find('a').eq(0).after('<div style="display: inline-block;padding: 0px 5px 0;/*background: rgba(0, 255, 31, 0.17);*/"><select id="pageselector'+i+'" style="display: inline-block;vertical-align: -webkit-baseline-middle;width: 92px;height: 24px;padding:0;margin-right:8px;" title="Выбор страницы для загрузки"><option value=0 selected="selected" >Авто</option><option value=1>Первая</option><option value=2>Вторая</option><option value=3>Третья</option><option value=4>Четвёртая</option><option value=5>Пятая</option></select><img style="cursor: pointer;font-size:14px;vertical-align: -webkit-baseline-middle;" id="loader2'+i+'" title="Проверить наличие переведённой серии на '+domaintocheck+'" src="'+imgdownload+'"></img></div>');
 			thatnameblock.find('a').eq(0).after('<span id="torrentlink2'+i+'" style="display: none;width: 100%;font-size:14px;overflow-y: visible;overflow-x: hidden;"></span>');
 			$('#loader2'+i).on('click',function(){
 				$(this).hide().after("<img id='loadg2"+i+"' src='"+loading+"' style='width: 32px;' />");
