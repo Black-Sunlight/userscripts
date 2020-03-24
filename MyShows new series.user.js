@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         MyShows new series
 // @namespace    https://myshows.me
-// @version      0.27.3
+// @version      0.27.4
 // @include        https://myshows.me/profile
 // @include        https://myshows.me/profile/
 // @unwrap
@@ -91,14 +91,15 @@
 													var docr = new DOMParser().parseFromString(responser.responseText, "text/html");
 													//var ah=document.getElementsByClassName('player-box')[0].getElementsByTagName('a')[0];
 													var ah=$('.player-box',docr).find('a').eq(0);
-													//newstitle=$('h1.kino-h',docr).eq(0).text();
-													newstitle=$('.player-box',docr).find('i').eq(0).text();
+													//newstitle=$('.player-box',docr).find('i').eq(0).text();
+													newstitle=$('h1.kino-h',docr).eq(0).text();
 													curlink=responser.finalUrl
-
-                                            if(newstitle==name.trim()+" "+season+" сезон "+serie+" серия"){
+													
+                                            if(newstitle==name.trim()+" "+season+" сезон "+serie+" серия [Смотреть Онлайн]"){
 													if(ah.attr('href')!=undefined){
 														lnk=ah.attr('href');
 														q=lnk.replace(/(.*)(1080|720|400)[ррPР]?(.*)/ig,'$2');
+														console.log(lnk)
 														$('#torrentlink2'+i).show('block').append('<span style="display:block">'+newstitle+'<a href="'+lnk+'" target="_blank" title="Скачать '+newstitle+'"> Скачать '+q+'p</a> | <a href='+curlink+' target="_blank" title="Смотреть '+newstitle+'">Смотреть на сайте</a></span>');
 														$("#loadg2"+i).hide();
 													} else {
@@ -160,10 +161,10 @@
 											var docr = new DOMParser().parseFromString(responser.responseText, "text/html");
 											//var ah=document.getElementsByClassName('player-box')[0].getElementsByTagName('a')[0];
 											var ah=$('.player-box',docr).find('a').eq(0);
-											//newstitle=$('h1.kino-h',docr).eq(0).text();
-											newstitle=$('.player-box',docr).find('i').eq(0).text();
+											//newstitle=$('.player-box',docr).find('i').eq(0).text();
+											newstitle=$('h1.kino-h',docr).eq(0).text();
 											curlink=responser.finalUrl
-										if(newstitle==name.trim()+" "+season+" сезон "+serie+" серия"){
+										if(newstitle==name.trim()+" "+season+" сезон "+serie+" серия [Смотреть Онлайн]"){
 											if(ah.attr('href')!=undefined){
 												lnk=ah.attr('href');
 												q=lnk.replace(/(.*)(1080|720|400)[ррPР]?(.*)/ig,'$2');
