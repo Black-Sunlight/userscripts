@@ -84,7 +84,7 @@ if(location.href.search(/watch/ig)==-1 && textinget!="empty"){
 	for (var i=0;i<names.length;i++){
 		//if(names[i].innerHTML.toLowerCase().regexIndexOf('(Vampyr ►|FAR CRY 5 ►|WE HAPPY FEW ►|No Man\'s Sky _ #|SPIDER-MAN PS4|Spider-Man #|Человек - Паук _ 2018 _|SHADOW OF THE TOMB RAIDER|Assassin\'s Creed: Odyssey|Red Dead Redemption 2|Fallout: New California)') !==-1){
 		if(names[i].innerHTML.toLowerCase().regexIndexOf('('+tohide+')') !==-1){
-			names[i].parentNode.parentNode.parentNode.parentNode.parentNode.setAttribute('style','display:none!important');
+			names[i].parentNode.parentNode.parentNode.parentNode.parentNode.setAttribute('style','background: rgb(165 255 154 / 21%);display:none!important');
 			names[i].parentNode.parentNode.parentNode.parentNode.parentNode.setAttribute('hided','true');
 		}
 	}
