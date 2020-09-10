@@ -11,6 +11,8 @@
 // @exclude https://market.yandex.ru/my/wishlist*
 // @exclude https://market.yandex.ru/
 // @require https://raw.githubusercontent.com/Black-Sunlight/lib-files/master/jquery.js
+// @downloadURL https://github.com/Black-Sunlight/userscripts/raw/master/Rating%20colorer.user.js
+// @updateURL https://github.com/Black-Sunlight/userscripts/raw/master/Rating%20colorer.user.js
 // @grant        unsafeWindow
 // @grant        window.close
 // ==/UserScript==

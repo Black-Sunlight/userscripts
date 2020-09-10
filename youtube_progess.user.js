@@ -10,6 +10,8 @@
 // @grant        GM_addStyle
 // @grant        GM_deleteValue
 // @require    	https://raw.githubusercontent.com/Black-Sunlight/lib-files/master/jquery.js
+// @downloadURL https://github.com/Black-Sunlight/userscripts/raw/master/youtube_progess.user.js
+// @updateURL https://github.com/Black-Sunlight/userscripts/raw/master/youtube_progess.user.js
 // @namespace https://greasyfork.org/users/14014
 // @run-at document-idle
 // ==/UserScript==
