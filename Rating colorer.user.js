@@ -1,18 +1,16 @@
 // ==UserScript==
 // @name         Rating colorer
 // @namespace    http://tampermonkey.net/
-// @version      0.3
+// @version      0.4
 // @description  try to take over the world!
 // @author       You
 // @grant        GM_addStyle
 // @grant        unwrap
 // @grant        GM_registerMenuCommand
 // @match        *://market.yandex.ru/*
-// @exclude https://market.yandex.ru/my/wishlist*
+// @exclude      /^https:\/\/market\.yandex\.ru\/(my|compare).*$/
 // @exclude https://market.yandex.ru/
 // @require https://raw.githubusercontent.com/Black-Sunlight/lib-files/master/jquery.js
-// @downloadURL https://github.com/Black-Sunlight/userscripts/raw/master/Rating%20colorer.user.js
-// @updateURL https://github.com/Black-Sunlight/userscripts/raw/master/Rating%20colorer.user.js
 // @grant        unsafeWindow
 // @grant        window.close
 // ==/UserScript==
