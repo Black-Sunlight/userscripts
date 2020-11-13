@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         MyShows new series
 // @namespace    https://myshows.me
-// @version      0.27.5
+// @version      0.27.5.1
 // @include        https://myshows.me/profile
 // @include        https://myshows.me/profile/
 // @unwrap
