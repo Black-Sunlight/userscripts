@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         MyShows new series
 // @namespace    https://myshows.me
-// @version      0.27.4
+// @version      0.27.5
 // @include        https://myshows.me/profile
 // @include        https://myshows.me/profile/
 // @unwrap
@@ -41,9 +41,22 @@
 				$('#torrentlink2'+i).hide().html('');
 				var name=that.closest('.seasonBlock').prev().find('.showHeaderName').find('a').eq(0).text();
 				console.log(name)
-				name=name.replace(/(\«[^\.\»])*?([а-яА-Я\.]{1,})*?([\.\«\»])/ig,'$2');
-				if(name.search(/Звездные врата\: Истоки/ig)!=-1){name=name.replace(/Истоки/ig,'Начало');}
+				//name=name.replace(/(\«[^\.\»])*?([а-яА-Я\.]{1,})*?([\.\«\»])/ig,'$2');
+				//console.log("After replace "+name);
+				let swchoose=name.match(/(Звездный|Детство Шелдона)/ig);
+				switch (swchoose.toString()){
+					case "Звездный":
+						name=name.replace(/Звездный/ig,'Звёздный');
+						break;
+					case "Детство Шелдона":
+						name=name.replace(/Детство Шелдона/ig,'Молодой Шелдон');
+						break;
+					default:
+						break;
+				}
+				/*if(name.search(/Звездные врата\: Истоки/ig)!=-1){name=name.replace(/Истоки/ig,'Начало');}
 				if(name.search(/Звездный/ig)!=-1){name=name.replace(/Звездный/ig,'Звёздный');}
+				if(name.search(/Детство Шелдона/ig)!=-1){name=name.replace(/Детство Шелдона/ig,'Молодой Шелдон');}*/
                 var curid=thatnameblock.closest('h2').attr('id').split('s')[1];
 				var season=that.find('.bss_seri').eq(0).text().split('x')[0];
 				var serie=that.find('.bss_seri').eq(0).text().split('x')[1];
@@ -94,7 +107,7 @@
 													//newstitle=$('.player-box',docr).find('i').eq(0).text();
 													newstitle=$('h1.kino-h',docr).eq(0).text();
 													curlink=responser.finalUrl
-													
+
                                             if(newstitle==name.trim()+" "+season+" сезон "+serie+" серия [Смотреть Онлайн]"){
 													if(ah.attr('href')!=undefined){
 														lnk=ah.attr('href');
