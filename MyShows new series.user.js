@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         MyShows new series
 // @namespace    https://myshows.me
-// @version      0.27.5
+// @version      0.27.5.1
 // @include        https://myshows.me/profile
 // @include        https://myshows.me/profile/
 // @unwrap
@@ -44,6 +44,7 @@
 				//name=name.replace(/(\«[^\.\»])*?([а-яА-Я\.]{1,})*?([\.\«\»])/ig,'$2');
 				//console.log("After replace "+name);
 				let swchoose=name.match(/(Звездный|Детство Шелдона)/ig);
+				if (swchoose!=null){
 				switch (swchoose.toString()){
 					case "Звездный":
 						name=name.replace(/Звездный/ig,'Звёздный');
@@ -53,7 +54,7 @@
 						break;
 					default:
 						break;
-				}
+				}}
 				/*if(name.search(/Звездные врата\: Истоки/ig)!=-1){name=name.replace(/Истоки/ig,'Начало');}
 				if(name.search(/Звездный/ig)!=-1){name=name.replace(/Звездный/ig,'Звёздный');}
 				if(name.search(/Детство Шелдона/ig)!=-1){name=name.replace(/Детство Шелдона/ig,'Молодой Шелдон');}*/
