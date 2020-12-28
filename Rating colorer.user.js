@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Rating colorer
 // @namespace    http://tampermonkey.net/
-// @version      0.5
+// @version      0.5.1
 // @description  try to take over the world!
 // @author       You
 // @grant        GM_addStyle
