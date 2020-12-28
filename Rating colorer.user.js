@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Rating colorer
 // @namespace    http://tampermonkey.net/
-// @version      0.4
+// @version      0.5
 // @description  try to take over the world!
 // @author       You
 // @grant        GM_addStyle
@@ -27,7 +27,7 @@ bodyscript()
 	GM_addStyle('#mainhide{position:fixed;display:grid;left:10px;top:300px;column-gap: 8px;row-gap: 10px;grid-template:\
 [start] "header header header" 20px [row2]\
 [row2] "content1 content2 content3" 20px [row3]\
-[row3] "footer footer footer" 20px [row-end] / 100px 100px 100px}\
+[row3] "footer footer footer" 20px [row-end] / 100px auto auto}\
 #mainhide input[type=\"checkbox\"]{display:none}\
 #mainhide2 button{padding:5px 5px;margin: 7px 11px;}\
 #howmuch{text-align: center;}\
