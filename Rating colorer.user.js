@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Rating colorer
 // @namespace    http://tampermonkey.net/
-// @version      0.6
+// @version      0.6.1
 // @description  try to take over the world!
 // @author       You
 // @grant        GM_addStyle
@@ -306,7 +306,7 @@ background-image: url("https://code.jquery.com/ui/1.12.1/themes/base/images/ui-i
 [start] "header header header" 20px [row2]\
 [row2] "content1 content2 content3" 20px [row3]\
 [row3] "footer footer footer" 20px [row4]\
-[row4] "resize resize resize" 20px [row-end] / 100px 100px 100px}\
+[row4] "resize resize resize" 20px [row-end] / 100px 100px auto}\
 #mainhide input[type=\"checkbox\"]{display:none}\
 #mainhide2 button{padding:5px 5px;margin: 7px 11px;}\
 #howmuch{text-align: center;}\
