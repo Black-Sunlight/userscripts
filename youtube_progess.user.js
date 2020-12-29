@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         YouTube Progressbar Updater
-// @version      1.4
+// @version      1.4.1
 // @description  Forces the YouTube progress bar to update even when it's supposed to be hidden.
 // @author       Workgroups
 // @match        *://www.youtube.com/*
@@ -19,7 +19,7 @@ GM_registerMenuCommand("Переинициализировать скрипт", 
     cogsloader();
 });
 GM_addStyle('#showhidelist{color: white;background-color: #202020;border: 0;cursor:pointer;margin-right:10px}#showhidelist:focus{outline:none!important}#showhidelist:active{color:#98FF95}#hiderlist{position: absolute;right: 170px;top: 40px;background: white;z-index: 1;display: block;padding: 20px 20px 5px 20px;} #hi1{display:block} #hi1 input, #hi1 label{display:inline-block} #hi2{display:block} #hi2 input{display:inline-block}');
-var loaded=false;
+var loaded=false,pressed=false;
 function cogsloader(){
     console.log('loaded start')
     var hiderhide=[],textinget='empty',autohidestatus,coloringstatus;
@@ -40,6 +40,8 @@ if ($('#hiderlist').length==0){
     }
     var stream=document.querySelector("#watch-uploader-info strong");
     $('#showhidelist').on('click',function(){
+        if(pressed==false){pressed=true}
+        else if(pressed==true){pressed=false}
         $('ytd-grid-video-renderer').each(function() {
             if($(this).attr('hided')=='true'){
                 $(this).show();
@@ -95,7 +97,9 @@ if ($('#hiderlist').length==0){
                     curnode.setAttribute('style','background: none');
                 }
                 if($('#revert').prop('checked')==false){
+                    if (pressed==false){
                     curnode.setAttribute('style',curnode.getAttribute('style')+'display:none!important');
+                    }
                     curnode.setAttribute('hided','true');
                 } else {
                     curnode.setAttribute('hided','false');
@@ -137,13 +141,7 @@ if ($('#hiderlist').length==0){
 
     loaded=true;
 }
-window.jQuery(document).ajaxStop(function () {
-    cogsloader()
-});
 
-window.jQuery(document).ajaxComplete(function (e, request, settings) {
-    cogsloader()
-});
 var origOpen = XMLHttpRequest.prototype.open;
 XMLHttpRequest.prototype.open = function() {
     this.addEventListener('load', function() {
