@@ -52,13 +52,13 @@ $(function(){
 			if (swchoose!=null){
 				switch (swchoose.toString()){
 					case "Звездный":
-						name=name.replace(/Звездный/ig,'Звёздный');
-						break;
+					name=name.replace(/Звездный/ig,'Звёздный');
+					break;
 					case "Детство Шелдона":
-						name=name.replace(/Детство Шелдона/ig,'Молодой Шелдон');
-						break;
+					name=name.replace(/Детство Шелдона/ig,'Молодой Шелдон');
+					break;
 					default:
-						break;
+					break;
 				}}
 
 			//var curid=thatnameblock.closest('h2').attr('id').split('s')[1];
@@ -83,6 +83,8 @@ $(function(){
 				}
 			}else{
 				found=false;
+				var watch=req("",i,sell,found);
+					watch.start("no")
 				//reqsend()
 			}
 
@@ -96,8 +98,8 @@ $(function(){
 							for (var z=1;z<7;z++){
 								sell++;
 								watch.urlget(sell)
-						} else {console.log('starting single');watch.urlget()}
-							}
+							} else {console.log('starting single');watch.urlget()}
+						}
 					},
 					urlget:function(){
 						GM.xmlHttpRequest({
@@ -119,7 +121,7 @@ $(function(){
 
 										$("#loader2"+i).hide();
 										if(found==false){console.log(newslnk+" start to get torrent lnk");
-														 watch.torrentget()}
+										watch.torrentget()}
 										found=true;
 									} else {
 										if (loadstat == false){
@@ -208,26 +210,26 @@ $(function(){
 				});
 			}*/
 
-		function writetosite(newstitle,name,season,serie,ah,i,curlink){
-			console.log(newstitle==name+" "+season+" сезон "+serie+" серия [Смотреть Онлайн]")
-			console.log("start to inject "+ah.getAttribute('href'))
-			if(newstitle==name+" "+season+" сезон "+serie+" серия [Смотреть Онлайн]"){
-				if(ah.getAttribute('href')!=undefined){
-					var lnk=ah.getAttribute('href');
-					console.log(lnk+' found, launch injecting')
-					var q=lnk.replace(/(.*)(1080|720|400)[ррPР]?(.*)/ig,'$2');
-					$('#torrentlink2'+i).show('block').append('<span style="display:block">'+newstitle+' <a href="'+lnk+'" target="_blank" title="Скачать '+newstitle+'"><img src="'+imgtorrent+'" style="width:32px" />'+q+'p</a> | <a href='+curlink+' target="_blank" title="Смотреть '+newstitle+'">Смотреть на сайте</a></span>');
+			function writetosite(newstitle,name,season,serie,ah,i,curlink){
+				console.log(newstitle==name+" "+season+" сезон "+serie+" серия [Смотреть Онлайн]")
+				console.log("start to inject "+ah.getAttribute('href'))
+				if(newstitle==name+" "+season+" сезон "+serie+" серия [Смотреть Онлайн]"){
+					if(ah.getAttribute('href')!=undefined){
+						var lnk=ah.getAttribute('href');
+						console.log(lnk+' found, launch injecting')
+						var q=lnk.replace(/(.*)(1080|720|400)[ррPР]?(.*)/ig,'$2');
+						$('#torrentlink2'+i).show('block').append('<span style="display:block">'+newstitle+' <a href="'+lnk+'" target="_blank" title="Скачать '+newstitle+'"><img src="'+imgtorrent+'" style="width:32px" />'+q+'p</a> | <a href='+curlink+' target="_blank" title="Смотреть '+newstitle+'">Смотреть на сайте</a></span>');
+						$("#loadg2"+i).hide();
+					} else {
+						$("#loadg2"+i).hide();
+						$('#torrentlink2'+i).show('block').append('<img style="width:42px" src="'+imgnotexist+'" title="Серия '+newstitle+' ещё не переведена" />');
+					}}
+					$("#loader2"+i).show().text("Проверить серию");
 					$("#loadg2"+i).hide();
-				} else {
-					$("#loadg2"+i).hide();
-					$('#torrentlink2'+i).show('block').append('<img style="width:42px" src="'+imgnotexist+'" title="Серия '+newstitle+' ещё не переведена" />');
-				}}
-			$("#loader2"+i).show().text("Проверить серию");
-			$("#loadg2"+i).hide();
-			console.log('Full Done')
-		}
+					console.log('Full Done')
+				}
 
-	});
+			});
 
 
 });
