@@ -98,8 +98,8 @@ $(function(){
 							for (var z=1;z<7;z++){
 								sell++;
 								watch.urlget(sell)
-							} else {console.log('starting single');watch.urlget()}
-						}
+							}
+						} else {console.log('starting single');watch.urlget()}
 					},
 					urlget:function(){
 						GM.xmlHttpRequest({
