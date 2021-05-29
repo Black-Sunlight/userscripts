@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         MyShows new series for beta
 // @namespace    https://beta.myshows.me
-// @version      0.27.6.1
+// @version      0.28
 // @include        https://myshows.me/profile/
 // @unwrap
 // @grant        GM.xmlHttpRequest
@@ -11,8 +11,8 @@
 // @connect self
 // @author Black_Sun
 // @require https://github.com/Black-Sunlight/lib-files/raw/master/jquery.js
-// @downloadURL https://github.com/Black-Sunlight/userscripts/raw/master/MyShows%20new%20series%20beta.user.js
-// @updateURL https://github.com/Black-Sunlight/userscripts/raw/master/MyShows%20new%20series%20beta.user.js
+// @downloadURL https://github.com/Black-Sunlight/userscripts/raw/master/MyShows%20new%20series.user.js
+// @updateURL https://github.com/Black-Sunlight/userscripts/raw/master/MyShows%20new%20series.user.js
 // @license MIT
 // @copyright 2019, Black_Sun (https://openuserjs.org/users/Black_Sun)
 // @unsafeWindow
@@ -40,6 +40,7 @@ $(function(){
 		//var thatnameblock=that.closest('.seasonBlock').prev().find('.showHeaderName');
 		$(this).find('a').eq(0).after('<div style="display: inline-block;padding: 0px 5px 0;"><select id="pageselector'+i+'" style="display: inline-block;vertical-align: -webkit-baseline-middle;width: 92px;height: 24px;padding:0;margin-right:8px;" title="Выбор страницы для загрузки"><option value=0 selected="selected" >Авто</option><option value=1>Первая</option><option value=2>Вторая</option><option value=3>Третья</option><option value=4>Четвёртая</option><option value=5>Пятая</option></select><img style="cursor: pointer;font-size:14px;vertical-align: -webkit-baseline-middle;" id="loader2'+i+'" title="Проверить наличие переведённой серии на '+domaintocheck+'" src="'+imgdownload+'"></img></div>');
 		$(this).find('a').eq(0).before('<span id="torrentlink2'+i+'" style="display: none;width: 100%;font-size:14px;overflow-y: visible;overflow-x: hidden;"></span>');
+
 		$('#loader2'+i).on('click',function(){
 			$(this).hide().after("<img id='loadg2"+i+"' src='"+loading+"' style='width: 64x;' />");
 			$('#torrentlink2'+i).hide().html('');
@@ -70,24 +71,93 @@ $(function(){
 			var newslnk,newstitle,curlink,loadstat=false,q,lnk,found=false;
 			var sell=$('#pageselector'+i).val();
 
-			if (sell==0){multiload()}else{singleload()}
-			function multiload(){
+
+			if (sell==0){
 				found=false;
 				if(found==false){
 					$("#loadg2"+i).show();
-					for (var z=1;z<7;z++){
-						sell=z;
-						reqsend()
+					var watch=req("",i,sell,found);
+					watch.start(0)
+
+					//reqsend()
+				}
+			}else{
+				found=false;
+				//reqsend()
+			}
+
+			function req(lnk,i,sell,found){
+				var newslnk=lnk;
+
+				return {
+					start:function(){
+						if(sell==0){
+							console.log('starting with cycle')
+							for (var z=1;z<7;z++){
+								sell++;
+								watch.urlget(sell)
+						} else {console.log('starting single');watch.urlget()}
+							}
+					},
+					urlget:function(){
+						GM.xmlHttpRequest({
+							method: "GET",
+							url: "http://"+domaintocheck+"/news/?page"+sell,
+							headers: {
+								"User-Agent": "Mozilla/5.0",    // If not specified, navigator.userAgent will be used.
+								"Accept": "text/html"            // If not specified, browser defaults will be used.
+							},
+							onload: function(response) {
+								$("#loadg2"+i).show();
+								var doc = new DOMParser().parseFromString(response.responseText, "text/html");
+								var el=doc.getElementsByClassName('kino-h');
+								for (var k = 0; k < el.length;k++){
+									if(el[k].getAttribute('title').toLowerCase().search(fullname.toLowerCase())!=-1){
+										loadstat=true;
+
+										newslnk=el[k].getAttribute("href");
+
+										$("#loader2"+i).hide();
+										if(found==false){console.log(newslnk+" start to get torrent lnk");
+														 watch.torrentget()}
+										found=true;
+									} else {
+										if (loadstat == false){
+											$("#loadg2"+i).hide();
+											$("#loader2"+i).show().text("Серия не найдена");
+										}
+									}
+								}
+							}
+						});
+					},
+					torrentget:function(){
+						GM.xmlHttpRequest({
+							method: "GET",
+							url: "http://"+domaintocheck+newslnk,
+							headers: {
+								"User-Agent": "Mozilla/5.0",    // If not specified, navigator.userAgent will be used.
+								"Accept": "text/html"            // If not specified, browser defaults will be used.
+							},
+							onload: function(responser) {
+								var docr = new DOMParser().parseFromString(responser.responseText, "text/html");
+								newstitle=docr.getElementsByClassName('kino-h')[0].innerText;
+								console.log('found name '+newstitle)
+								var ah=docr.getElementsByClassName('player-box')[0].getElementsByTagName('a')[0];
+
+
+								curlink=responser.finalUrl
+								console.log('link found '+ah.getAttribute('href'))
+								console.log('compare that '+newstitle+"=="+name+" "+season+" сезон "+serie+" серия [Смотреть Онлайн]")
+								loadstat=false;
+								writetosite(newstitle,name.trim(),season.trim(),serie.trim(),ah,i,curlink)
+							}
+						});
 					}
 				}
 			}
-
-			function singleload(){
-				found=false;
-				reqsend()
-			}
-
-			function reqsend(){
+		});
+		/*function reqsend(){
 				GM.xmlHttpRequest({
 					method: "GET",
 					url: "http://"+domaintocheck+"/news/?page"+sell,
@@ -123,23 +193,7 @@ $(function(){
 										newstitle=docr.getElementsByClassName('kino-h')[0].innerText;
 										curlink=responser.finalUrl
 										console.log(ah.getAttribute('href'))
-										console.log(newstitle+"=="+name+" "+season+" сезон "+serie+" серия [Смотреть Онлайн]")
-										test(newstitle,name.trim(),season.trim(),serie.trim(),ah,i,curlink)
-
-										/*if(newstitle==name.trim()+" "+season+" сезон "+serie+" серия [Смотреть Онлайн]"){
-													if(ah.attr('href')!=undefined){
-														lnk=ah.attr('href');
-														q=lnk.replace(/(.*)(1080|720|400)[ррPР]?(.*)/ig,'$2');
-														console.log(lnk)
-														$('#torrentlink2'+i).show('block').append('<span style="display:block">'+newstitle+' <a href="'+lnk+'" target="_blank" title="Скачать '+newstitle+'"><img src="'+imgtorrent+'" style="width:32px" />'+q+'p</a> | <a href='+curlink+' target="_blank" title="Смотреть '+newstitle+'">Смотреть на сайте</a></span>');
-														$("#loadg2"+i).hide();
-													} else {
-														$("#loadg2"+i).hide();
-														$('#torrentlink2'+i).show('block').append('<img style="width:42px" src="'+imgnotexist+'" title="Серия '+newstitle+' ещё не переведена" />');
-													}}*/
-
-										/*$("#loader2"+i).show().text("Проверить серию");
-													$("#loadg2"+i).hide();*/
+										writetosite(newstitle,name.trim(),season.trim(),serie.trim(),ah,i,curlink)
 										loadstat=false;
 									}
 								});
@@ -152,17 +206,15 @@ $(function(){
 						}
 					}
 				});
-			}
+			}*/
 
-		});
-
-
-		function test(newstitle,name,season,serie,ah,i,curlink){
+		function writetosite(newstitle,name,season,serie,ah,i,curlink){
 			console.log(newstitle==name+" "+season+" сезон "+serie+" серия [Смотреть Онлайн]")
+			console.log("start to inject "+ah.getAttribute('href'))
 			if(newstitle==name+" "+season+" сезон "+serie+" серия [Смотреть Онлайн]"){
 				if(ah.getAttribute('href')!=undefined){
 					var lnk=ah.getAttribute('href');
-					console.log('test launch '+lnk)
+					console.log(lnk+' found, launch injecting')
 					var q=lnk.replace(/(.*)(1080|720|400)[ррPР]?(.*)/ig,'$2');
 					$('#torrentlink2'+i).show('block').append('<span style="display:block">'+newstitle+' <a href="'+lnk+'" target="_blank" title="Скачать '+newstitle+'"><img src="'+imgtorrent+'" style="width:32px" />'+q+'p</a> | <a href='+curlink+' target="_blank" title="Смотреть '+newstitle+'">Смотреть на сайте</a></span>');
 					$("#loadg2"+i).hide();
@@ -172,6 +224,7 @@ $(function(){
 				}}
 			$("#loader2"+i).show().text("Проверить серию");
 			$("#loadg2"+i).hide();
+			console.log('Full Done')
 		}
 
 	});
