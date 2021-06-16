@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         MyShows new series for beta
 // @namespace    https://beta.myshows.me
-// @version      0.29.1
+// @version      0.29
 // @include        https://myshows.me/*
 // @unwrap
 // @grant        GM.xmlHttpRequest
@@ -27,7 +27,6 @@ $j(function(){
 function main(){
 	$j('div.title__primary').first().before('<style>.seasonBlockBody a[href*="myshows"]{vertical-align: -webkit-baseline-middle;}</style><div id="newseries" class="seasonBlockBody" style="display:inline-block;width: 730px;"><button id="loadnew">Загрузить список выхода серий</button></div>');
 	$j('div.AdBlock').remove();
-	var c=1;
 	var domaintocheck="coldfilm.biz";
 	var imgdownload="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAA7EAAAOxAGVKw4bAAAE3ElEQVRYheWWXWwUVRTH/+fOfky3u9vtB80KLUWoxPSBICY+0ILWWDTGRGKMATGG+GCMWhIMARrSWMIDRiJ9UHkwIZCGEB+MERMJ0fqR+IEaYviIFUqKLS2hBdrO7uzs7szcuceHpduubOlWy4PxJCeZzJz/ub/7v/fODPB/D5qrIHFsX4yAjeSpVmJeCSAEohSE6GfN9y0In0U2dyQXHMDo2RsSzHtIym1CemHiv5czWBDY508iEHyPNfFuZPPu7IIAJHr2NpLjnhC23USgXFmxSp4GgR46z0H92ciLuwb/FYBxtGu5yGZ/JDsbJ4iZIyFvAk8JZ8gJ4FD5CMrCzZEtu67+I4DJI506Ze3TwrJWg24/YgYH/NAaHoRW/wBID4MzKXgjl6GGLgGuW9gwWvkrykLNkZc6ZCkAvgKxK7fBTKxWHufxaHEDyto2Q6upK1SuWgfvxjCyvR9DXb8KgHMWGeOPCM33GoAP5uXAxEcdAaTMYVhmLYHAYIj7GlD+/JsQZeFZG6i0ifQnH0KNTrtOFVUjFK68v+KVzjldEPkrpR7nVLKWHQfKscFE0B97DuQPgqU7a1JAR3D9s2AiKNfOZdKog/JaSnEgvwQqk36UMxagcvZrdcuhLVoCls6cTbT4UlB1HN7gpdwNVwJpswXAdyUDcDa7TNlZgBkgQiDeAPbcu2kLQtTWQ10+n9dTxlpRim4awHVCyrFzG0kQoGmALB0AmoBynNsAADlZfX4AnmfkAHIz8CZuQrlz2z8VcmIMypl2kDxpzAsAJH5XUgIqt3Gd/rPQ1z0NEtqcTdiTsPvP5QAAQPNBEP4oBWD6FGhaLzQNyrGhHBvOyADsCz+DPXfOzJ77Hu71obyWfRpYiC/nBcCedxZ66Cy7Dth1oCwT5hfH4A4PAJ6cNZ2hizBPHgenrZxOOoBe9tPizp6L8wKId/UoKo/s4UAwPxM5NoLJo+/A+uUrqEwK7Ml8emkTqdOnMHn0ALyb1/MaBIJAebizlMGBIh+jofYnjsjhga3sONMVPj9EZTX89SsgyqPwUgnI4QEoYxyQcupbBQSD0JYuP1T1cHM7QKh4uUvNH2DXRl0Zt07Ia4Mb2LFnkfCdt4M6fMsae6sfarkqWG0iCB/8gc8RCL4R3rTzRskAADC485mAMhPdcuza65w08m/HoiEIVFEJLb7kYM2a9XUinX6BZrTl8kgfgnprZMvuohB3/SW7sr1trTImOpWZ2KDMpIB08+ccfj8oElUiGjspYpX7alat74dpjCOTFgUABCAc7WO9rDW29e07IOb8JwSAgR1PxVm6LWxnV0KpCDSRoIDeD7//h8YDp24AQOLIvjo1PjrMlllkmgREY30IhVqrXt1fAFESQCmRONwl5PjYBTUx1gQusmREoFh1H8ojrTXtB/MQCwYAADe729eoW6Nfq8RkrGgBEUR1bR+FK5prdxwygJlvwgWIRdvf/43D0TYVCBjSMiGtZGGmEnBH/mxSycSeKc2CAgBAvOPwGYrG2ljXDS+dgmcVpjQNyMT42nsGAACLu46foVh1G4fChpe14GVSM9KC9JzRewoAAPX7Pz1DVYvaOFJhSDsDmbUg7TRUqEyyrndP1S3oJiwWV956sslLjO9nO7MG/sAVEave29jd+829Hve/E38BEpKdi/gPz0EAAAAASUVORK5CYII=";
 	var imgtorrent="data:image/png;base64,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";
@@ -39,22 +38,12 @@ function main(){
 			$j("#newseries").html($j("div.WatchSoon.MyHome-shows",data).html());
 		});
 	});
-	var listeneradd=function (checker,pos,c){
-	$j('.UnwatchedEpisodeItem').each(function(i){
+	$j('div.UnwatchedEpisodeItem').each(function(i){
 		var that=$j(this).closest('div[id^="s"]');
 		var thatnameblock=that.closest('div[id^="s"]').find('.Unwatched-showTitle');
 		//var thatnameblock=that.closest('.seasonBlock').prev().find('.showHeaderName');
-		if(checker==false){
-			$j('.Unwatched-season').eq(pos).next().find('.UnwatchedEpisodeItem').each(function(j){
-if(c<=$j('.Unwatched-season').eq(pos).next().find('.UnwatchedEpisodeItem').length){
-		$j(this).find('div.episode-col').eq(0).after('<div style="display: inline-block;padding: 0px 5px 0;"><select id="pageselector'+j+'" style="display: inline-block;vertical-align: -webkit-baseline-middle;width: 92px;height: 24px;padding:0;margin-right:8px;" title="Выбор страницы для загрузки"><option value=0 selected="selected" >Авто</option><option value=1>Первая</option><option value=2>Вторая</option><option value=3>Третья</option><option value=4>Четвёртая</option><option value=5>Пятая</option><option value=6>Шестая</option></select><img style="cursor: pointer;font-size:14px;vertical-align: -webkit-baseline-middle;" id="loader2'+j+'" title="Проверить наличие переведённой серии на '+domaintocheck+'" src="'+imgdownload+'"></img></div>');}
-				c=c+1;
-			})
-		}
-		if(checker==true){
-			$j(this).find('div.episode-col').eq(0).after('<div style="display: inline-block;padding: 0px 5px 0;"><select id="pageselector'+i+'" style="display: inline-block;vertical-align: -webkit-baseline-middle;width: 92px;height: 24px;padding:0;margin-right:8px;" title="Выбор страницы для загрузки"><option value=0 selected="selected" >Авто</option><option value=1>Первая</option><option value=2>Вторая</option><option value=3>Третья</option><option value=4>Четвёртая</option><option value=5>Пятая</option><option value=6>Шестая</option></select><img style="cursor: pointer;font-size:14px;vertical-align: -webkit-baseline-middle;" id="loader2'+i+'" title="Проверить наличие переведённой серии на '+domaintocheck+'" src="'+imgdownload+'"></img></div>');
-			$j(this).closest('div[id^="s"]').eq(0).before('<span id="torrentlink2'+i+'" style="display: none;width: 100%;font-size:14px;overflow-y: visible;overflow-x: hidden;"></span>');
-		}
+		$j(this).find('div.episode-col').eq(0).after('<div style="display: inline-block;padding: 0px 5px 0;"><select id="pageselector'+i+'" style="display: inline-block;vertical-align: -webkit-baseline-middle;width: 92px;height: 24px;padding:0;margin-right:8px;" title="Выбор страницы для загрузки"><option value=0 selected="selected" >Авто</option><option value=1>Первая</option><option value=2>Вторая</option><option value=3>Третья</option><option value=4>Четвёртая</option><option value=5>Пятая</option><option value=6>Шестая</option></select><img style="cursor: pointer;font-size:14px;vertical-align: -webkit-baseline-middle;" id="loader2'+i+'" title="Проверить наличие переведённой серии на '+domaintocheck+'" src="'+imgdownload+'"></img></div>');
+		$j(this).closest('div[id^="s"]').eq(0).before('<span id="torrentlink2'+i+'" style="display: none;width: 100%;font-size:14px;overflow-y: visible;overflow-x: hidden;"></span>');
 
 		$j('#loader2'+i).on('click',function(){
 			$j(this).hide().after("<img id='loadg2"+i+"' src='"+loading+"' style='width: 64x;' />");
@@ -134,7 +123,7 @@ if(c<=$j('.Unwatched-season').eq(pos).next().find('.UnwatchedEpisodeItem').lengt
 								for (var k = 0; k < el.length;k++){
 									//console.log('searching '+el[k].getAttribute('title').toLowerCase()+'=='+fullname.toLowerCase())
 									if(el[k].getAttribute('title').toLowerCase().search(fullname.toLowerCase())!=-1){
-										console.log('search success with '+el[k].getAttribute('title').toLowerCase()+'=='+fullname.toLowerCase())
+										console.log('search success with '+el[k].getAttribute('title').toLowerCase()+'=='+fullname.toLowerCase());
 										loadstat=true;
 
 										newslnk=el[k].getAttribute("href");
@@ -181,7 +170,6 @@ if(c<=$j('.Unwatched-season').eq(pos).next().find('.UnwatchedEpisodeItem').lengt
 				};
 			}
 		});
-
 		/*function reqsend(){
 				GM.xmlHttpRequest({
 					method: "GET",
@@ -253,17 +241,12 @@ if(c<=$j('.Unwatched-season').eq(pos).next().find('.UnwatchedEpisodeItem').lengt
 				}
 
 			});
-		}
-listeneradd(true)
-	$j('div.Row.Unwatched-season').each(function(i){
-		$j(this).on('click',function(){
-		listeneradd(false,i,1)
-		})
-	})
 
 }
 	setInterval(function(jQuery){
-		if (!$j('#newseries')[0]){main()}
+		if (!$j('#newseries')[0]){
+			main();
+		}
 	},1000);
 	main();
-})
+});
