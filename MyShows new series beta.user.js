@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         MyShows new series for beta
 // @namespace    https://beta.myshows.me
-// @version      0.29
+// @version      0.29.1a
 // @include        https://myshows.me/*
 // @unwrap
 // @grant        GM.xmlHttpRequest
@@ -68,7 +68,7 @@ function main(){
 			//var curid=thatnameblock.closest('h2').attr('id').split('s')[1];
 			var season=that.find('div.Unwatched-showSeasonTitle').eq(0).text().split('Сезон')[1].replace(/\s{2,}/g, ' ');
 			season.trim();
-			var serie=that.find('div.UnwatchedEpisodeItem-index').eq(i).find('span').text().replace(/\s{2,}/g, ' ');
+			var serie=that.find('div.UnwatchedEpisodeItem-index').eq(0).find('span').text().replace(/\s{2,}/g, ' ');
 			serie=serie.trim();
 			//var subname=that.find('.subHeader').eq(0).html('<a id="lnktosite'+i+'" target="_blank">'+that.find('.subHeader').eq(0).text()+'</a>')
 			var fullname=name.trim()+''+season+'сезон '+serie;
