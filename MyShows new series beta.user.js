@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         MyShows new series for beta
 // @namespace    https://beta.myshows.me
-// @version      0.29.2
+// @version      0.29.2a
 // @include        https://myshows.me/*
 // @unwrap
 // @grant        GM.xmlHttpRequest
@@ -29,7 +29,7 @@ $j(function(){
 		var renewimg="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAA7EAAAOxAGVKw4bAAAFF0lEQVRYhe1W3WsTWRT/3UkszUycRhriQkxcIpWY5qPGRVK/EqqIiuJC90HEDyLiQ9FFpf+AL/rWFRFp6fpQ9cGX1oc+NAjC4roFlV1TCWqXVkNB0agk0SSTycecfagzJGbS+gX74g8Oc+85557fufecexngO/5nMD3lqVOnuOvXr3eJovijzWbjFgpQqVSgKEpTezqdVt6/fz8XCoX+uXHjRoOj8WOFzWb7KZPJjIyOjnoCgQA4bkH+RaEoChKJBC5fvvyvzWaLplKpyVp73Qk4HI4fwuHw46GhIcvXEn8MIsKJEydysVis8/nz53Oqvo4ln8//HI1Gvzk5ADDGcOTIEbMkSb/U6utKQETrvF7vgoFevXqFeDwOs9mMjRs3avqpqSkwxuD3+5uu9Xg8MBqN62p1dVvt6OgIiqKouziRSCAYDMLj8WD//v2Ix+OaTZZlHDt2DD09PTh58iQkSdKN0draijVr1gR1E4hEIi2rVq1quv1ly5aB53kQEYgILpdLsw0PD2NmZgZEhKtXr2Lfvn2QZVk3jsvlWh0IBMzq3KAOJEkK7Nq1q6/2WFW8ePECO3fuxNOnT7Fnzx5s27YNkUgEVqsVALBy5UpkMhkkEgkAwNzcHAqFAnp6ehpiPXv2jMVisYlCoTBXZ7BYLEfHxsZIkqQ6KRQKtH37duJ5nsLhMGWz2QYfVS5dukRms5l4nqelS5fSkydPGnwmJibIYrH82lACRVF0G/D27du4c+cOAKC/vx8tLS26RwsA0WgUBw4cAABUq1WMjo42+Ph8PiiKojWilkB7e3twxYoVDQvGx8fnHTkO69evb0qu4vjx42Bs/nl58OBBg729vR1Op1NrRCMA7Nixw8gY86sLazE9Pa2NTSbTogm4XC5YLBak02lks1ldn46ODo/JZOLv379f4AAgHo973G53q55zuVwGMP+kPnr0aNEEGGNYsmQJAMBms4Ex1iCdnZ1cMpn0Ax9KIMtysNkDZLfbtfHFixcXJX/58iVSqRQAYNOmTbp+Pp8P5XI5qCVQrVbX+Xw+XedwOKyNx8bGMDQ01EDKGEMulwMAXLhwAcD8u9Hb26sb0+v11jUirFbrX82u1+vXr8lutxPP85r09fVRKpWiYrGoSVdXF50+fZoEQSBBEOjatWskyzLJskylUqlOisUi2e32+Q49fPiwsbu7O9/sbkuSRIODg3UJCIJAt27d0sjz+bx2/3mep/Pnz1O5XKZyuUyVSkVXtm7dWt68eXMrd/PmzdVut5tfqLaHDh3CwYMHtfnevXuxYcMGbf7u3bu6n5IrV65gdnYWBoMBHMeB4zgYDIa6udfrNU5PT/uNxWKxaQPW1nlgYABOpxODg4M4c+ZMXVdnMhmYTCasXbsWkUgEkUgETqcTetda1fn9foyMjAQhiuJvsVis6fGroh63Wnu1tpVKhfL5PKXTafoc3L17l0RRHDYSUVdbW9uiJ6BCFEUwxsBxnPbleR48v2AVG9DW1gYi8nNEJE5NTX0SuTpX66gm8SX4wGnhOI57ODAwgLdv334See3uv5Q8m83i3LlzYIw9ZMuXL3fncrm/HQ4H39/fj1AoBJPJtCD5l/4zlkol3Lt3D2fPnsXMzExJEIRuBgBWqzXEcdxILpdbrf7xfEvUboYxBkEQkkQUffPmzR+aZXJysnV8fPxoMpkMV6tVvjYJdfw5iamktV+DwVB0OBx/7t69+/ctW7bkvm5b3/GN8B/LWe5/FfVXFwAAAABJRU5ErkJggg==";
 		if(check==true){
 		$j('div.title__primary').first().before('<style>.seasonBlockBody a[href*="myshows"]{vertical-align: -webkit-baseline-middle;}</style><div id="newseries" class="seasonBlockBody" style="display:inline-block;width: 730px;"><button id="loadnew">Загрузить список выхода серий</button></div>');
-		$j('.title__main').before('<div id="newreload" class="seasonBlockBody" style="margin-right: 15px;cursor:pointer"><img id="reloadnew" src="'+renewimg+'" /></div>')
+		$j('.title__main').first().before('<div id="newreload" class="seasonBlockBody" style="margin-right: 15px;cursor:pointer"><img id="reloadnew" src="'+renewimg+'" /></div>')
 		$j('#reloadnew').on('click',function(){
 			$j('.totalloader').each(function(){
 				$j(this).remove();
@@ -65,7 +65,7 @@ $j(function(){
 			$j('#loader2'+i).on('click',function(){
 				$j(this).hide().after("<img id='loadg2"+i+"' src='"+loading+"' style='width: 64x;' />");
 				$j('#torrentlink2'+i).hide().html('');
-				var name=that.closest('div[id^="s"]').find('.Unwatched-showTitle').find('div').text().replace(/\s{2,}/g, ' ');
+				var name=that.closest('div[id^="s"]').find('.Unwatched-showTitle').find('span').eq(0).text().replace(/\s{2,}/g, ' ');
 				name=name.trim();
 				//name=name.replace(/(\«[^\.\»])*?([а-яА-Я\.]{1,})*?([\.\«\»])/ig,'$2');
 				//console.log("After replace "+name);
@@ -138,7 +138,7 @@ $j(function(){
 									var doc = new DOMParser().parseFromString(response.responseText, "text/html");
 									var el=doc.getElementsByClassName('kino-h');
 									for (var k = 0; k < el.length;k++){
-										//console.log('searching '+el[k].getAttribute('title').toLowerCase()+'=='+fullname.toLowerCase())
+										console.log('searching '+el[k].getAttribute('title').toLowerCase()+'=='+fullname.toLowerCase())
 										if(el[k].getAttribute('title').toLowerCase().search(fullname.toLowerCase())!=-1){
 											console.log('search success with '+el[k].getAttribute('title').toLowerCase()+'=='+fullname.toLowerCase());
 											loadstat=true;
