@@ -1,7 +1,7 @@
 // ==UserScript==
 // @id             tapochek.net-ff9d32be-9f1a-42f1-a2e5-73d20aa165b4@scriptish
 // @name           additional features tapochek.net
-// @version        1.3
+// @version        1.4
 // @namespace      tapochek.net
 // @author         Black_Sun
 // @description    На главной странице выводит блок из нескольких разделов.
@@ -132,12 +132,19 @@ if(imgt=='img'){
 						onload: function(response) {
 							//if(location.href.search('kp_query')==-1){
 							var objkinop=$.parseHTML(response.responseText);
+							console.log(response.finalUrl)
 							if(response.finalUrl.search('kp_query')==-1){
+							//console.log(nameurl+" = "+imhref2.trim())
 							var ratingkinop=$('span.film-rating-value',objkinop).eq(0).text();
+								console.log(ratingkinop)
+							if(ratingkinop=="" || ratingkinop=="–"){ratingkinop="Фильм ещё не оценен"}
 							var urlkinop=response.finalUrl;
 							var searchurl='na'
 						} else {
-							var ratingkinop=$('div.rating',objkinop).eq(0).text();
+							//console.log(nameurl+" = "+imhref2.trim())
+							var ratingkinop=$('p.name',objkinop).find('a[data-url^="/film/"]',objkinop).eq(0).parent().parent().parent().find('div.rating',objkinop).eq(0).text();
+							console.log(ratingkinop)
+							if(ratingkinop==""){ratingkinop="Фильм ещё не оценен"}
 							var urlkinop='https://www.kinopoisk.ru'+$('p.name',objkinop).find('a[data-url^="/film/"]',objkinop).eq(0).attr('href');
 							var ratingkinopl=$('div.rating',objkinop).length;
 							var searchurl=response.finalUrl;

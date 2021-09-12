@@ -24,8 +24,8 @@ GM_registerMenuCommand("Переинициализировать скрипт", 
 'use strict';
 /*jshint multistr: true */
 function bodyscript(){
-	var ratinglabel="span._3nFvoU2Uov",
-		elemblock='article[data-autotest-id^="product-snippet"]';
+	var ratinglabel='a[data-zone-name^="rating"]',
+		elemblock='article[data-zone-name^="snippet-cell"]';
 	console.log('Script initialized')
 	GM_addStyle('.ui-resizable {\
 position: relative;\
@@ -341,36 +341,37 @@ background-image: url("https://code.jquery.com/ui/1.12.1/themes/base/images/ui-i
 		});
 	});
 	$('#f455').on('click',function(){
-		$('div[data-zone-name^="snippetList"]').find(ratinglabel).each(function(i){
-			var curpo=parseFloat($(this).text())
+		$(elemblock).find(ratinglabel).each(function(i){
+			var curpo=parseFloat($(this).find('span').eq(0).text())
 			var rangepo=parseFloat($('#f455').text())
+			console.log(curpo+" < "+rangepo)
 			if(curpo<rangepo){
 				$(elemblock).eq(i).hide()
 			} else if(curpo>=rangepo){
 				var otzh=$("#howmuch").val();
-				var otzch=$(ratinglabel).eq(i).closest('a').find('span').eq(0).text().split(' ')
+				var otzch=$(this).find('span').eq(1).text().split(' ')
 				if(parseInt(otzch[0])<otzh || otzch[0] == ''){$(elemblock).eq(i).hide()}
 			}
 		});
 	});
 	$('#f50d').on('click',function(){
-		$('div[data-zone-name^="snippetList"]').find(ratinglabel).each(function(i){
-			if($(this).text()!="5.0"){
+		$(elemblock).find(ratinglabel).each(function(i){
+			if($(this).find('span').eq(0).text()!="5.0"){
 				$(elemblock).eq(i).hide()
-			} else if($(this).text()=="5.0"){
+			} else if($(this).find('span').eq(0).text()=="5.0"){
 				var otzh=$("#howmuch").val();
-				var otzch=$(ratinglabel).eq(i).closest('a').find('span').eq(0).text().split(' ')
+				var otzch=$(this).find('span').eq(1).text().split(' ')
 				if(parseInt(otzch[0])<otzh || otzch[0] == ''){$(elemblock).eq(i).hide()}
 			}
 		});
 	});
 	$('#f4045').on('click',function(){
-		$('div[data-zone-name^="snippetList"]').find(ratinglabel).each(function(i){
-			var curpo=parseFloat($(this).text())
+		$(elemblock).find(ratinglabel).each(function(i){
+			var curpo=parseFloat($(this).find('span').eq(0).text())
 			if(curpo<4.0 || curpo>4.5){
 				$(elemblock).eq(i).hide()
 				var otz=$("#howmuch").val();
-				var otzc=$(ratinglabel).eq(i).closest('a').find('span').eq(0).text().split(' ')
+				var otzc=$(this).find('span').eq(1).text().split(' ')
 				if(parseInt(otzc[0])<otz || otzc[0] == ''){$(elemblock).eq(i).hide()}
 				//$(this).closest('div[data-autotest-id^="product-snippet"]').css({background:'#deffe2'})
 			}
