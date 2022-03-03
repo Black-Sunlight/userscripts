@@ -1,8 +1,9 @@
 // ==UserScript==
 // @name         MyShows new series for beta
 // @namespace    https://beta.myshows.me
-// @version      0.29.2a
+// @version      0.29.2b
 // @include        https://myshows.me/*
+// @exclude        https://myshows.me/news/*
 // @unwrap
 // @grant        GM.xmlHttpRequest
 // @connect coldfilm.biz
@@ -65,27 +66,36 @@ $j(function(){
 			$j('#loader2'+i).on('click',function(){
 				$j(this).hide().after("<img id='loadg2"+i+"' src='"+loading+"' style='width: 64x;' />");
 				$j('#torrentlink2'+i).hide().html('');
-				var name=that.closest('div[id^="s"]').find('.Unwatched-showTitle').find('span').eq(0).text().replace(/\s{2,}/g, ' ');
+				var name=that.find('.Unwatched-showTitle-title').eq(0).text().replace(/\s{2,}/g, ' ');
 				name=name.trim();
 				//name=name.replace(/(\«[^\.\»])*?([а-яА-Я\.]{1,})*?([\.\«\»])/ig,'$2');
 				//console.log("After replace "+name);
-				var swchoose=name.match(/(Звездный|Детство Шелдона)/ig);
-				if (swchoose!=null){
-					switch (swchoose.toString()){
+				//var swchoose=name.match(/(Звездный|Детство Шелдона)/ig);
+				//if (swchoose!=null){
+				console.log(name.toString())
+					switch (name.toString()){
 						case "Звездный":
 							name=name.replace(/Звездный/ig,'Звёздный');
+							break;
+						case "Звёздный путь: Пикар":
+							name=name.replace(/Звёздный/ig,'Звездный');
 							break;
 						case "Детство Шелдона":
 							name=name.replace(/Детство Шелдона/ig,'Молодой Шелдон');
 							break;
+						case "Студия Marvel: Легенды":
+							name=name.replace(/Студия Marvel: Легенды/ig,'Marvel Studios: Легенды');
+							break;
 						default:
 							break;
-					}}
+					}
+				//}
 
 				//var curid=thatnameblock.closest('h2').attr('id').split('s')[1];
 				var season=that.find('div.Unwatched-showSeasonTitle').eq(0).text().split('Сезон')[1].replace(/\s{2,}/g, ' ');
 				season.trim();
-				var serie=that.find('div.UnwatchedEpisodeItem-index').eq(0).find('span').text().replace(/\s{2,}/g, ' ');
+				//var serie=that.find('div.UnwatchedEpisodeItem-index').eq(0).find('span').text().replace(/\s{2,}/g, ' ');
+				var serie=$j(this).parent().prev().prev().find('span').text().replace(/\s{2,}/g, ' ');
 				serie=serie.trim();
 				//var subname=that.find('.subHeader').eq(0).html('<a id="lnktosite'+i+'" target="_blank">'+that.find('.subHeader').eq(0).text()+'</a>')
 				var fullname=name.trim()+''+season+'сезон '+serie;
@@ -126,6 +136,7 @@ $j(function(){
 							}
 						},
 						urlget:function(){
+
 							GM.xmlHttpRequest({
 								method: "GET",
 								url: "http://"+domaintocheck+"/news/?page"+sell,
