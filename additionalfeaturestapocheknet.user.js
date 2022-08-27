@@ -1,16 +1,9 @@
 // ==UserScript==
-// @id             tapochek.net-ff9d32be-9f1a-42f1-a2e5-73d20aa165b4@scriptish
 // @name           additional features tapochek.net
-// @version        1.4
+// @version        1.4.1
 // @namespace      tapochek.net
 // @author         Black_Sun
 // @description    На главной странице выводит блок из нескольких разделов.
-// @grant          GM_addStyle
-// @grant          GM_setValue
-// @grant          GM_getValue
-// @grant		   GM_deleteValue
-// @grant		   GM_getResourceURL
-// @grant          GM_xmlhttpRequest
 // @connect imdb.com
 // @connect tapochek.net
 // @connect kinopoisk.ru
@@ -21,12 +14,13 @@
 // @grant GM_deleteValue
 // @grant GM_setValue
 // @grant GM_getValue
+// @grant GM_getResourceURL
+// @grant GM_xmlhttpRequest
 // @resource rips https://raw.githubusercontent.com/Black-Sunlight/userscripts/master/images/rips.png
 // @resource bd https://raw.githubusercontent.com/Black-Sunlight/userscripts/master/images/bd.png
 // @resource games https://raw.githubusercontent.com/Black-Sunlight/userscripts/master/images/games.png
-// @include        http://tapochek.net/*
-// @include        https://tapochek.net/*
-// @unwrap
+// @match        http://tapochek.net/*
+// @match        https://tapochek.net/*
 // ==/UserScript==
 /*==========================*/
 /*
@@ -92,6 +86,10 @@ if(location.href.search(/viewforum\.php\?f=(886|703|430|431|908|909|934)/)!=-1){
             .orange{box-shadow:inset 0 0 10px 5px rgba(218, 163, 8, 0.15);}\
 			.green{box-shadow:inset 0 0 10px 5px rgba(8, 218, 33, 0.15);}\
 			.black{box-shadow:inset 0 0 10px 5px rgba(0, 0, 0, 0.15);}\
+            .redbox:hover{background: rgba(218, 8, 8, 0.12);}\
+            .orangebox:hover{background: rgba(218, 163, 8, 0.12);}\
+			.greenbox:hover{background: rgba(8, 218, 33, 0.12);}\
+			.blackbox:hover{background: rgba(0, 0, 0, 0.12);}\
             .greenlink a{color:#00ad14!important}\
             .redlink a{color:#cc1c1c!important}\
             .orangelink a{color:#ad8727!important}\
@@ -104,12 +102,15 @@ if(imgt=='img'){
 	    GM_addStyle('div[id^="imdb"]{float: right;position: relative;top: -12px;margin-bottom: -16px;}');
 } else {
 		GM_addStyle('div[id^="imdb"]{/*float:right;display:inline-block;box-shadow: inset 0 0 20px 4px #e29d3647;*/position: absolute;right: 0;top: 10px;margin-top: -0.625em;}');
-	GM_addStyle('div[id^="kinop"]{/*float:right;display:inline-block;box-shadow: inset 0 0 20px 4px #e29d3647;*/position: absolute;right: 0;top: 26px;margin-top: -0.625em;}');
+	GM_addStyle('div[id^="kinop"]{/*float:right;display:inline-block;box-shadow: inset 0 0 20px 4px #e29d3647;*/position: absolute;right: 0;top: 26px;margin-top: -0.625em;}div[id^="kinoblock"]{display: inline-block;\
+    width: 300px;\
+    position: relative;\
+    height: 30px;\
+    float: right;}');
 }
 	$('div.torTopic').find('a.torTopic').each(function(i){
 		var texthref=$(this).text(),imhref='',imhref2='';
-		$(this).closest('div').after('<div id="imdb'+i+'"></div>');
-		$(this).closest('div').after('<div id="kinop'+i+'"></div>');
+		$(this).closest('div').after('<div id="kinoblock'+i+'"><div id="imdb'+i+'"></div><div id="kinop'+i+'"></div></div>');
 
 		$(this).closest('td').css({position:'relative'});
 
@@ -123,7 +124,7 @@ if(imgt=='img'){
 		}
 
 		if(imhref){
-			$('#imdb'+i).html('<a id="button'+i+'" style="cursor:pointer">'+imhref.trim()+'</a>').queue(function(){
+			$('#imdb'+i).html('<a id="button'+i+'" style="cursor:pointer" title="Проверить рейтинги">'+imhref.trim()+'</a>').queue(function(){
 				$('#button'+i).on('click',function(){
 					$('#imdb'+i).html('Загружается, пожалуйста подождите...');
 					GM_xmlhttpRequest({
@@ -151,10 +152,10 @@ if(imgt=='img'){
 					}
 								if(imgt=='text'){
 									var ratingkinopc=parseFloat(ratingkinop.replace(',','.'));
-									if(ratingkinop == "undefined" || ratingkinop == ""){$('#kinop'+i).removeAttr('class').addClass('black').addClass('blacklink');}
-									if(ratingkinopc >=0){$('#kinop'+i).removeAttr('class').addClass('red').addClass('redlink');}
-									if(ratingkinopc >= 5.8){$('#kinop'+i).removeAttr('class').addClass('orange').addClass('orangelink');}
-									if(ratingkinopc >= 7.0){$('#kinop'+i).removeAttr('class').addClass('green').addClass('greenlink');}
+									if(ratingkinop == "undefined" || ratingkinop == ""){$('#kinop'+i).removeAttr('class').addClass('black').addClass('blacklink');$('#kinop'+i).parent().removeAttr('class').addClass('blackbox')}
+									if(ratingkinopc >=0){$('#kinop'+i).removeAttr('class').addClass('red').addClass('redlink');/*$('#kinobock'+i).removeAttr('class').addClass('redbox')*/}
+									if(ratingkinopc >= 5.8){$('#kinop'+i).removeAttr('class').addClass('orange').addClass('orangelink');/*$('#kinobock'+i).removeAttr('class').addClass('orangebox')*/}
+									if(ratingkinopc >= 7.0){$('#kinop'+i).removeAttr('class').addClass('green').addClass('greenlink');/*$('#kinobock'+i).removeAttr('class').addClass('greenbox')*/}
 									if(searchurl=="na"){
 										$('#kinop'+i).html("Kinopoisk: <a href='"+urlkinop+"'>"+ratingkinop+"</a>")
 									} else {
@@ -183,7 +184,8 @@ if(imgt=='img'){
 									var obj2=$.parseHTML(response2.responseText);
 									//var rating=$('div.imdbRating',obj2).html();
 									//var rat=$('div.imdbRating',obj2).find('span').eq(0).text();
-									var rat=$('div[class^="AggregateRatingButton__Rating-sc"]',obj2).find('span').eq(0).text();
+									var rat=$('div[data-testid*="aggregate-rating__score"]',obj2).find('span').eq(0).text();
+									//alert(rat)
 									if(imgt=='text'){
 									$('#imdb'+i).html($('#imdb'+i).html()+rat);
 									if(rat == "undefined"){
