@@ -10,8 +10,8 @@
 // @connect myshows.me
 // @connect self
 // @author Black_Sun
-// @downloadURL https://github.com/Black-Sunlight/userscripts/raw/master/MyShows%20new%20series.user.js
-// @updateURL https://github.com/Black-Sunlight/userscripts/raw/master/MyShows%20new%20series.user.js
+// @downloadURL https://github.com/Black-Sunlight/userscripts/raw/master/MyShows%20new%20series%20beta.user.js
+// @updateURL https://github.com/Black-Sunlight/userscripts/raw/master/MyShows%20new%20series%20beta.user.js
 // @license MIT
 // @require  http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js
 // @grant    GM_info
