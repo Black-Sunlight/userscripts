@@ -2,7 +2,7 @@
 // @name         MyShows new series for beta
 // @namespace    https://beta.myshows.me
 // @description test
-// @version      0.29.3
+// @version      0.29.31
 // @match        https://myshows.me/*
 // @exclude        https://myshows.me/news/*
 // @connect coldfilm.uno
@@ -207,8 +207,8 @@ $j(function(){
 					if(ah.getAttribute('href')!=undefined){
 						var lnk=ah.getAttribute('href');
 						console.log(lnk+' found, launch injecting');
-						var q=lnk.replace(/(.*)(1080|720|400)[ррPР]?(.*)/ig,'$j2');
-						$j('#torrentlink2'+i).show('block').append('<span style="display:block">'+newstitle+' <a href="'+lnk+'" target="_blank" title="Скачать '+newstitle+'"><img src="'+imgtorrent+'" style="width:32px" />'+q+'p</a> | <a href='+curlink+' target="_blank" title="Смотреть '+newstitle+'">Смотреть на сайте</a></span>');
+						var q=lnk.replace(/(.*)(1080|720|400)[ррPР]?(.*)/ig,'$2');
+						$j('#torrentlink2'+i).show('block').append('<span style="display:block">'+newstitle+' <a href="http://'+domaintocheck+lnk+'" target="_blank" title="Скачать '+newstitle+'"><img src="'+imgtorrent+'" style="width:32px" />'+q+'p</a> | <a href='+curlink+' target="_blank" title="Смотреть '+newstitle+'">Смотреть на сайте</a></span>');
 						$j("#loadg2"+i).hide();
 					} else {
 						$j("#loadg2"+i).hide();
