@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name           additional features tapochek.net
-// @version        1.4.2
+// @version        1.4.2a
 // @namespace      tapochek.net
 // @author         Black_Sun
 // @description    На главной странице выводит блок из нескольких разделов.
@@ -173,6 +173,8 @@ if(imgt=='img'){
 						onload: function(response) {
 							var obj=$.parseHTML(response.responseText);
 							var firstresult=$('li.find-result-item',obj);
+							console.log(firstresult.length)
+							if(firstresult.length==0){var firstresult=$('tr.findResult',obj);}
 							var countres=firstresult.length;
 							var firstlink=firstresult.eq(0).find('a').eq(0).attr('href');
 							var tt=firstlink.split('/')
@@ -182,6 +184,7 @@ if(imgt=='img'){
 								url: "https://www.imdb.com/"+firstlink,
 								onload: function(response2) {
 									var obj2=$.parseHTML(response2.responseText);
+									console.log(response2.finalUrl)
 									//var rating=$('div.imdbRating',obj2).html();
 									//var rat=$('div.imdbRating',obj2).find('span').eq(0).text();
 									var rat=$('div[data-testid*="aggregate-rating__score"]',obj2).find('span').eq(0).text();
