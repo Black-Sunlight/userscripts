@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Rating colorer
 // @namespace    http://tampermonkey.net/
-// @version      0.6.3
+// @version      0.6.5
 // @description  try to take over the world!
 // @author       You
 // @grant        GM_addStyle
@@ -25,30 +25,40 @@ GM_registerMenuCommand("Переинициализировать скрипт", 
 'use strict';
 /*jshint multistr: true */
 function bodyscript(){
-	  var ratinglabel='a[data-zone-name^="rating"]',
+	  var ratinglabel='div[role="meter"]',
 	      titlelabel='h3[data-zone-name^="title"]',
-		  elemblock='article[data-zone-name^="snippet-"]';
+		  elemblock='article[data-zone-name="snippet-cell"]';
 	//h3[data-zone-name^="title"]
 	console.log('Script initialized')
-	GM_addStyle('#mainhide{position:fixed;display:grid;left:10px;top:300px;column-gap: 8px;row-gap: 10px;grid-template:\
-[start] "header header header" 20px [row2]\
-[row2] "content content content" 20px [row3]\
-[row3] "footer footer footer" 20px [row4]\
-[row4] "resize resize resize" 20px [row-end] / 70px 70px auto}\
-#mainhide input[type=\"checkbox\"]{display:none}\
+	GM_addStyle('#mainhide{position:fixed;left:10px;top:300px} \
 #mainhide2 button{padding:5px 5px;margin: 7px 11px;}\
 #howmuch{text-align: center;}\
-#f45{margin-left:38px!important}\
+.item1{grid-area: a;}\
+.item2{grid-area: b;}\
+.item3{grid-area: c;}\
+.item4{grid-area: d;}\
+.wrapper { \
+  display: grid;\
+  grid-template-columns: repeat(8, 1fr);\
+  gap: 10px;\
+  grid-auto-rows: 20px;\
+  grid-template-areas:\
+    "a a a a a a a a"\
+    "b b b b c c c c"\
+    "d d d d d d d d";\
+  align-items: start;}\
 ')
 	//<button id="f50d">5.0</button>\
-	$('html').eq(0).append('<div id="mainhide">\
-<input id="howmuch" style="grid-area: header;" type="text" title="Выделить только то где отзывов больше чем указано тут" value=0 />\
-<input type="checkbox" id="hideothers" title="Отметьте этот чекбокс и вместо выделения просто буду скрыты все остальные" />\
-<button id="f455" style="grid-area: content;">Скрыть</button>\
-<button id="rest" style="grid-area: footer;" title="Восстановить все скрытые позиции">Restore</button>\
+	$('html').eq(0).append('<div id="mainhide" class="wrapper">\
+<input id="howmuch" class="item1" type="text" title="Выделить только то где отзывов больше чем указано тут" value=0 />\
+<button id="hideothers" class="item3">Del Scroll</button>\
+<button id="f455" class="item2">Add Scroll</button>\
+<button id="rest" class="item4" title="Восстановить все скрытые позиции">Restore All</button>\
 ');
-	$('div[data-apiary-widget-name="@MarketNode/RecommendedOffers"]').append('<div id="pricehist"><button id="prload">Динамика цен</button></div>')
-	/*<button id="f50">5.0</button>\
+	var domaintocheck=location.origin+location.pathname+"/prices"
+		console.log(domaintocheck)
+	/*$('div[data-zone-name="priceSubscribe"]').before('<div id="prh" style="padding-right:5px"><a href="'+domaintocheck+'" target="_blank">Динамика цен</a></div>')
+	<button id="f50">5.0</button>\
 <button id="clr" title="Убрать фон у всех выделенных позиций">Clear</button></div>');*/
 	$("#howmuch").bind('keypress', function(e){
 		var keyCode = (e.which)?e.which:event.keyCode
@@ -64,26 +74,32 @@ function bodyscript(){
 	});
 
 	$('#rest').on('click',function(){
+		$("#howmuch").val(0)
 		$(elemblock).each(function(){
 			$(this).show();
 		});
 	});
-	$('#f455').on('click',function(){
-		$(elemblock).find(titlelabel).each(function(i){
+	function scrollloader(){
+	$(elemblock).each(function(i){
 			/*if(curpo<rangepo){
 				$(elemblock).eq(i).hide()
 			} else {*/
-			console.log($(this).next().text().search('и ещё '))
-			if($(this).next().attr('data-zone-name')=='rating' || $(this).next().text().search('и ещё ')==0){
+			//if($(this).next().attr('data-zone-name')=='rating' || $(this).next().text().search('и ещё ')==0){
 				var otzh=$("#howmuch").val();
-				var otzch=$(ratinglabel).eq(i).find('span').eq(1).text().split(' ')
-				console.log(otzch[0])
+				var otzch=$(ratinglabel).eq(i).next().next().text().split(' ')
 				if(parseInt(otzch[0])<otzh || otzch[0] == ''){$(elemblock).eq(i).hide()}
-			} else {$(elemblock).eq(i).hide()}
+			//} else {$(elemblock).eq(i).hide()}
 			//}
 		});
+	}
+	$('#hideothers').on('click',function(){
+		window.removeEventListener("scroll",scrollloader)
 	});
-	$('#prload').on('click',function(){
+	$('#f455').on('click',function(){
+		window.addEventListener("scroll",scrollloader)
+	});
+
+	/*'#prload').on('click',function(){
 		var domaintocheck=location.origin+location.pathname+"/prices"
 		console.log(domaintocheck)
 		GM.xmlHttpRequest({
@@ -98,7 +114,9 @@ function bodyscript(){
 									$('#pricehist').html("<a href='"+domaintocheck+"' target=_blank>Открыть страницу динамики цен</a><br/>"+doc.getElementsByClassName('tamef')[0].innerHTML);
 								}
 		})
-	});
+	});*/
+
+
 	/*$('#f50d').on('click',function(){
 		$(elemblock).find(ratinglabel).each(function(i){
 			if($(this).next().find('span').eq(0).text()!="5.0"){
@@ -128,6 +146,7 @@ function bodyscript(){
 		minHeight: 110,
 		minWidth: 210
 	});*/
+
 }
 bodyscript()
 /*     $('#f50').on('click',function(){
