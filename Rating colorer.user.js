@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Rating colorer
 // @namespace    http://tampermonkey.net/
-// @version      0.6.5
+// @version      0.6.6
 // @description  try to take over the world!
 // @author       You
 // @grant        GM_addStyle
@@ -25,12 +25,12 @@ GM_registerMenuCommand("Переинициализировать скрипт", 
 'use strict';
 /*jshint multistr: true */
 function bodyscript(){
-	  var ratinglabel='div[role="meter"]',
+	  var ratinglabel='div[data-baobab-name="rating"]',
 	      titlelabel='h3[data-zone-name^="title"]',
-		  elemblock='article[data-zone-name="snippet-cell"]';
+		  elemblock='article[data-auto="searchOrganic"]';
 	//h3[data-zone-name^="title"]
 	console.log('Script initialized')
-	GM_addStyle('#mainhide{position:fixed;left:10px;top:300px} \
+	GM_addStyle('#mainhide{position:fixed;left:10px;top:20px} \
 #mainhide2 button{padding:5px 5px;margin: 7px 11px;}\
 #howmuch{text-align: center;}\
 .item1{grid-area: a;}\
@@ -49,11 +49,11 @@ function bodyscript(){
   align-items: start;}\
 ')
 	//<button id="f50d">5.0</button>\
-	$('html').eq(0).append('<div id="mainhide" class="wrapper">\
+	$('header').eq(0).append('<div id="mainhide" class="wrapper">\
 <input id="howmuch" class="item1" type="text" title="Выделить только то где отзывов больше чем указано тут" value=0 />\
-<button id="hideothers" class="item3">Del Scroll</button>\
-<button id="f455" class="item2">Add Scroll</button>\
-<button id="rest" class="item4" title="Восстановить все скрытые позиции">Restore All</button>\
+<button id="hideothers" style="display:none" class="item4">Restore</button>\
+<button id="f455" class="item2 ds-button ds-button_block ds-button_variant_text ds-button_type_primary ds-button_size_s ds-button_brand_market" style="height:20px!important;padding:0!important">Hide</button>\
+<button id="rest" class="item3 ds-button ds-button_block ds-button_variant_text ds-button_type_primary ds-button_size_s ds-button_brand_market" title="Восстановить все скрытые позиции" style="height:20px!important;padding:0!important">Restore All</button>\
 ');
 	var domaintocheck=location.origin+location.pathname+"/prices"
 		console.log(domaintocheck)
@@ -74,20 +74,23 @@ function bodyscript(){
 	});
 
 	$('#rest').on('click',function(){
-		$("#howmuch").val(0)
+		//$("#howmuch").val(0)
 		$(elemblock).each(function(){
 			$(this).show();
 		});
 	});
 	function scrollloader(){
-	$(elemblock).each(function(i){
+	$(elemblock).each(function(){
 			/*if(curpo<rangepo){
 				$(elemblock).eq(i).hide()
 			} else {*/
 			//if($(this).next().attr('data-zone-name')=='rating' || $(this).next().text().search('и ещё ')==0){
 				var otzh=$("#howmuch").val();
-				var otzch=$(ratinglabel).eq(i).next().next().text().split(' ')
-				if(parseInt(otzch[0])<otzh || otzch[0] == ''){$(elemblock).eq(i).hide()}
+
+				var otzch=$(this).find(ratinglabel).eq(0).find('span[class*="ds-text_lineClamp"]').eq(0).text().split(' ')
+				//console.log($('span[itemprop="name"]').eq(i).text()+' = '+otzch[1])
+		        //console.log(parseInt(otzch[1])+' < '+otzh)
+				if(parseInt(otzch[1])<otzh || otzch[1] == ''){console.log($(this).find('span[itemprop="name"]').eq(0).text()+' try to hide ');$(this).hide()}
 			//} else {$(elemblock).eq(i).hide()}
 			//}
 		});
@@ -96,7 +99,8 @@ function bodyscript(){
 		window.removeEventListener("scroll",scrollloader)
 	});
 	$('#f455').on('click',function(){
-		window.addEventListener("scroll",scrollloader)
+		//window.addEventListener("scroll",scrollloader)
+		scrollloader();
 	});
 
 	/*'#prload').on('click',function(){
