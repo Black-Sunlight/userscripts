@@ -2,7 +2,7 @@
 // @name         MyShows new series beta (floating panel UI)
 // @namespace    https://beta.myshows.me
 // @description  Проверка переведённых серий — боковая панель
-// @version      0.32.0
+// @version      0.32.1
 // @match        https://myshows.me/*
 // @exclude      https://myshows.me/news/*
 // @connect      coldfilm.ink
@@ -14,6 +14,8 @@
 // @require      http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js
 // @grant        GM.xmlHttpRequest
 // @grant        GM_registerMenuCommand
+// @grant        GM_getValue
+// @grant        GM_setValue
 // ==/UserScript==
 
 const $j = jQuery.noConflict();
@@ -27,13 +29,8 @@ const ICONS = {
   loading: 'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+PHN2ZyB4bWxuczpzdmc9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2ZXJzaW9uPSIxLjAiIHdpZHRoPSI2NHB4IiBoZWlnaHQ9IjhweCIgdmlld0JveD0iMCAwIDEyOCAxNiIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+PHBhdGggZmlsbD0iIzk0OTQ5NCIgZD0iTTYuNCw0LjhBMy4yLDMuMiwwLDEsMSwzLjIsOCwzLjIsMy4yLDAsMCwxLDYuNCw0LjhabTEyLjgsMEEzLjIsMy4yLDAsMSwxLDE2LDgsMy4yLDMuMiwwLDAsMSwxOS4yLDQuOFpNMzIsNC44QTMuMiwzLjIsMCwxLDEsMjguOCw4LDMuMiwzLjIsMCwwLDEsMzIsNC44Wm0xMi44LDBBMy4yLDMuMiwwLDEsMSw0MS42LDgsMy4yLDMuMiwwLDAsMSw0NC44LDQuOFptMTIuOCwwQTMuMiwzLjIsMCwxLDEsNTQuNCw4LDMuMiwzLjIsMCwwLDEsNTcuNiw0LjhabTEyLjgsMEEzLjIsMy4yLDAsMSwxLDY3LjIsOCwzLjIsMy4yLDAsMCwxLDcwLjQsNC44Wm0xMi44LDBBMy4yLDMuMiwwLDEsMSw4MCw4LDMuMiwzLjIsMCwwLDEsODMuMiw0LjhaTTk2LDQuOEEzLjIsMy4yLDAsMSwxLDkyLjgsOCwzLjIsMy4yLDAsMCwxLDk2LDQuOFptMTIuOCwwQTMuMiwzLjIsMCwxLDEsMTA1LjYsOCwzLjIsMy4yLDAsMCwxLDEwOC44LDQuOFptMTIuOCwwQTMuMiwzLjIsMCwxLDEsMTE4LjQsOCwzLjIsMy4yLDAsMCwxLDEyMS42LDQuOFoiLz48Zz48cGF0aCBmaWxsPSIjMDAwIiBkPSJNLTQyLjcsMy44NEE0LjE2LDQuMTYsMCwwLDEtMzguNTQsOGE0LjE2LDQuMTYsMCwwLDEtNC4xNiw0LjE2QTQuMTYsNC4xNiwwLDAsMS00Ni44Niw4LDQuMTYsNC4xNiwwLDAsMS00Mi43LDMuODRabTEyLjgtLjY0QTQuOCw0LjgsMCwwLDEtMjUuMSw4YTQuOCw0LjgsMCwwLDEtNC44LDQuOEE0LjgsNC44LDAsMCwxLTM0LjcsOCw0LjgsNC44LDAsMCwxLTI5LjksMy4yWm0xMi44LS42NEE1LjQ0LDUuNDQsMCwwLDEtMTEuNjYsOGE1LjQ0LDUuNDQsMCwwLDEtNS40NCw1LjQ0QTUuNDQsNS40NCwwLDAsMS0yMi41NCw4LDUuNDQsNS40NCwwLDAsMS0xNy4xLDIuNTZaIi8+PGFuaW1hdGVUcmFuc2Zvcm0gYXR0cmlidXRlTmFtZT0idHJhbnNmb3JtIiB0eXBlPSJ0cmFuc2xhdGUiIHZhbHVlcz0iMjMgMDszNiAwOzQ5IDA7NjIgMDs3NC41IDA7ODcuNSAwOzEwMCAwOzExMyAwOzEyNS41IDA7MTM4LjUgMDsxNTEuNSAwOzE2NC41IDA7MTc4IDAiIGNhbGNNb2RlPSJkaXNjcmV0ZSIgZHVyPSIxMzAwbXMiIHJlcGVhdENvdW50PSJpbmRlZmluaXRlIi8+PC9nPjwvc3ZnPgo='
 };
 
-$j(() => setTimeout(() => main(), 100));
-
-function main() {
-  $j('div.AdBlock').remove();
-
-  const $panel = $j(`
-  <style>
+const $style = $j(`
+    <style>
 	 #nameblock{
 	  border: 1px solid #bbbbbb;
       border-radius: 5px 5px 0 0;
@@ -49,9 +46,60 @@ function main() {
       margin-top: -2px;*/
 	  padding: 5px 0;
 	  }
-	</style>
-    <div id="floatingPanel" style="position:fixed; top:80px; left:0; width:300px; max-height:80vh; overflow:auto; background:#fff; border:1px solid #ccc; z-index:10000; box-shadow:0 0 10px rgba(0,0,0,0.2); font-size:13px;">
-      <div style="background:#f0f0f0; padding:8px; font-weight:bold; text-align:center;">Проверка новых серий на ${domain} <img title="Пересоздать таблицу" id="imgrefreshtable" src="${ICONS.renewImg}" style="cursor:pointer;margin-left:10px;vertical-align:middle;"/></div>
+	</style>`);
+
+  $j('body').append($style);
+
+function enableDragging($panel, $handle) {
+  let isDragging = false;
+  let offsetX = 0;
+  let offsetY = 0;
+
+  $handle.css('cursor', 'move');
+
+  $handle.on('mousedown', function (e) {
+    const panelOffset = $panel.offset();
+    offsetX = e.pageX - panelOffset.left;
+    offsetY = e.pageY - panelOffset.top;
+    isDragging = true;
+    e.preventDefault();
+  });
+
+  $j(document).on('mousemove.dragpanel', function (e) {
+    if (isDragging) {
+      const newLeft = e.pageX - offsetX;
+      const newTop = e.pageY - offsetY;
+      $panel.css({ left: newLeft + 'px', top: newTop + 'px', right: 'auto' });
+    }
+  });
+
+  $j(document).on('mouseup.dragpanel', function () {
+    if (isDragging) {
+      isDragging = false;
+      const pos = $panel.offset();
+      GM_setValue('floatingPanelPos', JSON.stringify({ top: pos.top, left: pos.left }));
+    }
+  });
+}
+
+$j(() => setTimeout(() => main(), 100));
+
+function main() {
+  $j('div.AdBlock').remove();
+  let savedPos;
+  try {
+    savedPos = JSON.parse(GM_getValue('floatingPanelPos', '{}'));
+  } catch {
+    savedPos = {};
+  }
+
+  const top = typeof savedPos.top === 'number' ? savedPos.top : 80;
+  const left = typeof savedPos.left === 'number' ? savedPos.left : null;
+  const positionStyle = `top:${top}px; ${left !== null ? `left:${left}px;` : 'left:0;'}`;
+
+  const $panel = $j(`
+     <div id="floatingPanel" style="position:fixed; ${positionStyle} width:300px; max-height:80vh; overflow:auto; background:#fff; border:1px solid #ccc; z-index:10000; box-shadow:0 0 10px rgba(0,0,0,0.2); font-size:13px;">
+      <div id="floatingHeader" style="background:#f0f0f0; padding:8px; font-weight:bold; text-align:center;">Проверка новых серий на ${domain} <img title="Пересоздать таблицу" id="imgrefreshtable" src="${ICONS.renewImg}" style="cursor:pointer;margin-left:10px;vertical-align:middle;"/></div>
       <div style="padding:8px;">
         <table id="episodesTable" style="width:100%; border-collapse:collapse;">
           <thead>
@@ -63,6 +111,7 @@ function main() {
     </div>`);
 
   $j('body').append($panel);
+  enableDragging($panel, $j('#floatingHeader'))
   $j('div.UnwatchedEpisodeItem').each((i, el) => addFloatingRow($j(el), i));
 }
 
