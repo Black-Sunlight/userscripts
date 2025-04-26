@@ -2,7 +2,7 @@
 // @name         MyShows new series beta (floating panel UI)
 // @namespace    https://beta.myshows.me
 // @description  Проверка переведённых серий — боковая панель
-// @version      0.32.1
+// @version      0.32.2
 // @match        https://myshows.me/*
 // @exclude      https://myshows.me/news/*
 // @connect      coldfilm.ink
@@ -99,7 +99,7 @@ function main() {
 
   const $panel = $j(`
      <div id="floatingPanel" style="position:fixed; ${positionStyle} width:300px; max-height:80vh; overflow:auto; background:#fff; border:1px solid #ccc; z-index:10000; box-shadow:0 0 10px rgba(0,0,0,0.2); font-size:13px;">
-      <div id="floatingHeader" style="background:#f0f0f0; padding:8px; font-weight:bold; text-align:center;">Проверка новых серий на ${domain} <img title="Пересоздать таблицу" id="imgrefreshtable" src="${ICONS.renewImg}" style="cursor:pointer;margin-left:10px;vertical-align:middle;"/></div>
+      <div id="floatingHeader" style="background:#f0f0f0; padding:8px; font-weight:bold; text-align:center;">Проверка новых серий на <a href="http://${domain}" target=_blank>${domain}</a> <img title="Пересоздать таблицу" id="imgrefreshtable" src="${ICONS.renewImg}" style="cursor:pointer;margin-left:10px;vertical-align:middle;"/></div>
       <div style="padding:8px;">
         <table id="episodesTable" style="width:100%; border-collapse:collapse;">
           <thead>
@@ -111,7 +111,7 @@ function main() {
     </div>`);
 
   $j('body').append($panel);
-  enableDragging($panel, $j('#floatingHeader'))
+  /*enableDragging($panel, $j('#floatingHeader'))*/
   $j('div.UnwatchedEpisodeItem').each((i, el) => addFloatingRow($j(el), i));
 }
 
@@ -174,8 +174,19 @@ function searchEpisode(domain, index, fullTitle, name, season, serie) {
     const page = pagesList.shift();
     GM.xmlHttpRequest({
       method: "GET",
+	  headers: {
+                    'Origin': 'https://coldfilm.ink',
+		            'Referer': 'https://coldfilm.ink',
+				    'Host': 'https://coldfilm.ink',
+                    'X-Requested-With': 'XMLHttpRequest',
+				    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36',
+                    'Accept': 'text/html'
+                },
       url: `https://${domain}/news/?page${page}`,
       onload: res => {
+
+       if (res.status == 403) return show403Found(index,domain);
+
         const doc = new DOMParser().parseFromString(res.responseText, "text/html");
         const el = [...doc.getElementsByClassName('kino-h')];
 
@@ -225,4 +236,7 @@ GM_registerMenuCommand("Пересоздать таблицу", function() {
 });
 function showNotFound(index) {
   $j(`#res${index}`).html(`<img src="${ICONS.notfound}" title="Серия ещё не переведена" style="height:20px;"/>`);
+}
+function show403Found(index,domain) {
+  $j(`#res${index}`).html(`<img src="${ICONS.notfound}" style="height:20px;"/><a href="https://${domain}" target="_blank">Сработала защита от ботов, перейдите на сайт вручную</a></div>`);
 }
